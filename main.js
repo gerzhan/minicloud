@@ -1,6 +1,11 @@
+var http = require('http');
+var https = require('https');
+var fs = require("fs");
+var forceSSL = require('koa-force-ssl');
 var koa = require('koa');
 var app = koa();
 
+app.use(forceSSL());
 // logger
 
 app.use(function *(next){
@@ -13,7 +18,13 @@ app.use(function *(next){
 // response
 
 app.use(function *(){
+	console.log("333333");
   this.body = 'Hello World';
 });
-
-app.listen(6091);
+ 
+http.createServer(app.callback()).listen(6091);
+var options = {
+  key: fs.readFileSync('ssl.key'),
+  cert: fs.readFileSync('ssl.crt')
+}
+https.createServer(options, app.callback()).listen(443);
