@@ -6,4 +6,5 @@ npm install mysql
 npm install orm
 npm install string
 npm install orm-timestamps
+npm install koa-force-ssl
 ```
