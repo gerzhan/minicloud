@@ -1,30 +1,16 @@
-var http = require('http');
-var https = require('https');
-var fs = require("fs");
-var forceSSL = require('koa-force-ssl');
-var koa = require('koa');
-var app = koa();
-
-app.use(forceSSL());
-// logger
-
+var koa      = require('koa')
+var $proxy   = require('koa-http-proxy')
+var proxy    = $proxy('http://127.0.0.1:8080'); 
+var app      = koa(); 
 app.use(function *(next){
-  var start = new Date;
-  yield next;
-  var ms = new Date - start;
-  console.log('%s %s - %s', this.method, this.url, ms);
+  this.header["proxy-port"]=80; 
+  yield next; 
 });
-
-// response
-
-app.use(function *(){
-	console.log("333333");
-  this.body = 'Hello World';
-});
- 
-http.createServer(app.callback()).listen(6091);
-var options = {
-  key: fs.readFileSync('ssl.key'),
-  cert: fs.readFileSync('ssl.crt')
-}
-https.createServer(options, app.callback()).listen(443);
+var miniJs = {
+  run: function *(){ 
+    this.body = 'hello World';
+  },
+};
+var _        = require('koa-route');
+app.use(_.get('/miniyunjs', miniJs.run)); 
+app.use(proxy).listen(80);
