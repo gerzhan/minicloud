@@ -26,6 +26,10 @@ MiniDev.prototype.vhost=function(){
 	server0.use($proxy('http://127.0.0.1:7070'));
 	//static环境 
 	var server1 = koa();
+	server1.use(function *(next){
+		this.header["proxy-port"]=self.appPort; 
+		yield next; 
+	});
 	server1.use($proxy('http://127.0.0.1:7071'));
 	//www环境
 	var server3 = koa();
@@ -40,6 +44,10 @@ MiniDev.prototype.vhost=function(){
 	//portoadmin环境 
 	var server5 = koa(); 
 	server5.use(staticServer('/usr/local/miniyun/www.porto.com/HTML'));
+	//makeadmin环境 
+	var server6 = koa(); 
+	server5.use(staticServer('/usr/local/miniyun/www.makeadmin.com'));
+	
 	//设置vhost
 	app.use(vhost([
 	{
@@ -65,6 +73,10 @@ MiniDev.prototype.vhost=function(){
 	{
 	    host: 'www.porto.com',
 	    app: server5
+	},
+	{
+	    host: 'www.makeadmin.com',
+	    app: server6
 	},
 	]));
 }
