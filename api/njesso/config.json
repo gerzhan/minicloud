@@ -1,0 +1,7 @@
+{
+  "name": "njesso",
+  "description": "南京电教馆单点登录",
+  "routes": {
+    "/1/plugin/nje/": "sso"
+  }
+}
