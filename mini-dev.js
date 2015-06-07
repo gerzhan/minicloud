@@ -46,8 +46,10 @@ MiniDev.prototype.vhost=function(){
 	server5.use(staticServer('/usr/local/miniyun/www.porto.com/HTML'));
 	//makeadmin环境 
 	var server6 = koa(); 
-	server5.use(staticServer('/usr/local/miniyun/www.makeadmin.com'));
-	
+	server6.use(staticServer('/usr/local/miniyun/www.makeadmin.com'));
+	//171测试环境 
+	var server7 = koa();
+	server7.use($proxy('http://127.0.0.1:7073')); 
 	//设置vhost
 	app.use(vhost([
 	{
@@ -77,6 +79,10 @@ MiniDev.prototype.vhost=function(){
 	{
 	    host: 'www.makeadmin.com',
 	    app: server6
+	},
+	{
+	    host: '171.miniyun.cn',
+	    app: server7
 	},
 	]));
 }

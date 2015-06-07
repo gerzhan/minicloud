@@ -47,8 +47,13 @@ exports.sso = function *(){
 		    		var item = body.root.children[i];
 		    		userInfo[item.name] = item.content; 
 		    	} 
+		    	if(userInfo["UserType"]!='教师'){ 
+                    this.body ='本系统仅支持教师用户';
+                }
 		    	//把信息写入到数据库中
-		    	this.body = userInfo;
+		    	var MiniUser = require("../../model/mini-user");
+		    	//this.body = yield MiniUser.getByName("admin");
+		    	//this.body = userInfo;
 		    } 
 		}
 	} 
