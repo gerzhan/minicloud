@@ -1,8 +1,10 @@
 'use strict'
+var S = require('string');
 /**
 * 用户表miniyun_users相关查询、创建动作
 */
 var userModel = dbPool.userModel; 
+var pinyin    = require("pinyin");
 var miniUtil  = require("../lib/mini-util");
 /**
 * 根据用户名获得数据库对象
@@ -13,8 +15,10 @@ exports.getByName = function *(name){
 /**
 * 创建用户并且随机密码
 */
-exports.createAndRandomPasswd = function *(name){ 
-	//这里尚未对用户名进行拼音化
+exports.createAndRandomPasswd = function *(name,nick){ 
+	var quanPin = pinyin(nick, {style: pinyin.STYLE_NORMAL});
+	var jianPin = pinyin(nick, {style: pinyin.STYLE_FIRST_LETTER});
+	var pinyinStr = S(quanPin).replaceAll(",","").s+"|"+S(jianPin).replaceAll(",","").s;
 	var userList = yield userModel.coFind({user_name:name});
 	if(userList.length==0){
 		var user = yield userModel.coCreate({ 
@@ -23,10 +27,12 @@ exports.createAndRandomPasswd = function *(name){
 			user_pass:miniUtil.getRandomString(32),
 			user_status:1,
 			salt:miniUtil.getRandomString(6),
-			user_name_pinyin:name
+			user_name_pinyin:pinyinStr
 		});
 	}else{
 		var user = userList[0];
+		user.user_name_pinyin = pinyinStr;
+		yield user.coSave();
 	}
 	return user;	
 } 
