@@ -5,7 +5,7 @@ var miniUtil  = require("../lib/mini-util");
 */
 var tokenModel = dbPool.tokenModel;  
 /**
-* 为nje类型创建部门
+* 创建token
 */
 exports.create = function *(clientId,deviceId){ 
 	var tokenList = yield tokenModel.coFind({client_id:clientId,device_id:deviceId});
@@ -21,4 +21,14 @@ exports.create = function *(clientId,deviceId){
 		var token = tokenList[0]; 
 	}
 	return token;	
+} 
+/**
+* 判断token是否存在
+*/
+exports.valid = function *(token){ 
+	var tokenList = yield tokenModel.coFind({oauth_token:token});
+	if(tokenList.length>0){ 
+		return true;
+	}
+	return false;	
 } 
