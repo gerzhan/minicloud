@@ -8,6 +8,7 @@ var render = require('./lib/render');
 var request = require('co-request');
 var md5 = require('MD5');
 var xmlParse = require('xml-parser');
+var miniUtil  = require("../../lib/mini-util");
 exports.sso = function *(){  
 	//如果是GET请求，则渲染出html文件
 	if(this.method=="GET"){
@@ -56,6 +57,7 @@ exports.sso = function *(){
 		    	var MiniGroup         = require("../../model/mini-group");
 		    	var MiniUserGroupRelation = require("../../model/mini-user-group-relation");
 		    	var MiniUserDevice = require("../../model/mini-user-device");
+		    	var MiniToken = require("../../model/mini-token");
 		    	//创建用户信息(随机密码)
 		    	var user = yield MiniUser.createAndRandomPasswd(userInfo.UserName,userInfo.RealName);
 		    	//为该用户生成meta信息 
@@ -73,11 +75,13 @@ exports.sso = function *(){
 		    	//创建部门与用户的关系
 		    	yield MiniUserGroupRelation.create(group.id,user.id);
 		    	//创建网页版设备
-		    	yield MiniUserDevice.createWebDevice(user.id,user.user_name);
+		    	var device = yield MiniUserDevice.createWebDevice(user.id,user.user_name);
 		    	//初始化access_token
-		    	//初始化cookie
-		    	//this.body = yield MiniUser.getByName("admin");
-		    	//this.body = userInfo;
+		    	var token = yield MiniToken.create("JsQCsjF3yr7KACyT",device.id);
+		    	//初始化cookie 
+				this.cookies.set('accessToken', token.oauth_token, { httpOnly:false,signed:false});
+				this.cookies.set('language',"zh_cn", { httpOnly:false,signed: false }); 
+		    	this.redirect("http://pan.nje.cn");
 		    } 
 		}
 	} 

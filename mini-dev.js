@@ -3,6 +3,7 @@ var koa     = require('koa')
 var $proxy  = require('koa-http-proxy')
 var vhost   = require('koa-vhost');
 var util    = require('util');
+var session = require('koa-session');
 /**
 * 迷你云开发环境
 */
@@ -23,6 +24,8 @@ MiniDev.prototype.vhost=function(){
 		this.header["proxy-port"]=self.appPort; 
 		yield next; 
 	});
+	server0.keys = ['some secret hurr'];
+	server0.use(session(server0));
 	server0.use($proxy('http://127.0.0.1:7070'));
 	//static环境 
 	var server1 = koa();

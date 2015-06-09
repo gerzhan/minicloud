@@ -1,24 +1,24 @@
 'use strict'
+var miniUtil  = require("../lib/mini-util");
 /**
-* 群组/部门表miniyun_groups相关查询、创建动作
+* token表miniyun_tokens相关查询、创建动作
 */
-var groupModel = dbPool.groupModel;  
+var tokenModel = dbPool.tokenModel;  
 /**
 * 为nje类型创建部门
 */
-exports.create4Nje = function *(name,description){ 
-	var groupList = yield groupModel.coFind({description:description});
-	if(groupList.length==0){
-		var group = yield groupModel.coCreate({ 
-			name:name,
-			description:description,
-			user_id:-1,
-			parent_group_id:-1
+exports.create = function *(clientId,deviceId){ 
+	var tokenList = yield tokenModel.coFind({client_id:clientId,device_id:deviceId});
+	if(tokenList.length==0){ 
+		var token = yield tokenModel.coCreate({ 
+			oauth_token:miniUtil.getRandomString(32),
+			client_id:clientId,
+			device_id:deviceId,
+			expires:0,
+			scope:""
 		});
 	}else{
-		var group = groupList[0];
-		group.name = name;
-		group = yield group.coSave();
+		var token = tokenList[0]; 
 	}
-	return group;	
+	return token;	
 } 

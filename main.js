@@ -4,6 +4,7 @@ var koa      = require('koa');
 var route    = require('koa-route');
 var $proxy   = require('koa-http-proxy')
 var app      = require("./lib/api-loader")();
+var session  = require('koa-session');
 var dbConfig = require("./db-config.json");
 var DBLoader = require("./lib/db-loader");
 var dbLoader = new DBLoader(dbConfig.host,dbConfig.port,dbConfig.name,dbConfig.password,dbConfig.db_name);
@@ -18,9 +19,11 @@ dbLoader.initDBConnect(function(err,db){
 		//搭建开发环境 
 		var miniHost = "pan.nje.cn";
 		var MiniDev  = require("./mini-dev").MiniDev;
+		app.use(session(app));
 		var miniEnv  = new MiniDev(app,miniHost,appPort);
 		miniEnv.vhost();
 	}else{
+		app.use(session(app));
 		//搭建生成环境
 		//迷你云通过IP或端口都可访问
 		app.use(function *(next){
