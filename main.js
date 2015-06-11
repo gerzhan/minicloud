@@ -4,7 +4,7 @@ var koa      = require('koa');
 var route    = require('koa-route');
 var $proxy   = require('koa-http-proxy')
 var koa      = require('koa')
-var apiLoader      = require("./lib/api-loader");
+var app      = require("./lib/api-loader")();
 var session  = require('koa-session');
 var dbConfig = require("./db-config.json");
 var DBLoader = require("./lib/db-loader");
@@ -14,7 +14,7 @@ dbLoader.initDBConnect(function(err,db){
 		console.log(err);
 		return;
 	}
-	var app = koa();
+	//var app = koa();
 	//app.use(apiLoader(app));
 	//数据库连接全局变量
 	global.dbPool = db;

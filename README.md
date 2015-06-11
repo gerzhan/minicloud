@@ -1,9 +1,8 @@
-# miniyunjs
-迷你云基于nodejs的模块
+# miniyun-nodejs-proxy
+通过nodejs代理访问迷你云
+依赖iojs 2.2.1 
 ```
-npm install koa 
-npm install koa-http-proxy
-npm install koa-route
-npm install koa-static
-npm install koa-vhost
+npm install
+node main
+
 ```
