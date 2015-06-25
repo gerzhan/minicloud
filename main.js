@@ -1,5 +1,7 @@
+var debug = true
 var dbConfig = require("./db-config.json");
 var DBLoader = require("./lib/db-loader"); 
+process.env.debug = debug
 var dbLoader = new DBLoader(dbConfig.host, dbConfig.port, dbConfig.name, dbConfig.password, dbConfig.db_name);
 dbLoader.initDBConnect(function(err, db) {
 	if (err) {
