@@ -20,12 +20,12 @@ dbLoader.initDBConnect(function(err,db){
 	global.dbPool = db;
 	if(isDebug){  
 		//搭建开发环境 
-		var miniHost = "pan.nje.cn";
+		var miniHost = "service.minicloud.io";
 		var MiniDev  = require("./mini-dev").MiniDev;
 		app.use(session(app));
 		var miniEnv  = new MiniDev(app,miniHost,appPort);
 		miniEnv.vhost();
-	}else{
+	}else{ 
 		app.use(session(app));
 		//搭建生成环境
 		//迷你云通过IP或端口都可访问

@@ -21,6 +21,7 @@ MiniDev.prototype.vhost=function(){
 	//云盘环境
 	var server0 = koa();
 	server0.use(function *(next){
+		console.log(this)
 		this.header["proxy-port"]=self.appPort; 
 		yield next; 
 	});
@@ -53,6 +54,9 @@ MiniDev.prototype.vhost=function(){
 	//171测试环境 
 	var server7 = koa();
 	server7.use($proxy('http://127.0.0.1:7073')); 
+	//new.static.miniyun.cn测试环境 
+	var server8 = koa();
+	server8.use(staticServer('/usr/local/miniyun/new.static.miniyun.cn')); 
 	//设置vhost
 	app.use(vhost([
 	{
@@ -60,7 +64,7 @@ MiniDev.prototype.vhost=function(){
 	    app: server0
 	}, 
 	{
-	    host: 'static.miniyun.cn',
+	    host: 'static.minicloud.io',
 	    app: server1
 	},
 	{
@@ -87,5 +91,14 @@ MiniDev.prototype.vhost=function(){
 	    host: '171.miniyun.cn',
 	    app: server7
 	},
+	{
+	    host: 'new.static.miniyun.cn',
+	    app: server8
+	},
 	]));
+	app.use(function *(next){
+		this.header["proxy-port"]=80; 
+		yield next; 
+	});
+	app.use($proxy('http://127.0.0.1:7070'));
 }
