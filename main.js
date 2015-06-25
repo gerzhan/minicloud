@@ -1,7 +1,10 @@
 var debug = true
 var dbConfig = require("./db-config.json");
 var DBLoader = require("./lib/db-loader"); 
+//判断是否调试状态
 process.env.debug = debug
+//获得程序路径
+process.env.rootPath = __dirname
 var dbLoader = new DBLoader(dbConfig.host, dbConfig.port, dbConfig.name, dbConfig.password, dbConfig.db_name);
 dbLoader.initDBConnect(function(err, db) {
 	if (err) {
