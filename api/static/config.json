@@ -4,6 +4,6 @@
   "routes": {
     "/dash": "dash",
     "/login": "login",
-    "/singup": "signup"
+    "/signup": "signup"
   }
 }
