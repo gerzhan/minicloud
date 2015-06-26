@@ -1,9 +1,8 @@
 var model = module.exports;
 
-// In-memory datastores:
-var oauthAccessTokens = [],
-  oauthRefreshTokens = [],
-  authorizedClientIds = {
+//设定哪些client有password权限
+//设置哪些client有refresh_token权限
+var authorizedClientIds = {
     password: [
       'JsQCsjF3yr7KACyT', //迷你云网页版
       'd6n6Hy8CtSFEVqNh', //PC客户端
@@ -85,12 +84,6 @@ model.grantTypeAllowed = function(clientId, grantType, callback) {
  * callback是oauth-server回调的函数
  */
 model.saveAccessToken = function(accessToken, clientId, expires, userId, callback) {
-  oauthAccessTokens.unshift({
-    accessToken: accessToken,
-    clientId: clientId,
-    userId: userId,
-    expires: expires
-  });
   dbConn.driver.execQuery('INSERT INTO oauth_access_tokens(access_token,client_id,user_id,expires) value(?,?,?,?)', [accessToken, clientId, userId, expires], function(err, result) {
     callback(false);
   });
@@ -101,12 +94,6 @@ model.saveAccessToken = function(accessToken, clientId, expires, userId, callbac
  * callback是oauth-server回调的函数
  */
 model.saveRefreshToken = function(refreshToken, clientId, expires, userId, callback) {
-  oauthRefreshTokens.unshift({
-    refreshToken: refreshToken,
-    clientId: clientId,
-    userId: userId,
-    expires: expires
-  });
   dbConn.driver.execQuery('INSERT INTO oauth_refresh_tokens(refresh_token,client_id,user_id,expires) value(?,?,?,?)', [refreshToken, clientId, userId, expires], function(err, result) {
     callback(false);
   });
