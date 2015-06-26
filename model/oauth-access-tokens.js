@@ -1,7 +1,7 @@
 'use strict'
 var miniUtil  = require("../lib/mini-util");
 /**
-* token表miniyun_tokens相关查询、创建动作
+* token表oauth_refresh_tokens相关查询、创建动作
 */
 var tokenModel = dbPool.tokenModel;  
 /**

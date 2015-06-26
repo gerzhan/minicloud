@@ -2,8 +2,12 @@ var koa    = require("koa")
 var $proxy = require('koa-http-proxy')
 var vhost = require('koa-vhost')
 var cors = require('kcors')
+var session = require('koa-session')
+
+ 
 exports.start = function() {
-	var server = require("./lib/api-loader")();
+	var server = require("./lib/api-loader")(); 
+	server.use(session(server))
 	//static环境,static允许跨域访问
 	var staticServer = require('koa-static');
 	var subdomain1 = koa();
@@ -26,6 +30,9 @@ exports.start = function() {
 	var subdomain5 = koa();
 	subdomain5.use(staticServer('/usr/local/miniyun/www.makeadmin.com'));
 	server.use(vhost('www.makeadmin.com', subdomain5));
- 
+ 	//PHP-Core部分
+	var subdomain6 = koa();
+	subdomain6.use($proxy('http://127.0.0.1:7070')); 
+	server.use(vhost('service.minicloud.io', subdomain6)); 
  	server.listen(80);
 }

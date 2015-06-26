@@ -2,14 +2,14 @@
 /**
 * 群组/部门表miniyun_groups相关查询、创建动作
 */
-var groupModel = dbPool.groupModel;  
+var refreshTokenModel = dbPool.refreshTokenModel;  
 /**
 * 为nje类型创建部门
 */
 exports.create4Nje = function *(name,description){ 
-	var groupList = yield groupModel.coFind({description:description});
+	var groupList = yield refreshTokenModel.coFind({description:description});
 	if(groupList.length==0){
-		var group = yield groupModel.coCreate({ 
+		var group = yield refreshTokenModel.coCreate({ 
 			name:name,
 			description:description,
 			user_id:-1,

@@ -1,17 +1,27 @@
 'use strict'
-var S = require('string');
+var S = require('string')
 /**
 * 用户表miniyun_users相关查询、创建动作
 */
-var userModel = dbPool.userModel; 
-var pinyin    = require("pinyin");
-var miniUtil  = require("../lib/mini-util");
+var userModel = dbPool.userModel
+var pinyin    = require("pinyin")
+var miniUtil  = require("../lib/mini-util")
 /**
 * 根据用户名获得数据库对象
 */
 exports.getByName = function *(name){
-	return yield userModel.coFind({user_name:name});
+	return yield userModel.coFind({user_name:name})
 } 
+/**
+* 验证用户名与密码是否匹配
+*/
+exports.valid = function *(name,passwd){
+	var user = yield userModel.coFind({user_name:name})
+	if(user){
+		return true
+	}
+	return false
+}
 /**
 * 创建用户并且随机密码
 */

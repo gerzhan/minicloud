@@ -10,7 +10,7 @@ dbLoader.initDBConnect(function(err, db) {
 	if (err) {
 		console.log(err);
 		return;
-	}
+	} 
 	//数据库连接全局变量
 	global.dbPool = db;
 	//启动服务器
