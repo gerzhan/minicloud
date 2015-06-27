@@ -9,12 +9,11 @@ var signupStaticContent = fs.readFileSync(path.join(rootPath, "..", "static.mini
 /**
  *获得管理后台静态资源模板
  */
-exports.dash = function*() {
-	this.body = this.request.user
-	// if(process.env.debug){
-	// 	dashStaticContent = fs.readFileSync(path.join(rootPath, "..", "static.minicloud.io", "static", "dashboard", "index.html")).toString()
-	// }
-	// this.body = dashStaticContent
+exports.dash = function*() { 
+	if(process.env.debug){
+		dashStaticContent = fs.readFileSync(path.join(rootPath, "..", "static.minicloud.io", "static", "dashboard", "index.html")).toString()
+	}
+	this.body = dashStaticContent
 }
 /**
  *获得登陆静态资源模板

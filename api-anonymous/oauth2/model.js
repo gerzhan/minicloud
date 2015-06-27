@@ -36,7 +36,7 @@ model.getAccessToken = function(bearerToken, callback) {
         return callback(false, {
           accessToken: token.access_token,
           clientId: token.client_id,
-          expires: token.expires,
+          expires: new Date(token.expires),
           userId: token.userId
         });
       }
@@ -84,7 +84,7 @@ model.grantTypeAllowed = function(clientId, grantType, callback) {
  * callback是oauth-server回调的函数
  */
 model.saveAccessToken = function(accessToken, clientId, expires, userId, callback) {
-  dbConn.driver.execQuery('INSERT INTO oauth_access_tokens(access_token,client_id,user_id,expires) value(?,?,?,?)', [accessToken, clientId, userId, expires], function(err, result) {
+  dbConn.driver.execQuery('INSERT INTO oauth_access_tokens(access_token,client_id,user_id,expires,created_at,updated_at) value(?,?,?,?,now(),now())', [accessToken, clientId, userId, expires.getTime()], function(err, result) {
     callback(false);
   });
 
@@ -94,7 +94,7 @@ model.saveAccessToken = function(accessToken, clientId, expires, userId, callbac
  * callback是oauth-server回调的函数
  */
 model.saveRefreshToken = function(refreshToken, clientId, expires, userId, callback) {
-  dbConn.driver.execQuery('INSERT INTO oauth_refresh_tokens(refresh_token,client_id,user_id,expires) value(?,?,?,?)', [refreshToken, clientId, userId, expires], function(err, result) {
+  dbConn.driver.execQuery('INSERT INTO oauth_refresh_tokens(refresh_token,client_id,user_id,expires,created_at,updated_at) value(?,?,?,?,now(),now())', [refreshToken, clientId, userId, expires.getTime()], function(err, result) {
     callback(false);
   });
 };
