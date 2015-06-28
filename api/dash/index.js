@@ -10,6 +10,6 @@ var dashStaticContent = fs.readFileSync(path.join(rootPath, "..", "static.minicl
 exports.dash = function*() { 
 	if(process.env.debug){
 		dashStaticContent = fs.readFileSync(path.join(rootPath, "..", "static.minicloud.io", "static", "dashboard", "index.html")).toString()
-	}
-	this.body = dashStaticContent
+	} 
+	this.body = dashStaticContent;
 }
