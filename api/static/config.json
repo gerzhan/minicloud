@@ -1,9 +1,0 @@
-{
-  "name": "static",
-  "description": "获得静态资源接口",
-  "routes": {
-    "/dash": "dash",
-    "/login": "login",
-    "/signup": "signup"
-  }
-}

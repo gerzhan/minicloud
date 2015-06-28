@@ -1,0 +1,9 @@
+{
+  "name": "oauth",
+  "description": "基于oauth2登陆接口，可匿名访问",
+  "valid_access_token":false,
+  "routes": {
+    "/api/v1/oauth2/token": "token"
+  }
+}
+

@@ -1,0 +1,8 @@
+{
+  "name": "dash",
+  "description": "管理后台",
+  "valid_access_token":true,
+  "routes": {
+    "/dash": "dash"
+  }
+}

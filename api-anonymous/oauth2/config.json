@@ -1,8 +1,0 @@
-{
-  "name": "oauth",
-  "description": "基于oauth2登陆接口",
-  "routes": {
-    "/api/v1/oauth2/token": "token"
-  }
-}
-
