@@ -110,9 +110,7 @@ model.getUser = function(username, password, callback) {
       var salt = user.salt
       var ciphertext = MiniUtil.encryptionPasswd(password, salt)
       if (user.user_pass == ciphertext) {
-        return callback(false, {
-          id: user.id
-        });
+        return callback(false, user);
       }
     }
     callback(false, false);

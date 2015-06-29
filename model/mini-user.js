@@ -13,6 +13,12 @@ exports.getByName = function *(name){
 	return yield userModel.coFind({user_name:name})
 } 
 /**
+* 根据用户Id获得数据库对象
+*/
+exports.getById = function *(id){
+	return yield userModel.coFind({id:id})
+} 
+/**
 * 验证用户名与密码是否匹配
 */
 exports.valid = function *(name,passwd){

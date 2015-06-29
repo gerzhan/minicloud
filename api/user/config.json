@@ -1,0 +1,8 @@
+{
+  "name": "user",
+  "description": "用户模块",
+  "valid_access_token":true,
+  "routes": {
+    "/api/v1/user/info": "currentUserInfo"
+  }
+}
