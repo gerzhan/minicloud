@@ -14,5 +14,6 @@ dbLoader.initDBConnect(function(err, db) {
 	//数据库连接全局变量
 	global.dbPool = db;
 	//启动服务器
-	require("./mini-server").start(); 
+	var server = require("./lib/service-minicloud-io-loader")()	
+	server.listen(3001)
 });
