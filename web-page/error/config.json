@@ -1,0 +1,7 @@
+{
+  "name": "error",
+  "description": "404或其他错误显示", 
+  "routes": { 
+    "/error": "error"
+  }
+}
