@@ -1,6 +1,6 @@
 var debug = true
 var dbConfig = require("./db-config.json");
-var DBLoader = require("./lib/db-loader"); 
+var DBLoader = require("./lib/loader/db-loader"); 
 //判断是否调试状态
 process.env.debug = debug
 //获得程序路径

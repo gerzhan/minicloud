@@ -1,7 +1,7 @@
 {
   "name": "dash",
-  "description": "管理后台",
-  "valid_access_token":true,
+  "description": "管理后台", 
+  "valid_cookie":true,
   "routes": {
     "/dashboard": "dash"
   }

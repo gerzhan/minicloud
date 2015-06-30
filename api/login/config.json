@@ -1,7 +1,6 @@
 {
   "name": "login",
-  "description": "登录与注册",
-  "valid_access_token":false,
+  "description": "登录与注册", 
   "routes": { 
     "/login": "login",
     "/signup": "signup"
