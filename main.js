@@ -1,10 +1,17 @@
-var debug = true
-var dbConfig = require("./db-config.json");
+var debug = false
+var config = require("./config.json");
 var DBLoader = require("./lib/loader/db-loader"); 
 //判断是否调试状态
-process.env.debug = debug
-//获得程序路径
-process.env.rootPath = __dirname
+global.debug = debug
+//设置程序路径到进程全局变量中
+global.appRootPath = __dirname   
+//设置环境变量到进程全局变量中
+global.appContext = config
+//初始化redis连接
+var context = global.appContext
+global.redisClient = require('koa-redis')(context.redis) 
+//初始化数据库连接
+var dbConfig = config.db
 var dbLoader = new DBLoader(dbConfig.host, dbConfig.port, dbConfig.name, dbConfig.password, dbConfig.db_name);
 dbLoader.initDBConnect(function(err, db) {
 	if (err) {

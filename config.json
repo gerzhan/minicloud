@@ -1,0 +1,28 @@
+{
+	"server_pattern": "mix_cloud",	
+	"mix_cloud": {
+		"static_host": "http://static.minicloud.io",
+		"version": "2.2"
+	},
+	"tiny_cloud": {
+		"static_host": "/usr/local/miniyun/static.minicloud.io",
+		"version": "2.2"
+	},
+	"private_cloud": {
+		"static_host": "/usr/local/miniyun/miniyun/statics/",
+		"version": "2.2"
+	},
+	"db": {
+		"host": "127.0.0.1",
+		"port": 3306,
+		"name": "root",
+		"password": "123456",
+		"db_name": "miniyun"
+	},
+	"redis":{
+		"host":"127.0.0.1",
+		"port":6379,
+		"db":"minicloud",
+		"pass":"zl8irHCnK3"
+	}
+}
