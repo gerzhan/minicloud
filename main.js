@@ -1,4 +1,4 @@
-var debug = false
+var debug = true
 var config = require("./config.json");
 var DBLoader = require("./lib/loader/db-loader"); 
 //判断是否调试状态

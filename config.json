@@ -5,11 +5,11 @@
 		"version": "2.2"
 	},
 	"tiny_cloud": {
-		"static_host": "/usr/local/miniyun/static.minicloud.io",
+		"static_root_path": "/usr/local/miniyun/static.minicloud.io",
 		"version": "2.2"
 	},
 	"private_cloud": {
-		"static_host": "/usr/local/miniyun/miniyun/statics/",
+		"static_root_path": "/usr/local/miniyun/miniyun/statics/",
 		"version": "2.2"
 	},
 	"db": {
