@@ -1,4 +1,4 @@
-var MiniUser = require("../../model/mini-user")
+var MiniUser = require("../../../model/mini-user")
 /**
  *根据access_token获得用户信息
  */

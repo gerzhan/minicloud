@@ -1,7 +1,7 @@
 /**
  * 当用户访问根目录直接跳转到默认页面
  */
-var MiniWebUtil = require("../mini-web-util")
+var MiniWebUtil = require("../lib/mini-web-util")
 
 module.exports = function(opts) {
 	opts = opts || {};

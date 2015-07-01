@@ -1,6 +1,6 @@
 var debug = true
 var dbConfig = require("./db-config.json");
-var DBLoader = require("./lib/loader/db-loader"); 
+var DBLoader = require("./lib/db-loader"); 
 //判断是否调试状态
 process.env.debug = debug
 //获得程序路径
@@ -14,6 +14,7 @@ dbLoader.initDBConnect(function(err, db) {
 	//数据库连接全局变量
 	global.dbPool = db;
 	//启动服务器
-	var server = require("./lib/service-minicloud-io-loader")()	
+	var server = require("./lib/server-loader")()	
 	server.listen(3001)
+	
 });
