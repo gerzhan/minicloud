@@ -1,16 +1,16 @@
 {
-	"server_pattern": "mix_cloud",	
+	"server_pattern": "mix_cloud",
+	"port":8030,
+	"debug":true,	
+	"version": "2.2",
 	"mix_cloud": {
-		"static_host": "http://static.minicloud.io",
-		"version": "2.2"
+		"static_host": "http://static.minicloud.io" 
 	},
 	"tiny_cloud": {
-		"static_root_path": "/usr/local/miniyun/static.minicloud.io",
-		"version": "2.2"
+		"static_host": "http://static.minicloud.io"
 	},
 	"private_cloud": {
-		"static_root_path": "/usr/local/miniyun/miniyun/statics/",
-		"version": "2.2"
+		"static_host": "http://127.0.0.1:8031"
 	},
 	"db": {
 		"host": "127.0.0.1",
