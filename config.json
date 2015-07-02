@@ -1,15 +1,15 @@
 {
-	"server_pattern": "mix_cloud",
+	"pattern": "mix",
 	"port":8030,
 	"debug":true,	
 	"version": "2.2",
-	"mix_cloud": {
+	"mix": {
 		"static_host": "http://static.minicloud.io" 
 	},
-	"tiny_cloud": {
+	"tiny": {
 		"static_host": "http://static.minicloud.io"
 	},
-	"private_cloud": {
+	"private": {
 		"static_host": "http://127.0.0.1:8031"
 	},
 	"db": {
