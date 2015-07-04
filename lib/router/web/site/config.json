@@ -3,6 +3,7 @@
   "description": "登录与注册", 
   "routes": { 
     "/login": "login",
-    "/signup": "signup"
+    "/signup": "signup",
+    "/error": "error"
   }
 }
