@@ -3,6 +3,6 @@
   "description": "用户模块",
   "valid_access_token":true,
   "routes": {
-    "/api/v1/user/info": "currentUserInfo"
+    "/api/v1/users/get_my_account": "getMyAccount"
   }
 }
