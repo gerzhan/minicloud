@@ -102,7 +102,7 @@
         <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE" idrefs="z106"></relationship>
     </object>
     <object type="LMREQUEST" id="z108">
-        <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"admin\\",\\"password\\":\\"admin1\\",\\"device_name\\":\\"web\\",\\"app_key\\":\\"JsQCsjF3yr7KACyT\\",\\"app_secret\\":\\"bqGeM4Yrjs3tncJZ\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
+        <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"admin\\",\\"password\\":\\"admin\\",\\"device_name\\":\\"web\\",\\"app_key\\":\\"JsQCsjF3yr7KACyT\\",\\"app_secret\\":\\"bqGeM4Yrjs3tncJZ\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">4F9BF97B-1745-4E53-ABC5-00F7F3E0D94D</attribute>
         <attribute name="url" type="string">http://service.minicloud.io/api/v1/oauth2/token</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
@@ -199,7 +199,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z121 z120"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z120">
-        <attribute name="value" type="string">Bearer b7dc5ae177269bfc5a7a6c515cab5c3b89a1ea88</attribute>
+        <attribute name="value" type="string">Bearer c1366d2cceadadb9d92f1d6323d80d7d518879d3</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
