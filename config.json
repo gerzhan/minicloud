@@ -2,7 +2,7 @@
 	"pattern": "mix",
 	"port":8030,
 	"debug":true,	
-	"version": "2.2",
+	"version": 2.2,
 	"mix": {
 		"static_host": "http://static.minicloud.io" 
 	},
