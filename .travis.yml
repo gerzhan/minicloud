@@ -6,5 +6,6 @@ node_js:
 sudo: false
 script: "make test-travis"
 before_script:
-  - mysql -e 'create database myapp_test;use myapp_test;source ./lib/database/mysql.sql;' 
+  - mysql -e 'create database minicloud_test;use minicloud_test;source ./lib/database/mysql.sql;'
+  - "node index-test.js" 
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
