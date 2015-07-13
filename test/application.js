@@ -21,6 +21,7 @@ describe('app', function(){
       err.message.should.equal('boom');
       done();
     });
+    
 
     request(app.listen())
     .get('/')

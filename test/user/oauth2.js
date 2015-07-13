@@ -2,8 +2,8 @@ var assert = require("assert")
 var co = require("co")
 var request = require("co-request")
 var host = "http://127.0.0.1:8030"
-describe('oauth2/token', function() {
-    describe('ok', function() {
+describe('Users', function() {
+    describe('oauth2/token', function() {
         it('should return token', function(done) {
             var options = {
                 url: host + "/api/v1/oauth2/token",
