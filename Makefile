@@ -14,11 +14,7 @@ endif
 
 REQUIRED = --require should --require should-http
 
-TESTS = test/application \
-	test/context/* \
-	test/request/* \
-	test/response/* \
-	test/experimental/index.js
+TESTS = test/users
 
 test:
 	@NODE_ENV=test $(BIN) $(FLAGS) \
