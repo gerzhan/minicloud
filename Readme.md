@@ -1,6 +1,6 @@
 
   [![build status][travis-image]][travis-url]
-  [![Test coverage][coveralls-image]][coveralls-url]
+  [![Coverage Status](https://coveralls.io/repos/minicloud/minicloudjs/badge.svg?branch=master&service=github)](https://coveralls.io/github/minicloud/minicloudjs?branch=master)
 
   minicloud v2.2 entry
 
@@ -40,6 +40,4 @@ $ make test
   MIT
  
 [travis-image]: https://img.shields.io/travis/minicloud/minicloudjs/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/minicloud/minicloudjs
-[coveralls-image]: https://img.shields.io/coveralls/minicloud/minicloudjs/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/minicloud/minicloudjs?branch=master
+[travis-url]: https://travis-ci.org/minicloud/minicloudjs 
