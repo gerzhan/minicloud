@@ -43,7 +43,8 @@
     "swig": "^1.4.2",
     "thunkify": "^2.1.2",
     "urlencode": "^1.0.0",
-    "xml-parser": "^1.2.1"
+    "xml-parser": "^1.2.1",
+    "statuses": "^1.2.0",
   },
   "devDependencies": {
     "babel": "^5.0.0",
