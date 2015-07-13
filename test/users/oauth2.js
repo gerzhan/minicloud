@@ -16,7 +16,7 @@ describe('Users', function() {
                     body: {
                         name: 'admin',
                         password: 'admin',
-                        device_name: 'jim-pc-windows7',
+                        device_name: 'ji1111m-pc-windows7',
                         app_key: 'JsQCsjF3yr7KACyT',
                         app_secret: 'bqGeM4Yrjs3tncJZ'
                     },
