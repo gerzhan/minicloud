@@ -1,10 +1,12 @@
 language: node_js
-node_js: 
+node_js:
+  - "0.12"
+  - "iojs-v1"
   - "iojs-v2"
 sudo: false
 script: "make test-travis"
 before_script:
   - mysql -e 'create database minicloud_test;use minicloud_test;source ./lib/database/mysql.sql;'
-  - "node index-test.js &"
+  - "node --harmony-generators index-test.js &"
   - "sleep 5"  
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
