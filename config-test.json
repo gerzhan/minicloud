@@ -1,0 +1,28 @@
+{
+	"pattern": "hybird",
+	"port":8031,
+	"debug":true,	
+	"version": 2.2,
+	"hybird": {
+		"static_host": "http://static.minicloud.io" 
+	},
+	"tiny": {
+		"static_host": "http://static.minicloud.io"
+	},
+	"private": {
+		"static_host": "http://127.0.0.1:8031"
+	},
+	"db": {
+		"host": "127.0.0.1",
+		"port": 3306,
+		"name": "root",
+		"password": "",
+		"db_name": "minicloud_test"
+	},
+	"redis":{
+		"host":"127.0.0.1",
+		"port":6379,
+		"db":"minicloud",
+		"pass":""
+	}
+}
