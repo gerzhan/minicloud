@@ -7,5 +7,4 @@ sudo: false
 script: "make test-travis"
 before_script:
   - mysql -e 'create database minicloud_test;use minicloud_test;source ./lib/database-schema/mysql.sql;'
-  - "node ./.travis.js" 
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
