@@ -11,5 +11,6 @@ command.stdout.on('data', function (data) {
     if(isNode){
     	c = "node --harmony-generators ./test/index-test.js &"
     } 
+    console.log(c)
     cp.spawn('sh', ['-c', c], { stdio: 'inherit' })
 })
