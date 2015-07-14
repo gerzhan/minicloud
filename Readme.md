@@ -1,7 +1,8 @@
 
   [![build status][travis-image]][travis-url]
-  [![devDependency Status](https://david-dm.org/atom/electron/dev-status.svg)](https://david-dm.org/minicloud/minicloudjs#info=devDependencies)
   [![Test coverage][coveralls-image]][coveralls-url]
+  [![devDependency Status](https://david-dm.org/atom/electron/dev-status.svg)](https://david-dm.org/minicloud/minicloudjs#info=devDependencies)
+  
 
   minicloud v2.2 entry
 
