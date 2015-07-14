@@ -6,7 +6,7 @@ describe('Users', function() {
         it('should return token', function(done) { 
             var co = require('co')
             co.wrap(function*(){  
-                var host = "http://127.0.0.1:8031"
+                var host = "http://127.0.0.1:8033"
                 var options = {
                     url: host + "/api/v1/oauth2/token",
                     headers: {
