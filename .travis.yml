@@ -7,6 +7,6 @@ sudo: false
 script: "make test-travis"
 before_script:
   - mysql -e 'create database minicloud_test;use minicloud_test;source ./lib/database/mysql.sql;'
-  - "node --harmony-generators ./test/index-test.js"
+  - "node ./test/index-test.js"
   - "sleep 5"  
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
