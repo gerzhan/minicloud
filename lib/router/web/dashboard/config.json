@@ -1,6 +1,6 @@
 {
   "name": "dash",
-  "description": "管理后台", 
+  "description": "dash", 
   "valid_cookie":true,
   "routes": {
     "/dashboard": "dash",

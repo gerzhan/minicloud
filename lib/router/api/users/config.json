@@ -1,6 +1,6 @@
 {
   "name": "user",
-  "description": "用户模块",
+  "description": "user module",
   "valid_access_token":true,
   "routes": {
     "/api/v1/users/get_my_account": "getMyAccount"

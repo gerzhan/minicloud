@@ -1,6 +1,6 @@
 {
   "name": "login",
-  "description": "登录与注册", 
+  "description": "signin/signup", 
   "routes": { 
     "/login": "login",
     "/signup": "signup",

@@ -1,6 +1,6 @@
 {
   "name": "oauth",
-  "description": "基于oauth2登陆接口，可匿名访问", 
+  "description": "oauth2 interface,support anonymous access", 
   "routes": {
     "/api/v1/oauth2/token": "token"
   }
