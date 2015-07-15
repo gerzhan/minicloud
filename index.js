@@ -1,4 +1,6 @@
-var config = require("./config.json")
+
+var appConfig = require("./config.json") 
+var config = appConfig[process.env.NODE_ENV] 
 //启动服务器 
 var co = require('co')
 co.wrap(function*(){

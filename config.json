@@ -1,28 +1,86 @@
 {
-	"pattern": "hybird",
-	"port":8030,
-	"debug":true,	
-	"version": 2.2,
-	"hybird": {
-		"static_host": "http://static.minicloud.io" 
-	},
-	"tiny": {
-		"static_host": "http://static.minicloud.io"
-	},
-	"private": {
-		"static_host": "http://127.0.0.1:8031"
-	},
-	"db": {
-		"host": "127.0.0.1",
-		"port": 3306,
-		"name": "root",
-		"password": "123456",
-		"db_name": "miniyun"
-	},
-	"redis":{
-		"host":"127.0.0.1",
-		"port":6379,
-		"db":"minicloud",
-		"pass":"zl8irHCnK3"
-	}
+    "development": {
+        "pattern": "hybird",
+        "port": 8032,
+        "debug": true,
+        "version": 2.2,
+        "hybird": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "tiny": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "private": {
+            "static_host": "http://127.0.0.1:8031"
+        },
+        "db": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "name": "root",
+            "password": "123456",
+            "db_name": "miniyun"
+        },
+        "redis": {
+            "host": "127.0.0.1",
+            "port": 6379,
+            "db": "minicloud",
+            "pass": ""
+        }
+    },
+    "test": {
+        "pattern": "hybird",
+        "port": 8033,
+        "debug": true,
+        "version": 2.2,
+        "hybird": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "tiny": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "private": {
+            "static_host": "http://127.0.0.1:8031"
+        },
+        "db": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "name": "root",
+            "password": "",
+            "db_name": "minicloud_test"
+        },
+        "redis": {
+            "host": "127.0.0.1",
+            "port": 6379,
+            "db": "minicloud",
+            "pass": ""
+        }
+    },
+    "production": {
+        "pattern": "hybird",
+        "port": 8030,
+        "debug": true,
+        "version": 2.2,
+        "hybird": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "tiny": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "private": {
+            "static_host": "http://127.0.0.1:8031"
+        },
+        "db": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "name": "root",
+            "password": "123456",
+            "db_name": "miniyun"
+        },
+        "redis": {
+            "host": "127.0.0.1",
+            "port": 6379,
+            "db": "minicloud",
+            "pass": ""
+        }
+    }
 }

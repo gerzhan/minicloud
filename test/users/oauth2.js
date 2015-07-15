@@ -5,7 +5,8 @@ describe('Users', function() {
         it('should return token', function(done) {
             var co = require('co')
             co.wrap(function*() {
-                var config = require("../config-test.json")
+                var appConfig = require("../../config.json")
+                var config = appConfig[process.env.NODE_ENV]  
                 var server = yield require("../../lib/loader/server-loader")(config)
                 // request(server.listen(8033))
                 //     .post('/api/v1/oauth2/token')

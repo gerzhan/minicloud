@@ -17,7 +17,7 @@ REQUIRED = --require should --require should-http
 TESTS = test/users
 
 test:
-	@NODE_ENV=test $(BIN)  \
+	@NODE_ENV=development $(BIN)  \
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
