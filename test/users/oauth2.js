@@ -6,8 +6,8 @@ describe('Users', function() {
         it('should return token', function(done) {
             var co = require('co')
             co.wrap(function*() {      
-                var app = yield require("../../lib/loader/app-loader")(context.config)
-                request(app.listen())
+                var app = yield context.getApp()
+                request(app)
                     .post('/api/v1/oauth2/token')
                     .type('json')
                     .timeout(10000)
