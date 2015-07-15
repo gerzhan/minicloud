@@ -1,11 +1,11 @@
 var assert = require("assert")
 var request = require("supertest")
+var co = require('co')
 var context = require("../context")
 describe('Users', function() {
     describe('oauth2/token', function() {
         it('should return token', function(done) {
-            var co = require('co')
-            co.wrap(function*() {      
+            co.wrap(function*() {
                 var app = yield context.getApp()
                 request(app)
                     .post('/api/v1/oauth2/token')
@@ -22,7 +22,7 @@ describe('Users', function() {
                     .end(function(err, res) {
                         if (err) return done(err)
                         res.should.have.header('Content-Type', 'application/json; charset=utf-8')
-                        res.body.token_type.should.equal('bearer') 
+                        res.body.token_type.should.equal('bearer')
                         done()
                     })
             })()
