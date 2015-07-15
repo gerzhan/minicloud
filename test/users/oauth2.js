@@ -1,48 +1,30 @@
 var assert = require("assert")
-var request = require("co-request")
+var request = require("supertest")
+var context = require("../context")
 describe('Users', function() {
     describe('oauth2/token', function() {
         it('should return token', function(done) {
             var co = require('co')
-            co.wrap(function*() {
-                var appConfig = require("../../config.json")
-                var config = appConfig[process.env.NODE_ENV]  
-                var server = yield require("../../lib/loader/server-loader")(config)
-                // request(server.listen(8033))
-                //     .post('/api/v1/oauth2/token')
-                //     .type('json')
-                //     .send({
-                //         name: 'admin',
-                //         password: 'admin',
-                //         device_name: 'ji1111m-pc-windows7',
-                //         app_key: 'JsQCsjF3yr7KACyT',
-                //         app_secret: 'bqGeM4Yrjs3tncJZ'
-                //     })
-                //     .end(function(err,res) {
-                //         console.log(res.body)
-                //     })
-                server.listen(8044)
-                var host = "http://127.0.0.1:8044"
-                var options = {
-                    url: host + "/api/v1/oauth2/token",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    method:"POST",
-                    body: {
+            co.wrap(function*() {      
+                var app = yield require("../../lib/loader/app-loader")(context.config)
+                request(app.listen())
+                    .post('/api/v1/oauth2/token')
+                    .type('json')
+                    .timeout(10000)
+                    .send({
                         name: 'admin',
                         password: 'admin',
                         device_name: 'ji1111m-pc-windows7',
                         app_key: 'JsQCsjF3yr7KACyT',
                         app_secret: 'bqGeM4Yrjs3tncJZ'
-                    },
-                    json:true
-                } 
-                var postResponse = yield request(options) 
-                var body = postResponse.body 
-                var type = body.token_type 
-                assert.equal("bearer",type)  
-                done()
+                    })
+                    .expect(200)
+                    .end(function(err, res) {
+                        if (err) return done(err)
+                        res.should.have.header('Content-Type', 'application/json; charset=utf-8')
+                        res.body.token_type.should.equal('bearer') 
+                        done()
+                    })
             })()
         })
     });
