@@ -17,14 +17,14 @@ REQUIRED = --require should --require should-http
 TESTS = test/users
 
 test:
-	@NODE_ENV=test $(BIN)  \
+	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
 		--bail
 
 test-cov:
-	@NODE_ENV=test $(BIN) $(FLAGS) \
+	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN) $(FLAGS) \
 		./node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		-- -u exports \
