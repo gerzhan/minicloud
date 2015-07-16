@@ -45,6 +45,34 @@
             "host": "127.0.0.1",
             "port": 3306,
             "name": "root",
+            "password": "123456",
+            "db_name": "minicloud_test"
+        },
+        "redis": {
+            "host": "127.0.0.1",
+            "port": 6379,
+            "db": "minicloud",
+            "pass": ""
+        }
+    },
+    "travis-ci": {
+        "pattern": "hybrid",
+        "port": 8033,
+        "debug": true,
+        "version": 2.2,
+        "hybrid": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "tiny": {
+            "static_host": "http://static.minicloud.io"
+        },
+        "private": {
+            "static_host": "http://127.0.0.1:8031"
+        },
+        "db": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "name": "root",
             "password": "",
             "db_name": "minicloud_test"
         },
