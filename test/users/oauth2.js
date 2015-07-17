@@ -17,7 +17,7 @@ describe('Users', function() {
                 request(app)
                     .post('/api/v1/oauth2/token')
                     .type('json')
-                    .timeout(20000)
+                    .timeout(10000)
                     .send({
                         name: 'admin',
                         password: 'admin',
