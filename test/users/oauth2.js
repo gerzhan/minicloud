@@ -12,7 +12,9 @@ describe('Users', function() {
                 var MiniClient = require("../../lib/model/mini-client")
                 var MiniUser = require("../../lib/model/mini-user")
                 yield MiniClient.create(-1,"web client","JsQCsjF3yr7KACyT","bqGeM4Yrjs3tncJZ","",1,"web client")
+                console.log("111111")
                 yield MiniUser.create("admin","admin")
+                console.log("222222")
                 //test
                 request(app)
                     .post('/api/v1/oauth2/token')
