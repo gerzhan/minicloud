@@ -89,8 +89,8 @@
         },
         "mongodb": {
             "host": "127.0.0.1",
-            "user": "", 
-            "database": "mongodb"
+            "user": "root", 
+            "database": "minicloud_test"
         },
         "sqlite": {
             "path": ""
