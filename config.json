@@ -74,22 +74,22 @@
         },
         "mysql": {
             "host": "127.0.0.1",
-            "name": "root", 
+            "user": "root", 
             "database": "minicloud_test"
         },
         "postgres": {
             "host": "127.0.0.1",
-            "name": "postgres", 
+            "user": "postgres", 
             "database": "minicloud_test"
         },
         "redshift": {
             "host": "127.0.0.1",
-            "name": "postgres", 
+            "user": "postgres", 
             "database": "minicloud_test"
         },
         "mongodb": {
             "host": "127.0.0.1",
-            "name": "", 
+            "user": "", 
             "database": "mongodb"
         },
         "sqlite": {
