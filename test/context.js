@@ -10,8 +10,10 @@ if(isTravis){
  * @api public
  */
 exports.getApp = function*(){
-	yield initDBTables() 
+	yield initDBTables()
+	console.log(1) 
 	var app = yield require("../lib/loader/app-loader")(config) 
+	console.log(2)
 	return app.listen()
 } 
 /**

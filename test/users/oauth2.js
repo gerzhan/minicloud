@@ -6,19 +6,13 @@ describe('Users', function() {
     describe('oauth2/token', function() {
         it('should return token', function(done) {
             co.wrap(function*() {
-                console.log("0000-1")
                 //start server
                 var app = yield context.getApp()
-                console.log("000000")
                 //ready data
                 var MiniClient = require("../../lib/model/mini-client")
-                console.log("000001")
                 var MiniUser = require("../../lib/model/mini-user")
-                console.log("000002")
                 yield MiniClient.create(-1,"web client","JsQCsjF3yr7KACyT","bqGeM4Yrjs3tncJZ","",1,"web client")
-                console.log("111111")
                 yield MiniUser.create("admin","admin")
-                console.log("222222")
                 //test
                 request(app)
                     .post('/api/v1/oauth2/token')
