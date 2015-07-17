@@ -11,7 +11,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "MD5": "^1.2.2",
+    "md5": "^2.0.0",
     "co": "^4.5.4",
     "co-body": "^2.0.0",
     "co-fs-plus": "^0.3.1",
