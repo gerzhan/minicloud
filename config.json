@@ -44,7 +44,35 @@
         "mysql": {
             "host": "127.0.0.1",
             "port": 3306,
-            "name": "root",
+            "user_name": "root",
+            "password": "123456",
+            "db_name": "minicloud_test"
+        },
+        "postgres": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "user_name": "root",
+            "password": "123456",
+            "db_name": "minicloud_test"
+        },
+        "redshift": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "user_name": "root",
+            "password": "123456",
+            "db_name": "minicloud_test"
+        },
+        "mongodb": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "user_name": "root",
+            "password": "123456",
+            "db_name": "minicloud_test"
+        },
+        "sqlite": {
+            "host": "127.0.0.1",
+            "port": 3306,
+            "user_name": "root",
             "password": "123456",
             "db_name": "minicloud_test"
         },
