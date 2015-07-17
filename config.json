@@ -93,7 +93,7 @@
             "database": "minicloud_test"
         },
         "sqlite": {
-            "path": ""
+            "path": "minicloud_test.db"
         },
         "redis": {
             "host": "127.0.0.1",
