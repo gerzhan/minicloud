@@ -8,12 +8,12 @@ describe('Users', function() {
     before(function(done) {
         co.wrap(function*() {
             //start server
-            app = yield context.getApp()
+            app = yield context.getApp() 
             //ready data
-            var MiniClient = require("../../lib/model/mini-client")
-            var MiniUser = require("../../lib/model/mini-user")
-            yield MiniClient.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-            yield MiniUser.create("admin", "admin")
+            var modelApp = require("../../lib/model/app")
+            var modelUser = require("../../lib/model/user")
+            yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+            yield modelUser.create("admin", "admin")
             return done()
         })()
     })
