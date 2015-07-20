@@ -2,7 +2,8 @@ var assert = require("assert")
 var request = require("supertest")
 var co = require('co')
 var context = require("../context")
-describe('Users', function() {
+var protocol = process.env.ORM_PROTOCOL
+describe(protocol+' Users', function() {
     var app = null
         //before hook start app server,initialize data
     before(function(done) {
@@ -18,7 +19,7 @@ describe('Users', function() {
         })()
     })
 
-    describe('oauth2/token', function() {
+    describe(protocol+' oauth2/token', function() {
         it('should return token', function(done) {
             request(app)
                 .post('/api/v1/oauth2/token')
@@ -38,7 +39,7 @@ describe('Users', function() {
                     done()
                 })
         })
-        it('should return 401,user not existed or disabled', function(done) {
+        it(protocol+' should return 401,user not existed or disabled', function(done) {
             request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -56,7 +57,7 @@ describe('Users', function() {
                     done()
                 })
         })
-        it('should return 401,incorrect password', function(done) {
+        it(protocol+' should return 401,incorrect password', function(done) {
             request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -74,7 +75,7 @@ describe('Users', function() {
                     done()
                 })
         })
-        it('should return 409,lock user', function(done) {
+        it(protocol+' should return 409,lock user', function(done) {
             //ready data
             co.wrap(function*() {
                 var modelUserMeta = require("../../lib/model/user-meta")
