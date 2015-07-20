@@ -20,25 +20,25 @@ describe(protocol+' Users', function() {
     })
 
     describe(protocol+' oauth2/token', function() {
-        // it('should return token', function(done) {
-        //     request(app)
-        //         .post('/api/v1/oauth2/token')
-        //         .type('json')
-        //         .send({
-        //             name: 'admin',
-        //             password: 'admin',
-        //             device_name: 'ji1111m-pc-windows7',
-        //             app_key: 'JsQCsjF3yr7KACyT',
-        //             app_secret: 'bqGeM4Yrjs3tncJZ'
-        //         })
-        //         .expect(200)
-        //         .end(function(err, res) {
-        //             if (err) return done(err)
-        //             res.should.have.header('Content-Type', 'application/json; charset=utf-8')
-        //             res.body.token_type.should.equal('bearer')
-        //             done()
-        //         })
-        // })
+        it('should return token', function(done) {
+            request(app)
+                .post('/api/v1/oauth2/token')
+                .type('json')
+                .send({
+                    name: 'admin',
+                    password: 'admin',
+                    device_name: 'ji1111m-pc-windows7',
+                    app_key: 'JsQCsjF3yr7KACyT',
+                    app_secret: 'bqGeM4Yrjs3tncJZ'
+                })
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err)
+                    res.should.have.header('Content-Type', 'application/json; charset=utf-8')
+                    res.body.token_type.should.equal('bearer')
+                    done()
+                })
+        })
         it(protocol+' should return 401,user not existed or disabled', function(done) {
             request(app)
                 .post('/api/v1/oauth2/token')
@@ -57,24 +57,24 @@ describe(protocol+' Users', function() {
                     done()
                 })
         })
-        // it(protocol+' should return 401,incorrect password', function(done) {
-        //     request(app)
-        //         .post('/api/v1/oauth2/token')
-        //         .type('json')
-        //         .send({
-        //             name: 'admin',
-        //             password: 'admin1',
-        //             device_name: 'ji1111m-pc-windows7',
-        //             app_key: 'JsQCsjF3yr7KACyT',
-        //             app_secret: 'bqGeM4Yrjs3tncJZ'
-        //         })
-        //         .expect(401)
-        //         .end(function(err, res) {
-        //             if (err) return done(err)
-        //             res.body.error_description.should.equal('incorrect password')
-        //             done()
-        //         })
-        // })
+        it(protocol+' should return 401,incorrect password', function(done) {
+            request(app)
+                .post('/api/v1/oauth2/token')
+                .type('json')
+                .send({
+                    name: 'admin',
+                    password: 'admin1',
+                    device_name: 'ji1111m-pc-windows7',
+                    app_key: 'JsQCsjF3yr7KACyT',
+                    app_secret: 'bqGeM4Yrjs3tncJZ'
+                })
+                .expect(401)
+                .end(function(err, res) {
+                    if (err) return done(err)
+                    res.body.error_description.should.equal('incorrect password')
+                    done()
+                })
+        })
         it(protocol+' should return 409,lock user', function(done) {
             //ready data
             co.wrap(function*() {
