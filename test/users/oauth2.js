@@ -79,7 +79,8 @@ describe(protocol+' Users', function() {
             //ready data
             co.wrap(function*() {
                 var modelUserMeta = require("../../lib/model/user-meta") 
-                yield modelUserMeta.create(1, "password_error_count", "6")
+                var meta = yield modelUserMeta.create(1, "password_error_count", "6")
+                console.log({'metavalue2222':meta.value})
             })()
             request(app)
                 .post('/api/v1/oauth2/token')
