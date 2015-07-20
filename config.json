@@ -119,9 +119,9 @@
         "mysql": {
             "host": "127.0.0.1",
             "port": 3306,
-            "name": "root",
+            "user": "root",
             "password": "123456",
-            "db_name": "miniyun"
+            "database": "miniyun"
         },
         "redis": {
             "host": "127.0.0.1",
