@@ -78,8 +78,7 @@ describe(protocol+' Users', function() {
         it(protocol+' should return 409,lock user', function(done) {
             //ready data
             co.wrap(function*() {
-                var modelUserMeta = require("../../lib/model/user-meta")
-                console.log("22222222222222")
+                var modelUserMeta = require("../../lib/model/user-meta") 
                 yield modelUserMeta.create(1, "password_error_count", "6")
             })()
             request(app)
