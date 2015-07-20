@@ -83,8 +83,7 @@ describe(protocol+' Users', function() {
             })()
             request(app)
                 .post('/api/v1/oauth2/token')
-                .type('json')
-                .timeout(9000)
+                .type('json') 
                 .send({
                     name: 'admin',
                     password: 'admin',
