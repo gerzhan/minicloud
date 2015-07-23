@@ -185,7 +185,7 @@
     </object>
     <object type="LMREQUEST" id="z119">
         <attribute name="uuid" type="string">A2521EDE-18C8-402D-9401-882F779F1286</attribute>
-        <attribute name="url" type="string">http://test.miniyun.cn/api/v1/users/get_my_account</attribute>
+        <attribute name="url" type="string">http://demo.minicloud.io/api/v1/users/get_current_account</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -196,10 +196,10 @@
         <attribute name="name" type="string">获得用户信息</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z116"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z120 z121"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z121 z120"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z120">
-        <attribute name="value" type="string">Bearer 852832929416b0e9cf7f75e24c5a27178faccf920</attribute>
+        <attribute name="value" type="string">Bearer 7e2201c3fb2a3aa4a141624d59052149b4a2dae8</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
