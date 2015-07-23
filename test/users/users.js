@@ -54,8 +54,7 @@ describe(protocol + ' Users', function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err)
-                res.body.name.should.equal('admin')
-                console.log(res.body)   
+                res.body.name.should.equal('admin') 
                 done()
             })
     })
