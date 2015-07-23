@@ -14,8 +14,14 @@ describe(protocol + ' Users', function() {
                 //ready data
             var modelApp = require("../../lib/model/app")
             var modelUser = require("../../lib/model/user")
+            var modelUserMeta = require("../../lib/model/user-meta")
             yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-            yield modelUser.create("admin", "admin")
+            var user = yield modelUser.create("admin", "admin")
+            yield modelUserMeta.create(user.id,'email','app@miniyun.cn')
+            yield modelUserMeta.create(user.id,'phone','+864000250057')
+            yield modelUserMeta.create(user.id,'total_space','1024')
+            yield modelUserMeta.create(user.id,'is_admin','1')
+            yield modelUserMeta.create(user.id,'is_admin111','1')
             request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json') 
@@ -48,7 +54,20 @@ describe(protocol + ' Users', function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err)
-                res.body.name.should.equal('admin')
+                res.body.name.should.equal('admin')   
+                done()
+            })
+    })
+    it(protocol + ' should return 401', function(done) {
+        request(app)
+            .post('/api/v1/users/get_current_account')
+            .type('json')
+            .set({
+                Authorization: 'Bearer 12234'
+            })
+            .expect(401)
+            .end(function(err, res) {
+                if (err) return done(err)  
                 done()
             })
     })
