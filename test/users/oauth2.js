@@ -3,7 +3,7 @@ var request = require("supertest")
 var co = require('co')
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
-describe(protocol+' Users', function() {
+describe(protocol+' oauth2', function() {
     var app = null
         //before hook start app server,initialize data
     before(function(done) {
@@ -20,7 +20,7 @@ describe(protocol+' Users', function() {
     })
 
     describe(protocol+' oauth2/token', function() {
-        it('should return token', function(done) {
+        it('should return token', function(done) { 
             request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')

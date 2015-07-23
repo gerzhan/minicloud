@@ -3,6 +3,6 @@
   "description": "user module",
   "valid_access_token":true,
   "routes": {
-    "/api/v1/users/get_my_account": "getMyAccount"
+    "/api/v1/users/get_current_account": "getCurrentAccount"
   }
 }

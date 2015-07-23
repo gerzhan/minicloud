@@ -104,7 +104,7 @@
     <object type="LMREQUEST" id="z108">
         <attribute name="body" type="string">[{"data":{"json":"{\\"name\\":\\"admin\\",\\"password\\":\\"admin\\",\\"device_name\\":\\"web\\",\\"app_key\\":\\"JsQCsjF3yr7KACyT\\",\\"app_secret\\":\\"bqGeM4Yrjs3tncJZ\\"}"},"identifier":"com.luckymarmot.JSONDynamicValue"}]</attribute>
         <attribute name="uuid" type="string">4F9BF97B-1745-4E53-ABC5-00F7F3E0D94D</attribute>
-        <attribute name="url" type="string">http://test.miniyun.cn/api/v1/oauth2/token</attribute>
+        <attribute name="url" type="string">http://demo.minicloud.io/api/v1/oauth2/token</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -115,7 +115,7 @@
         <attribute name="name" type="string">用户认证</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM" idrefs="z118"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z102 z109"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z109 z102"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z109">
         <attribute name="value" type="string"></attribute>
@@ -199,7 +199,7 @@
         <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z120 z121"></relationship>
     </object>
     <object type="LMKEYVALUE" id="z120">
-        <attribute name="value" type="string">Bearer b098ef35beea3ddab9b926bc8a78b048c3e9d860</attribute>
+        <attribute name="value" type="string">Bearer 852832929416b0e9cf7f75e24c5a27178faccf920</attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string">Authorization</attribute>
         <attribute name="enabled" type="bool">1</attribute>
