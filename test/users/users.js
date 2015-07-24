@@ -46,7 +46,7 @@ describe(protocol + ' Users', function() {
 
     it(protocol + ' should get user details', function(done) {
         request(app)
-            .post('/api/v1/users/get_current_account')
+            .post('/api/v1/users/get_my_account')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -60,7 +60,7 @@ describe(protocol + ' Users', function() {
     })
     it(protocol + ' should return 401', function(done) {
         request(app)
-            .post('/api/v1/users/get_current_account')
+            .post('/api/v1/users/get_my_account')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
