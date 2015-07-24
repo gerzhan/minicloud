@@ -12,7 +12,7 @@ describe(protocol+' oauth2', function() {
             app = yield context.getApp()
                 //ready data
             var modelApp = require("../../lib/model/app")
-            var modelUser = require("../../lib/model/user")
+            var modelUser = require("../../lib/model/user") 
             yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
             yield modelUser.create("admin", "admin")
             return done()
