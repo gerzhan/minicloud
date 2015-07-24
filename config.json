@@ -31,7 +31,7 @@
         "pattern": "hybrid",
         "port": 8033,
         "debug": true,
-        "version": 3.1,
+        "version": 2.2,
         "hybrid": {
             "static_host": "http://static.minicloud.io"
         },
