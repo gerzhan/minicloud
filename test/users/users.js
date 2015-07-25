@@ -17,14 +17,14 @@ describe(protocol + ' Users', function() {
             var modelUserMeta = require("../../lib/model/user-meta")
             yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
             var user = yield modelUser.create("admin", "admin")
-            yield modelUserMeta.create(user.id,'email','app@miniyun.cn')
-            yield modelUserMeta.create(user.id,'nick','jim')
-            yield modelUserMeta.create(user.id,'phone','+864000250057')
-            yield modelUserMeta.create(user.id,'total_space','1073741824')
-            yield modelUserMeta.create(user.id,'is_admin','1') 
+            yield modelUserMeta.create(user.id, 'email', 'app@miniyun.cn')
+            yield modelUserMeta.create(user.id, 'nick', 'jim')
+            yield modelUserMeta.create(user.id, 'phone', '+864000250057')
+            yield modelUserMeta.create(user.id, 'total_space', '1073741824')
+            yield modelUserMeta.create(user.id, 'is_admin', '1')
             request(app)
                 .post('/api/v1/oauth2/token')
-                .type('json') 
+                .type('json')
                 .send({
                     name: 'admin',
                     password: 'admin',
@@ -54,7 +54,7 @@ describe(protocol + ' Users', function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err)
-                res.body.name.should.equal('admin') 
+                res.body.name.should.equal('admin')
                 done()
             })
     })
@@ -67,7 +67,7 @@ describe(protocol + ' Users', function() {
             })
             .expect(401)
             .end(function(err, res) {
-                if (err) return done(err)  
+                if (err) return done(err)
                 done()
             })
     })

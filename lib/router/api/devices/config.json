@@ -1,0 +1,8 @@
+{
+  "name": "device",
+  "description": "device module",
+  "valid_access_token":true,
+  "routes": {
+    "/api/v1/devices/get_my_devices": "getMyDevices"
+  }
+}
