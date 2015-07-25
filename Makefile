@@ -15,7 +15,8 @@ endif
 REQUIRED = --require should --require should-http
 
 TESTS = test/users \
-		test/devices
+		test/devices \
+		test/events \
 
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
