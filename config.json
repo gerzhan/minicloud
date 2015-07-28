@@ -121,8 +121,9 @@
             "host": "127.0.0.1",
             "port": 3306,
             "user": "root",
+            "table_prefix":"miniyun_",
             "password": "123456",
-            "database": "minicloud_test"
+            "database": "miniyun"
         },
         "redis": {
             "host": "127.0.0.1",
