@@ -23,12 +23,7 @@ test:
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
-		--bail
-	@NODE_ENV=test ORM_PROTOCOL=sqlite $(BIN)  \
-		./node_modules/.bin/_mocha \
-		$(REQUIRED) \
-		$(TESTS) \
-		--bail
+		--bail 
 test-cov:
 	@NODE_ENV=test $(BIN) $(FLAGS) \
 		./node_modules/.bin/istanbul cover \
