@@ -1,7 +1,6 @@
 {
   "name": "event",
-  "description": "event module",
-  "valid_access_token":true,
+  "description": "event module", 
   "routes": {
     "/api/v1/event/get_login_events": "getLoginEvents"
   }
