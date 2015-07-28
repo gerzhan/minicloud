@@ -3,6 +3,6 @@
   "description": "device module",
   "routes": {
     "/api/v1/devices/get_my_devices": "getMyDevices",
-    "/api/v1/devices/delete_my_device" : "removeMyDevice"
+    "/api/v1/devices/remove_my_device" : "removeMyDevice"
   }
 }

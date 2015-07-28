@@ -71,7 +71,7 @@ describe(protocol + ' devices', function() {
     describe(protocol + ' devices/delete_my_device', function() {
         it(protocol + ' should delete one device', function(done) {
             request(app)
-                .post('/api/v1/devices/delete_my_device')
+                .post('/api/v1/devices/remove_my_device')
                 .type('json')
                 .send({
                     uuid: uuid
@@ -88,7 +88,7 @@ describe(protocol + ' devices', function() {
         })
         it(protocol + ' should return 401', function(done) {
             request(app)
-                .post('/api/v1/devices/delete_my_device')
+                .post('/api/v1/devices/remove_my_device')
                 .type('json')
                 .send({
                     uuid: uuid
@@ -105,7 +105,7 @@ describe(protocol + ' devices', function() {
         })
         it(protocol + ' should return 409', function(done) {
             request(app)
-                .post('/api/v1/devices/delete_my_device')
+                .post('/api/v1/devices/remove_my_device')
                 .type('json')
                 .send({
                     uuid: 'uuid'
