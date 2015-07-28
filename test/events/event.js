@@ -3,6 +3,7 @@ var request = require("supertest")
 var co = require('co')
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
+var php = require('phpjs')
 describe(protocol + ' event', function() {
     var app = null
     var accessToken = null
@@ -48,8 +49,9 @@ describe(protocol + ' event', function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err)
-                res.body.length.should.equal(1)
-                // res.body[0].message.should.equal('192.168.0.222')
+                var userIp = php.unserialize(res.body[0].context).ip
+                //todo
+                userIp.should.equal('::ffff:127.0.0.1')
                 done()
             })
     })
