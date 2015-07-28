@@ -1,7 +1,6 @@
 {
   "name": "user",
-  "description": "user module",
-  "valid_access_token":true,
+  "description": "user module", 
   "routes": {
     "/api/v1/users/get_my_account": "getMyAccount"
   }

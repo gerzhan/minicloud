@@ -1,6 +1,7 @@
 {
   "name": "oauth",
   "description": "oauth2 interface,support anonymous access", 
+  "valid_access_token":false,
   "routes": {
     "/api/v1/oauth2/token": "token"
   }
