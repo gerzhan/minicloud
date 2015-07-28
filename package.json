@@ -3,7 +3,9 @@
   "version": "0.5.0",
   "description": "minicloud mix/private cloud",
   "main": "index.js",
-  "scripts": {"test": "make test"},
+  "scripts": {
+    "test": "make test"
+  },
   "repository": "minicloud/minicloudjs",
   "keywords": [
     "miniyun",
@@ -11,7 +13,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "md5": "^2.0.0",
     "co": "^4.5.4",
     "co-body": "^2.0.0",
     "co-fs-plus": "^0.3.1",
@@ -24,7 +25,7 @@
     "koa-bodyparser": "^2.0.0",
     "koa-compress": "^1.0.8",
     "koa-http-proxy": "^0.0.1",
-    "koa-logger": "^1.2.2", 
+    "koa-logger": "^1.2.2",
     "koa-ratelimit": "^2.1.0",
     "koa-redis": "^1.0.0",
     "koa-resource-router": "^0.4.0",
@@ -33,16 +34,18 @@
     "koa-router": "^5.1.2",
     "koa-session": "^3.2.0",
     "koa-static": "^1.4.9",
+    "md5": "^2.0.0",
     "mysql": "^2.7.0",
     "orm": "^2.1.26",
     "orm-timestamps": "^0.5.2", 
+    "phpjs": "^1.3.2",
     "redis": "^0.12.1",
+    "statuses": "^1.2.0",
     "string": "^3.2.0",
     "swig": "^1.4.2",
     "thunkify": "^2.1.2",
     "urlencode": "^1.0.0",
-    "xml-parser": "^1.2.1",
-    "statuses": "^1.2.0"
+    "xml-parser": "^1.2.1"
   },
   "devDependencies": {
     "babel": "^5.0.0",
@@ -53,9 +56,9 @@
     "should-http": "^0.0.4",
     "supertest": "^1.0.1",
     "test-console": "^1.0.0",
-    "pg"      : "4.3.0",
-    "mongodb" : "1.3.19",
-    "sqlite3" : "^3.0.9"
+    "pg": "4.3.0",
+    "mongodb": "1.3.19",
+    "sqlite3": "^3.0.9"
   },
   "engines": {
     "node": ">= 0.11.16",
