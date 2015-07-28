@@ -48,9 +48,7 @@ describe(protocol + ' devices', function() {
             .expect(200)
             .end(function(err, res) {
                 if (err) return done(err)
-                res.body.length.should.equal(2)
-                res.body[0].name.should.equal('web client')
-                res.body[1].name.should.equal('ji1111m-pc-windows7')
+                res.body.length.should.equal(2) 
                 done()
             })
     })
