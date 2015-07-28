@@ -2,6 +2,7 @@
   "name": "event",
   "description": "event module", 
   "routes": {
-    "/api/v1/event/get_login_events": "getLoginEvents"
+    "/api/v1/event/get_login_events": "getLoginEvents",
+    "/api/v1/event/clean_login_events": "cleanLoginEvents"
   }
 }
