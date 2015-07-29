@@ -14,7 +14,7 @@ endif
 
 REQUIRED = --require should --require should-http
 
-TESTS = test/users \
+TESTS = test/members \
 		test/devices \
 		test/events \
 
