@@ -1,0 +1,8 @@
+{
+    "name": "user",
+    "description": "user module",
+    "valid_access_token": false,
+    "routes": {
+        "/api/v1/members/add": "add"
+    }
+}
