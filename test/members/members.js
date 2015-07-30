@@ -71,4 +71,33 @@ describe(protocol + ' Members', function() {
                 done()
             })
     })
+    it(protocol + ' should get members list', function(done) {
+        request(app)
+            .post('/api/v1/members/get_list')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(200)
+            .end(function(err, res) {
+                if (err) return done(err)
+                res.body[0].name.should.equal('admin')
+                done()
+            })
+    })
+    it(protocol + ' should search certain a member', function(done) {
+        request(app)
+            .post('/api/v1/members/search')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(200)
+            .end(function(err, res) {
+                if (err) return done(err)
+                    // console.log(res.body)
+                // res.body.name.should.equal('admin')
+                done()
+            })
+    })
 })
