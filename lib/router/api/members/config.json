@@ -2,6 +2,6 @@
   "name": "user",
   "description": "user module", 
   "routes": {
-    "/api/v1/users/get_my_account": "getMyAccount"
+    "/api/v1/members/get_my_account": "getMyAccount"
   }
 }
