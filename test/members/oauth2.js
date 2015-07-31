@@ -1,27 +1,22 @@
-var assert = require("assert")
-var request = require("supertest")
-var co = require('co')
+var request = require("co-supertest")
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
-describe(protocol+' oauth2', function() {
+describe(protocol + ' oauth2', function() {
     var app = null
         //before hook start app server,initialize data
-    before(function(done) {
-        co.wrap(function*() {
-            //start server
-            app = yield context.getApp()
-                //ready data
-            var modelApp = require("../../lib/model/app")
-            var modelUser = require("../../lib/model/user") 
-            yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-            yield modelUser.create("admin", "admin")
-            return done()
-        })()
+    before(function*(done) {
+        app = yield context.getApp()
+            //ready data
+        var modelApp = require("../../lib/model/app")
+        var modelUser = require("../../lib/model/user")
+        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        yield modelUser.create("admin", "admin")
+        return done()
     })
 
-    describe(protocol+' oauth2/token', function() {
-        it('should return token', function(done) { 
-            request(app)
+    describe(protocol + ' oauth2/token', function() {
+        it('should return token', function*(done) {
+            var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
                 .send({
@@ -32,15 +27,13 @@ describe(protocol+' oauth2', function() {
                     app_secret: 'bqGeM4Yrjs3tncJZ'
                 })
                 .expect(200)
-                .end(function(err, res) {
-                    if (err) return done(err)
-                    res.should.have.header('Content-Type', 'application/json; charset=utf-8')
-                    res.body.token_type.should.equal('bearer')
-                    done()
-                })
+                .end()
+            res.should.have.header('Content-Type', 'application/json; charset=utf-8')
+            res.body.token_type.should.equal('bearer')
+            done()
         })
-        it(protocol+' should return 401,user not existed or disabled', function(done) {
-            request(app)
+        it(protocol + ' should return 401,user not existed or disabled', function*(done) {
+            var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
                 .send({
@@ -51,14 +44,12 @@ describe(protocol+' oauth2', function() {
                     app_secret: 'bqGeM4Yrjs3tncJZ'
                 })
                 .expect(401)
-                .end(function(err, res) {
-                    if (err) return done(err)
-                    res.body.error_description.should.equal('user not existed or disabled')
-                    done()
-                })
+                .end()
+            res.body.error_description.should.equal('user not existed or disabled')
+            done()
         })
-        it(protocol+' should return 401,incorrect password', function(done) {
-            request(app)
+        it(protocol + ' should return 401,incorrect password', function*(done) {
+            var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
                 .send({
@@ -69,21 +60,17 @@ describe(protocol+' oauth2', function() {
                     app_secret: 'bqGeM4Yrjs3tncJZ'
                 })
                 .expect(401)
-                .end(function(err, res) {
-                    if (err) return done(err)
-                    res.body.error_description.should.equal('incorrect password')
-                    done()
-                })
+                .end()
+            res.body.error_description.should.equal('incorrect password')
+            done()
         })
-        it(protocol+' should return 409,lock user', function(done) {
+        it(protocol + ' should return 409,lock user', function*(done) {
             //ready data
-            co.wrap(function*() {
-                var modelUserMeta = require("../../lib/model/user-meta") 
-                var meta = yield modelUserMeta.create(1, "password_error_count", "6") 
-            })()
-            request(app)
+            var modelUserMeta = require("../../lib/model/user-meta")
+            var meta = yield modelUserMeta.create(1, "password_error_count", "6")
+            var res = yield request(app)
                 .post('/api/v1/oauth2/token')
-                .type('json') 
+                .type('json')
                 .send({
                     name: 'admin',
                     password: 'admin',
@@ -92,17 +79,11 @@ describe(protocol+' oauth2', function() {
                     app_secret: 'bqGeM4Yrjs3tncJZ'
                 })
                 .expect(401)
-                .end(function(err, res) {
-                    if (err) return done(err)
-                    res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes')
-                    //reset data
-                    co.wrap(function*() {
-                        var modelUserMeta = require("../../lib/model/user-meta")
-                        yield modelUserMeta.create(1, "password_error_count", "0")
-                        done()
-                    })()
-                    
-                })
+                .end()
+            res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes')
+            var modelUserMeta = require("../../lib/model/user-meta")
+            yield modelUserMeta.create(1, "password_error_count", "0")
+            done()
         })
     })
 })
