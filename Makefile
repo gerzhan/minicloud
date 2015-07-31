@@ -14,10 +14,12 @@ endif
 
 REQUIRED = --require should --require should-http --require co-mocha
 
-TESTS = test/members \
-		test/devices \
-		test/events \
-
+TESTS = test/members/oauth2 \
+		test/members/members \
+		test/members/add \
+		test/events/event \
+		test/devices/remove \
+		test/devices/device
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
 		./node_modules/.bin/_mocha \
