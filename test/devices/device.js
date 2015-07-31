@@ -25,8 +25,6 @@ describe(protocol + ' devices', function() {
             })
             .expect(200)
             .end()
-        res.should.have.header('Content-Type', 'application/json; charset=utf-8')
-        res.body.token_type.should.equal('bearer')
             //set access_token
         accessToken = res.body.access_token
         return done()
