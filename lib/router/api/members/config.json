@@ -4,6 +4,8 @@
   "routes": {
     "/api/v1/members/get_my_account": "getMyAccount",
     "/api/v1/members/get_list": "getList",
-    "/api/v1/members/search": "search"
+    "/api/v1/members/search": "search",
+    "/api/v1/members/reset_password": "resetPassword",
+    "/api/v1/members/set_profile" : "setProfile"
   }
 }

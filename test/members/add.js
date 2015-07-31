@@ -2,7 +2,7 @@ var request = require("co-supertest")
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' add', function() {
+describe(protocol + ' member add', function() {
     var app = null
     before(function*(done) {
         app = yield context.getApp()
