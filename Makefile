@@ -19,7 +19,9 @@ TESTS = test/members/oauth2 \
 		test/members/add \
 		test/events/event \
 		test/devices/remove \
-		test/devices/device
+		test/devices/device \
+		test/members/reset-password \
+		test/members/set-profile
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
 		./node_modules/.bin/_mocha \
