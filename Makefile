@@ -12,7 +12,7 @@ ifeq (node, $(BIN))
 	FLAGS = --harmony-generators
 endif
 
-REQUIRED = --require should --require should-http
+REQUIRED = --require should --require should-http --require co-mocha
 
 TESTS = test/members \
 		test/devices \
