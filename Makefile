@@ -15,7 +15,7 @@ endif
 REQUIRED = --require should --require should-http --require co-mocha
 
 TESTS = test/members/oauth2 \
-		test/members/members \
+		test/members/member \
 		test/members/add \
 		test/events/event \
 		test/devices/remove \

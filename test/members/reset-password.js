@@ -22,9 +22,7 @@ describe(protocol + ' reset password', function() {
                 app_secret: 'bqGeM4Yrjs3tncJZ'
             })
             .expect(200)
-            .end()
-        res.should.have.header('Content-Type', 'application/json; charset=utf-8')
-        res.body.token_type.should.equal('bearer')
+            .end() 
 
         accessToken = res.body.access_token
 

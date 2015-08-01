@@ -1,7 +1,7 @@
 var request = require("co-supertest")
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
-describe(protocol + ' Members', function() {
+describe(protocol + ' members', function() {
     var app = null
     var accessToken = null
         //before hook start app server,initialize data
