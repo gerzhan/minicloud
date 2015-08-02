@@ -41,6 +41,7 @@ describe(protocol + ' reset password', function() {
             })
             .expect(200)
             .end()
+        //TODO Has a new password
         done()
 
     })

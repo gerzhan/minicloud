@@ -38,7 +38,8 @@ describe(protocol + ' devices', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
-            .end()
+            .end() 
+        //Determine Each element is in line with expectations
         res.body.length.should.equal(2)
         done()
     })

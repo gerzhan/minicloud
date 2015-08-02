@@ -25,9 +25,11 @@ describe(protocol + ' member add', function() {
             })
             .expect(200)
             .end()
+        //TODO It should determine whether the user exists in the database
         done()
     })
     it(protocol + ' should return 409', function*(done) {
+        //TODO It should determine whether the user exists in the database
         var res = yield request(app)
             .post('/api/v1/members/add')
             .type('json')

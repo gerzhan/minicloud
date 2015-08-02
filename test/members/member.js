@@ -61,14 +61,14 @@ describe(protocol + ' members', function() {
     })
     it(protocol + ' should get members list', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/get_list')
+            .post('/api/v1/members/list')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
             .end()
-
+        //TODO Each element should determine the list
         res.body[0].name.should.equal('admin')
         done()
     })
@@ -81,6 +81,7 @@ describe(protocol + ' members', function() {
             })
             .expect(200)
             .end()
+        //TODO Each element should determine the list
         done()
     })
 })

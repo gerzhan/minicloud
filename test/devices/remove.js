@@ -68,6 +68,7 @@ describe(protocol + ' devices', function() {
                 })
                 .expect(200)
                 .end()
+            //Determine whether the database record has
             done()
 
         })

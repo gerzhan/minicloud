@@ -52,6 +52,7 @@ describe(protocol + ' set profile', function() {
             })
             .expect(200)
             .end()
+        //TODO Check out the judge meta meets expectations
         done()
 
     })
