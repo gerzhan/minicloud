@@ -32,7 +32,7 @@ describe(protocol + ' event', function() {
     })
     it('should get user login logs', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/event/get_login_events')
+            .post('/api/v1/events/get_login_events')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -45,7 +45,7 @@ describe(protocol + ' event', function() {
     })
     it("should clean user's all login logs", function*(done) {
         var res = yield request(app)
-            .post('/api/v1/event/clean_login_events')
+            .post('/api/v1/events/clean_login_events')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -57,7 +57,7 @@ describe(protocol + ' event', function() {
     })
     it(protocol + ' should return 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/event/get_login_events')
+            .post('/api/v1/events/get_login_events')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
