@@ -4,19 +4,21 @@ var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' set profile', function() {
     var app = null
     var accessToken = null
+    var userMetaModel = null
+    var user = null
     before(function*(done) {
         app = yield context.getApp()
-        var modelApp = require("../../lib/model/app")
-        var modelUser = require("../../lib/model/user")
-        var modelUserMeta = require("../../lib/model/user-meta")
-        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        var user = yield modelUser.create("water", "water")
+        var appModel = require("../../lib/model/app")
+        var userModel = require("../../lib/model/user")
+        userMetaModel = require("../../lib/model/user-meta")
+        yield appModel.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        user = yield userModel.create("water", "water")
 
-        yield modelUserMeta.create(user.id, 'nick', "smallwa")
-        yield modelUserMeta.create(user.id, 'avatar', "/images/default_avatar.png")
-        yield modelUserMeta.create(user.id, 'email', "smallwa@miniyun.cn")
-        yield modelUserMeta.create(user.id, 'space', 1048570)
-        yield modelUserMeta.create(user.id, 'used_space', 10249)
+        yield userMetaModel.create(user.id, 'nick', "smallwa")
+        yield userMetaModel.create(user.id, 'avatar', "/images/default_avatar.png")
+        yield userMetaModel.create(user.id, 'email', "smallwa@miniyun.cn")
+        yield userMetaModel.create(user.id, 'space', 1048570)
+        yield userMetaModel.create(user.id, 'used_space', 10249)
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -30,7 +32,7 @@ describe(protocol + ' set profile', function() {
             })
             .expect(200)
             .end()
- 
+
         accessToken = res.body.access_token
 
         return done()
@@ -44,15 +46,17 @@ describe(protocol + ' set profile', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                metas: {
-                    nick: 'smallwater',
-                    avatar: '/images/123.png',
-                    email: 'water@miniyun.cn'
-                }
+                nick: 'smallwater',
+                avatar: '/images/123.png',
+                email: 'water@miniyun.cn'
             })
             .expect(200)
             .end()
-        //TODO Check out the judge meta meets expectations
+        var metaList = yield userMetaModel.getAll(user.id)
+        metaList[0].value.should.equal('smallwater')
+        metaList[1].value.should.equal('/images/123.png')
+        metaList[2].value.should.equal('water@miniyun.cn')
+           
         done()
 
     })
@@ -64,11 +68,9 @@ describe(protocol + ' set profile', function() {
                 Authorization: 'Bearer 123'
             })
             .send({
-                metas: {
-                    nick: 'smallwater',
-                    avatar: '/images/123.png',
-                    email: 'water@miniyun.cn'
-                }
+                nick: 'smallwater',
+                avatar: '/images/123.png',
+                email: 'water@miniyun.cn'
             })
             .expect(401)
             .end()

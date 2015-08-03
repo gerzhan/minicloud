@@ -4,13 +4,16 @@ var protocol = process.env.ORM_PROTOCOL
 
 describe(protocol + ' member add', function() {
     var app = null
+    var userModel = null
+    var userMetaModel = null
+    var user = null
     before(function*(done) {
         app = yield context.getApp()
-        var modelUser = require("../../lib/model/user")
-        var modelUserMeta = require("../../lib/model/user-meta")
-        var user = yield modelUser.create('lisi', '1a3c4s')
-        var metaNick = yield modelUserMeta.create(user.id, "nick", 'xiaoli')
-        var metaEmail = yield modelUserMeta.create(user.id, "email", 'lisi@miniyun.com')
+        userModel = require("../../lib/model/user")
+        userMetaModel = require("../../lib/model/user-meta")
+        user = yield userModel.create('Adolph', '1a3c4s')
+        var metaNick = yield userMetaModel.create(user.id, "nick", 'littleAdolph')
+        var metaEmail = yield userMetaModel.create(user.id, "email", 'Adolph@minicloud.io')
         return done()
     })
     it(protocol + ' should add a member', function*(done) {
@@ -18,29 +21,37 @@ describe(protocol + ' member add', function() {
             .post('/api/v1/members/add')
             .type('json')
             .send({
-                name: "zhangsan",
+                name: "Allen",
                 password: "8k9v6n",
-                nick: "xiaozhang",
-                email: "zhangsan@miniyun.com"
+                nick: "littleAllen",
+                email: "Allen@minicloud.io"
             })
             .expect(200)
             .end()
-        //TODO It should determine whether the user exists in the database
+        var userObj = yield userModel.getByName('Allen')
+        userObj.name.should.equal('Allen')
+        var id = userObj.id
+        var metaList = yield userMetaModel.getAll(id)
+        metaList[0].value.should.equal('littleAllen')
+        metaList[1].value.should.equal('Allen@minicloud.io')
         done()
     })
     it(protocol + ' should return 409', function*(done) {
-        //TODO It should determine whether the user exists in the database
+        var userObj = yield userModel.getByName('Adolph')
+        userObj.name.should.equal('Adolph')
+
         var res = yield request(app)
             .post('/api/v1/members/add')
             .type('json')
             .send({
-                name: "lisi",
+                name: "Adolph",
                 password: "1a3c4s",
-                nick: "xiaoli",
-                email: "lisi@miniyun.com"
+                nick: "little Adolph",
+                email: "Adolph@minicloud.io"
             })
             .expect(409)
             .end()
+        res.body.error_description.should.equal('member has existed.')
         done()
     })
 })

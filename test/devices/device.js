@@ -7,12 +7,12 @@ describe(protocol + ' devices', function() {
     before(function*(done) {
         //start server
         app = yield context.getApp()
-        var modelApp = require("../../lib/model/app")
-        var modelUser = require("../../lib/model/user")
-        var modelDevice = require("../../lib/model/device")
-        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        var user = yield modelUser.create("admin", "admin")
-        yield modelDevice.create(user, "web client", "JsQCsjF3yr7KACyT")
+        var appModel = require("../../lib/model/app")
+        var userModel = require("../../lib/model/user")
+        var deviceModel = require("../../lib/model/device")
+        yield appModel.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        var user = yield userModel.create("admin", "admin")
+        yield deviceModel.create(user, "web client", "JsQCsjF3yr7KACyT")
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -38,9 +38,11 @@ describe(protocol + ' devices', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
-            .end() 
-        //Determine Each element is in line with expectations
+            .end()
+            //Determine Each element is in line with expectations
         res.body.length.should.equal(2)
+        res.body[0].name.should.equal('web client')
+        res.body[1].name.should.equal('ji1111m-pc-windows7')
         done()
     })
 

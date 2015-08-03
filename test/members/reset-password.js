@@ -1,15 +1,18 @@
 var request = require("co-supertest")
 var context = require("../context")
+var helpers = require("../../lib/helpers")
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' reset password', function() {
     var app = null
     var accessToken = null
+    var userModel = null
+    var user = null
     before(function*(done) {
         app = yield context.getApp()
-        var modelApp = require("../../lib/model/app")
-        var modelUser = require("../../lib/model/user")
-        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        yield modelUser.create("Tomtom", "tomtom")
+        var appModel = require("../../lib/model/app")
+        userModel = require("../../lib/model/user")
+        yield appModel.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        user = yield userModel.create("Tomtom", "tomtom")
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -22,7 +25,7 @@ describe(protocol + ' reset password', function() {
                 app_secret: 'bqGeM4Yrjs3tncJZ'
             })
             .expect(200)
-            .end() 
+            .end()
 
         accessToken = res.body.access_token
 
@@ -41,7 +44,12 @@ describe(protocol + ' reset password', function() {
             })
             .expect(200)
             .end()
-        //TODO Has a new password
+        var userObj = yield userModel.getById(user.id)
+        var salt = userObj.salt
+        var password = userObj.password
+        var ciphertext = helpers.encryptionPasswd('ttoomm', salt)
+        ciphertext.should.equal(password)
+           
         done()
 
     })
@@ -73,6 +81,7 @@ describe(protocol + ' reset password', function() {
             })
             .expect(409)
             .end()
+
         done()
 
     })

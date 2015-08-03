@@ -33,26 +33,27 @@ describe(protocol + ' devices', function() {
     var app = null
     var accessToken = null
     var uuid = null
-
+    var onlineDeviceModel = null
+    var device = null
     before(function*(done) {
         app = yield context.getApp()
 
-        var modelApp = require("../../lib/model/app")
-        var modelUser = require("../../lib/model/user")
-        var modelDevice = require("../../lib/model/device")
+        var appModel = require("../../lib/model/app")
+        var userModel = require("../../lib/model/user")
+        var deviceModel = require("../../lib/model/device")
 
-        var modelOnlineDevice = require("../../lib/model/online-device")
-        var modelEvent = require("../../lib/model/event")
+        onlineDeviceModel = require("../../lib/model/online-device")
+        var eventModel = require("../../lib/model/event")
 
-        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        var user = yield modelUser.create("admin", "admin")
+        yield appModel.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        var user = yield userModel.create("admin", "admin")
         accessToken = yield getAdminAccessToken(app)
         uuid = yield getMyDeviceUuid(app, accessToken)
 
-        var devices = yield modelDevice.getAllByUserId(user.id)
+        var devices = yield deviceModel.getAllByUserId(user.id)
         device = devices[0]
-        yield modelOnlineDevice.create(user.id, device.id, device.client_id)
-        yield modelEvent.createLoginEvent(user.id, device.id, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
+        yield onlineDeviceModel.create(user.id, device.id, device.client_id)
+        yield eventModel.createLoginEvent(user.id, device.id, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
         done()
     })
     describe(protocol + ' devices/remove', function() {
@@ -68,7 +69,8 @@ describe(protocol + ' devices', function() {
                 })
                 .expect(200)
                 .end()
-            //Determine whether the database record has
+            var deviceList = yield onlineDeviceModel.getAllDeviceId(device.id)
+            deviceList.length.should.equal(0)
             done()
 
         })
@@ -78,7 +80,6 @@ describe(protocol + ' devices', function() {
                 .type('json')
                 .send({
                     uuid: uuid
-
                 })
                 .set({
                     Authorization: 'Bearer 12234'
@@ -99,6 +100,8 @@ describe(protocol + ' devices', function() {
                 })
                 .expect(409)
                 .end()
+                var deviceList = yield onlineDeviceModel.getAllDeviceId(device.id)
+            deviceList.length.should.equal(0)
             done()
         })
     })
