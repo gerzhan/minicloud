@@ -39,7 +39,7 @@ describe(protocol + ' event', function() {
             })
             .expect(200)
             .end()
-        var userIp = php.unserialize(res.body[0].context).ip
+        var userIp = res.body.events[0].ip
         userIp.should.equal('::ffff:127.0.0.1')
         done()
     })
