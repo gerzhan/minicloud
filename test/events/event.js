@@ -39,7 +39,7 @@ describe(protocol + ' event', function() {
             })
             .expect(200)
             .end()
-        var userIp = php.unserialize(res.body[0].context).ip 
+        var userIp = php.unserialize(res.body[0].context).ip
         userIp.should.equal('::ffff:127.0.0.1')
         done()
     })
@@ -52,7 +52,9 @@ describe(protocol + ' event', function() {
             })
             .expect(200)
             .end()
-        //TODO Determine whether the database record has landed
+            var eventModel = dbPool.eventModel
+            var result =  yield eventModel.find({user_id: 1,type: 1}).coRun()
+            result.length.should.equal(0)
         done()
     })
     it(protocol + ' should return 401', function*(done) {

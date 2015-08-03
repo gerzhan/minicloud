@@ -75,7 +75,6 @@ describe(protocol + ' members', function() {
             })
             .expect(200)
             .end()
-        //TODO Each element should determine the list
         res.body[0].name.should.equal('lee')
         done()
     })
@@ -87,12 +86,11 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                key:"lee"
+                key: "lee"
             })
             .expect(200)
             .end()
-            res.body[0].name.should.equal('lee')
-        //TODO Each element should determine the list
+        res.body[0].name.should.equal('lee')
         done()
     })
 })
