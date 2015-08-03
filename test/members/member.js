@@ -20,9 +20,9 @@ describe(protocol + ' members', function() {
         yield modelUserMeta.create(user.id, 'total_space', '1073741824')
         yield modelUserMeta.create(user.id, 'is_admin', '1')
 
-        var user = yield modelUser.create("zhangsan", "zhangsan")
-        yield modelUserMeta.create(user.id, 'email', 'zhangsan@miniyun.cn')
-        yield modelUserMeta.create(user.id, 'nick', 'zhangsan')
+        var user = yield modelUser.create("lee", "lee")
+        yield modelUserMeta.create(user.id, 'email', 'lee@miniyun.cn')
+        yield modelUserMeta.create(user.id, 'nick', 'lee')
         yield modelUserMeta.create(user.id, 'phone', '+868655201')
         yield modelUserMeta.create(user.id, 'total_space', '1073741824')
         yield modelUserMeta.create(user.id, 'is_admin', '0')
@@ -76,7 +76,7 @@ describe(protocol + ' members', function() {
             .expect(200)
             .end()
         //TODO Each element should determine the list
-        res.body[0].name.should.equal('admin')
+        res.body[0].name.should.equal('lee')
         done()
     })
     it(protocol + ' should search a certain member', function*(done) {
@@ -87,11 +87,11 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                key:"zhang"
+                key:"lee"
             })
             .expect(200)
             .end()
-            res.body[0].name.should.equal('zhangsan')
+            res.body[0].name.should.equal('lee')
         //TODO Each element should determine the list
         done()
     })
