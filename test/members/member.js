@@ -87,7 +87,7 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                key:"zhangsan"
+                key:"zhang"
             })
             .expect(200)
             .end()
