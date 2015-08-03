@@ -19,6 +19,13 @@ describe(protocol + ' members', function() {
         yield modelUserMeta.create(user.id, 'phone', '+864000250057')
         yield modelUserMeta.create(user.id, 'total_space', '1073741824')
         yield modelUserMeta.create(user.id, 'is_admin', '1')
+
+        var user = yield modelUser.create("zhangsan", "zhangsan")
+        yield modelUserMeta.create(user.id, 'email', 'zhangsan@miniyun.cn')
+        yield modelUserMeta.create(user.id, 'nick', 'zhangsan')
+        yield modelUserMeta.create(user.id, 'phone', '+868655201')
+        yield modelUserMeta.create(user.id, 'total_space', '1073741824')
+        yield modelUserMeta.create(user.id, 'is_admin', '0')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -72,15 +79,19 @@ describe(protocol + ' members', function() {
         res.body[0].name.should.equal('admin')
         done()
     })
-    it(protocol + ' should search certain a member', function*(done) {
+    it(protocol + ' should search a certain member', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/search')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
+            .send({
+                key:"zhangsan"
+            })
             .expect(200)
             .end()
+            res.body[0].name.should.equal('zhangsan')
         //TODO Each element should determine the list
         done()
     })
