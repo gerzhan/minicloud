@@ -7,10 +7,10 @@ describe(protocol + ' oauth2', function() {
     before(function*(done) {
         app = yield context.getApp()
             //ready data
-        var modelApp = require("../../lib/model/app")
-        var modelUser = require("../../lib/model/user")
-        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        yield modelUser.create("admin", "admin")
+        var MiniApp = require("../../lib/model/app")
+        var MiniUser = require("../../lib/model/user")
+        yield MiniApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        yield MiniUser.create("admin", "admin")
         return done()
     })
 
@@ -66,8 +66,8 @@ describe(protocol + ' oauth2', function() {
         })
         it(protocol + ' should return 409,lock user', function*(done) {
             //ready data
-            var modelUserMeta = require("../../lib/model/user-meta")
-            var meta = yield modelUserMeta.create(1, "password_error_count", "6")
+            var MiniUserMeta = require("../../lib/model/user-meta")
+            var meta = yield MiniUserMeta.create(1, "password_error_count", "6")
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -81,8 +81,8 @@ describe(protocol + ' oauth2', function() {
                 .expect(401)
                 .end()
             res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes')
-            var modelUserMeta = require("../../lib/model/user-meta")
-            yield modelUserMeta.create(1, "password_error_count", "0")
+            var MiniUserMeta = require("../../lib/model/user-meta")
+            yield MiniUserMeta.create(1, "password_error_count", "0")
             done()
         })
     })
