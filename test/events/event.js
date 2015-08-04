@@ -10,10 +10,10 @@ describe(protocol + ' event', function() {
         //start server
         app = yield context.getApp()
             //ready data
-        var modelApp = require("../../lib/model/app")
-        var modelUser = require("../../lib/model/user")
-        yield modelApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        yield modelUser.create("admin", "admin")
+        var MiniApp = require("../../lib/model/app")
+        var MiniUser = require("../../lib/model/user")
+        yield MiniApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
+        yield MiniUser.create("admin", "admin")
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
