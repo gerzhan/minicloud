@@ -1,5 +1,5 @@
-var request = require("co-supertest")
-var context = require("../context")
+var request = require('co-supertest')
+var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' members', function() {
     var app = null
@@ -9,18 +9,18 @@ describe(protocol + ' members', function() {
         //start server
         app = yield context.getApp()
             //ready data
-        var MiniApp = require("../../lib/model/app")
-        var MiniUser = require("../../lib/model/user")
-        var MiniUserMeta = require("../../lib/model/user-meta")
-        yield MiniApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        var user = yield MiniUser.create("admin", "admin")
+        var MiniApp = require('../../lib/model/app')
+        var MiniUser = require('../../lib/model/user')
+        var MiniUserMeta = require('../../lib/model/user-meta')
+        yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
+        var user = yield MiniUser.create('admin', 'admin')
         yield MiniUserMeta.create(user.id, 'email', 'app@miniyun.cn')
         yield MiniUserMeta.create(user.id, 'nick', 'jim')
         yield MiniUserMeta.create(user.id, 'phone', '+864000250057')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
         yield MiniUserMeta.create(user.id, 'is_admin', '1')
 
-        var user = yield MiniUser.create("lee", "lee")
+        var user = yield MiniUser.create('lee', 'lee')
         yield MiniUserMeta.create(user.id, 'email', 'lee@miniyun.cn')
         yield MiniUserMeta.create(user.id, 'nick', 'lee')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
@@ -86,7 +86,7 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                key: "lee"
+                key: 'lee'
             })
             .expect(200)
             .end()

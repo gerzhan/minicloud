@@ -1,5 +1,5 @@
-var request = require("co-supertest")
-var context = require("../context")
+var request = require('co-supertest')
+var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var php = require('phpjs')
 describe(protocol + ' event', function() {
@@ -10,10 +10,10 @@ describe(protocol + ' event', function() {
         //start server
         app = yield context.getApp()
             //ready data
-        var MiniApp = require("../../lib/model/app")
-        var MiniUser = require("../../lib/model/user")
-        yield MiniApp.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        yield MiniUser.create("admin", "admin")
+        var MiniApp = require('../../lib/model/app')
+        var MiniUser = require('../../lib/model/user')
+        yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
+        yield MiniUser.create('admin', 'admin')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -43,7 +43,7 @@ describe(protocol + ' event', function() {
         userIp.should.equal('::ffff:127.0.0.1')
         done()
     })
-    it("should clean user's all login logs", function*(done) {
+    it('should clean user\'s all login logs', function*(done) {
         var res = yield request(app)
             .post('/api/v1/events/clean_login_events')
             .type('json')
