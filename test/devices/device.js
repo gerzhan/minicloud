@@ -1,5 +1,5 @@
-var request = require("co-supertest")
-var context = require("../context")
+var request = require('co-supertest')
+var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' devices', function() {
     var app = null
@@ -7,12 +7,12 @@ describe(protocol + ' devices', function() {
     before(function*(done) {
         //start server
         app = yield context.getApp()
-        var appModel = require("../../lib/model/app")
-        var userModel = require("../../lib/model/user")
-        var deviceModel = require("../../lib/model/device")
-        yield appModel.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        var user = yield userModel.create("admin", "admin")
-        yield deviceModel.create(user, "web client", "JsQCsjF3yr7KACyT")
+        var MiniApp = require('../../lib/model/app')
+        var MiniUser = require('../../lib/model/user')
+        var MiniDevice = require('../../lib/model/device')
+        yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
+        var user = yield MiniUser.create('admin', 'admin')
+        yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')

@@ -1,6 +1,7 @@
-var request = require("co-supertest")
-var context = require("../context")
+var request = require('co-supertest')
+var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
+var should = require('should')
 
 function* getAdminAccessToken(app) {
     var res = yield request(app)
@@ -33,30 +34,46 @@ describe(protocol + ' devices', function() {
     var app = null
     var accessToken = null
     var uuid = null
-    var onlineDeviceModel = null
+    var MiniOnlineDevice = null
     var device = null
+    var MiniEvent = null
+    var MiniDevice = null
+    var MiniAccessToken = null
+    var user = null
     before(function*(done) {
         app = yield context.getApp()
-
-        var appModel = require("../../lib/model/app")
-        var userModel = require("../../lib/model/user")
-        var deviceModel = require("../../lib/model/device")
-
-        onlineDeviceModel = require("../../lib/model/online-device")
-        var eventModel = require("../../lib/model/event")
-
-        yield appModel.create(-1, "web client", "JsQCsjF3yr7KACyT", "bqGeM4Yrjs3tncJZ", "", 1, "web client")
-        var user = yield userModel.create("admin", "admin")
+        var MiniApp = require('../../lib/model/app')
+        var MiniUser = require('../../lib/model/user')
+        MiniDevice = require('../../lib/model/device')
+        MiniOnlineDevice = require('../../lib/model/online-device')
+        MiniEvent = require('../../lib/model/event')
+        MiniAccessToken = require('../../lib/model/oauth-access-token')
+        yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
+        user = yield MiniUser.create('admin', 'admin')
         accessToken = yield getAdminAccessToken(app)
         uuid = yield getMyDeviceUuid(app, accessToken)
-
-        var devices = yield deviceModel.getAllByUserId(user.id)
+        var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
-        yield onlineDeviceModel.create(user.id, device.id, device.client_id)
-        yield eventModel.createLoginEvent(user.id, device.id, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
+        yield MiniOnlineDevice.create(user.id, device.id, device.client_id)
+        yield MiniEvent.createLoginEvent(user.id, device.id, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
         done()
     })
     describe(protocol + ' devices/remove', function() {
+        it(protocol + ' should return 409', function*(done) {
+            var res = yield request(app)
+                .post('/api/v1/devices/remove')
+                .type('json')
+                .send({
+                    uuid: 'uuid'
+                })
+                .set({
+                    Authorization: 'Bearer ' + accessToken
+                })
+                .expect(409)
+                .end()
+            res.body.error_description.should.equal('device not existed.')
+            done()
+        })
         it(protocol + ' should remove one device', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/devices/remove')
@@ -69,8 +86,12 @@ describe(protocol + ' devices', function() {
                 })
                 .expect(200)
                 .end()
-            var deviceList = yield onlineDeviceModel.getAllDeviceId(device.id)
+            var deviceList = yield MiniOnlineDevice.getAllDeviceId(device.id)
             deviceList.length.should.equal(0)
+            var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+            eventList.length.should.equal(0)
+            var deviceObj = yield MiniDevice.getById(device.id)
+            should(deviceObj).not.be.ok()
             done()
 
         })
@@ -88,21 +109,6 @@ describe(protocol + ' devices', function() {
                 .end()
             done()
         })
-        it(protocol + ' should return 409', function*(done) {
-            var res = yield request(app)
-                .post('/api/v1/devices/remove')
-                .type('json')
-                .send({
-                    uuid: 'uuid'
-                })
-                .set({
-                    Authorization: 'Bearer ' + accessToken
-                })
-                .expect(409)
-                .end()
-                var deviceList = yield onlineDeviceModel.getAllDeviceId(device.id)
-            deviceList.length.should.equal(0)
-            done()
-        })
+
     })
 })
