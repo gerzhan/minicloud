@@ -28,8 +28,8 @@ describe(protocol + ' set profile', function() {
                 name: 'water',
                 password: 'water',
                 device_name: 'ji1111m-pc-windows7',
-                app_key: 'JsQCsjF3yr7KACyT',
-                app_secret: 'bqGeM4Yrjs3tncJZ'
+                client_id: 'JsQCsjF3yr7KACyT',
+                client_secret: 'bqGeM4Yrjs3tncJZ'
             })
             .expect(200)
             .end()

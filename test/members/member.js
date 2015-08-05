@@ -35,6 +35,13 @@ describe(protocol + ' members', function() {
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
         yield MiniUserMeta.create(user.id, 'is_admin', '0')
 
+        var user = yield MiniUser.create('good', 'tom')
+        yield MiniUserMeta.create(user.id, 'email', 'good@minicloud.io')
+        yield MiniUserMeta.create(user.id, 'nick', '张三')
+        yield MiniUserMeta.create(user.id, 'phone', '+868655201')
+        yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        yield MiniUserMeta.create(user.id, 'is_admin', '0')
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -42,8 +49,8 @@ describe(protocol + ' members', function() {
                 name: 'admin',
                 password: 'admin',
                 device_name: 'ji1111m-pc-windows7',
-                app_key: 'JsQCsjF3yr7KACyT',
-                app_secret: 'bqGeM4Yrjs3tncJZ'
+                client_id: 'JsQCsjF3yr7KACyT',
+                client_secret: 'bqGeM4Yrjs3tncJZ'
             })
             .expect(200)
             .end()
@@ -78,19 +85,20 @@ describe(protocol + ' members', function() {
     it(protocol + ' should get members list', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/list')
-            .type('json')
+            .type('json') 
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
             .end()
-        var body = res.body
+        var body = res.body  
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
-        body.members.length.should.equal(3)
+        body.members.length.should.equal(4) 
         body.members[0].name.should.equal('admin')
-        body.members[1].name.should.equal('jim')
-        body.members[2].name.should.equal('tom')
+        body.members[1].name.should.equal('good')
+        body.members[2].name.should.equal('jim') 
+        body.members[3].name.should.equal('tom') 
         done()
     })
     it(protocol + ' should search a certain member', function*(done) {
@@ -101,16 +109,15 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                key: 'i'
+                key: 'z'
             })
             .expect(200)
             .end()
         var body = res.body
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
-        body.members.length.should.equal(2)
-        body.members[0].name.should.equal('admin')
-        body.members[1].name.should.equal('jim')
+        body.members.length.should.equal(1)
+        body.members[0].name.should.equal('good') 
         done()
     })
 })
