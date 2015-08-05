@@ -95,10 +95,10 @@ describe(protocol + ' members', function() {
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
         body.members.length.should.equal(4) 
-        body.members[0].name.should.equal('admin')
-        body.members[1].name.should.equal('good')
+        body.members[0].name.should.equal('good')
+        body.members[1].name.should.equal('tom')
         body.members[2].name.should.equal('jim') 
-        body.members[3].name.should.equal('tom') 
+        body.members[3].name.should.equal('admin') 
         done()
     })
     it(protocol + ' should search a certain member', function*(done) {
