@@ -3,6 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var php = require('phpjs')
 describe(protocol + ' event', function() {
+     this.timeout(10000)
     var app = null
     var accessToken = null
         //before hook start app server,initialize data

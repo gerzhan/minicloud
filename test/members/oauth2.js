@@ -2,6 +2,7 @@ var request = require("co-supertest")
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' oauth2', function() {
+     this.timeout(10000)
     var app = null
         //before hook start app server,initialize data
     before(function*(done) {

@@ -3,6 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
 describe(protocol + ' member add', function() {
+     this.timeout(10000)
     var app = null
     var MiniUser = null
     var MiniUserMeta = null
