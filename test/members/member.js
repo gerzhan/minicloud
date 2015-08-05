@@ -2,6 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' members', function() {
+    this.timeout(15000)
     var app = null
     var accessToken = null
         //before hook start app server,initialize data
@@ -14,18 +15,26 @@ describe(protocol + ' members', function() {
         var MiniUserMeta = require('../../lib/model/user-meta')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         var user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id, 'email', 'app@miniyun.cn')
+        yield MiniUserMeta.create(user.id, 'email', 'app@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim')
         yield MiniUserMeta.create(user.id, 'phone', '+864000250057')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
         yield MiniUserMeta.create(user.id, 'is_admin', '1')
 
-        var user = yield MiniUser.create('lee', 'lee')
-        yield MiniUserMeta.create(user.id, 'email', 'lee@miniyun.cn')
+        var user = yield MiniUser.create('jim', 'jim')
+        yield MiniUserMeta.create(user.id, 'email', 'jim@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'lee')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
         yield MiniUserMeta.create(user.id, 'is_admin', '0')
+
+        var user = yield MiniUser.create('tom', 'tom')
+        yield MiniUserMeta.create(user.id, 'email', 'tom@minicloud.io')
+        yield MiniUserMeta.create(user.id, 'nick', 'tom')
+        yield MiniUserMeta.create(user.id, 'phone', '+868655201')
+        yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        yield MiniUserMeta.create(user.id, 'is_admin', '0')
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -75,7 +84,13 @@ describe(protocol + ' members', function() {
             })
             .expect(200)
             .end()
-        res.body[0].name.should.equal('lee')
+        var body = res.body
+        body.has_more.should.equal(false)
+        body.cursor.should.equal('')
+        body.members.length.should.equal(3)
+        body.members[0].name.should.equal('admin')
+        body.members[1].name.should.equal('jim')
+        body.members[2].name.should.equal('tom')
         done()
     })
     it(protocol + ' should search a certain member', function*(done) {
@@ -86,11 +101,16 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                key: 'lee'
+                key: 'i'
             })
             .expect(200)
             .end()
-        res.body[0].name.should.equal('lee')
+        var body = res.body
+        body.has_more.should.equal(false)
+        body.cursor.should.equal('')
+        body.members.length.should.equal(2)
+        body.members[0].name.should.equal('admin')
+        body.members[1].name.should.equal('jim')
         done()
     })
 })
