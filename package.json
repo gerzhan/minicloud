@@ -35,6 +35,7 @@
     "koa-router": "^5.1.2",
     "koa-session": "^3.2.0",
     "koa-static": "^1.4.9",
+    "koa-validate": "^0.2.11",
     "md5": "^2.0.0",
     "mysql": "^2.7.0",
     "orm": "^2.1.26",
