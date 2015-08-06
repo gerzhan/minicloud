@@ -1,0 +1,8 @@
+{
+    "name": "group",
+    "description": "group module",
+    "routes": {
+        "/api/v1/groups/add": "add",
+        "/api/v1/groups/list": "list"
+    }
+}
