@@ -46,7 +46,7 @@ describe(protocol + ' oauth2', function() {
                 })
                 .expect(401)
                 .end()
-            res.body.error_description.should.equal('user not existed or disabled')
+            res.body.error_description.should.equal('user not exist or disable')
             done()
         })
         it(protocol + ' should return 401,incorrect password', function*(done) {
