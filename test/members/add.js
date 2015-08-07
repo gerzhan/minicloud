@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
 describe(protocol + ' member add', function() {
-     this.timeout(10000)
+    this.timeout(10000)
     var app = null
     var MiniUser = null
     var MiniUserMeta = null
@@ -12,9 +12,9 @@ describe(protocol + ' member add', function() {
         app = yield context.getApp()
         MiniUser = require('../../lib/model/user')
         MiniUserMeta = require('../../lib/model/user-meta')
-        user = yield MiniUser.create('Adolph', '1a3c4s')
-        var metaNick = yield MiniUserMeta.create(user.id, 'nick', 'littleAdolph')
-        var metaEmail = yield MiniUserMeta.create(user.id, 'email', 'Adolph@minicloud.io')
+        user = yield MiniUser.create('Jerry', '1a3c4s')
+        var metaNick = yield MiniUserMeta.create(user.id, 'nick', 'littleJerry')
+        var metaEmail = yield MiniUserMeta.create(user.id, 'email', 'Jerry@minicloud.io')
         return done()
     })
     it(protocol + ' should add a member', function*(done) {
@@ -38,17 +38,17 @@ describe(protocol + ' member add', function() {
         done()
     })
     it(protocol + ' should return 409', function*(done) {
-        var userObj = yield MiniUser.getByName('Adolph')
-        userObj.name.should.equal('Adolph')
+        var userObj = yield MiniUser.getByName('Jerry')
+        userObj.name.should.equal('Jerry')
 
         var res = yield request(app)
             .post('/api/v1/members/add')
             .type('json')
             .send({
-                name: 'Adolph',
+                name: 'Jerry',
                 password: '1a3c4s',
-                nick: 'little Adolph',
-                email: 'Adolph@minicloud.io'
+                nick: 'little Jerry',
+                email: 'Jerry@minicloud.io'
             })
             .expect(409)
             .end()

@@ -16,7 +16,8 @@ REQUIRED = --require should --require should-http --require co-mocha
 
 TESTS = test/members \
 		test/events \
-		test/devices 
+		test/devices \
+		test/groups
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
 		./node_modules/.bin/_mocha \

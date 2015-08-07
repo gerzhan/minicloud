@@ -9,14 +9,12 @@ describe(protocol + ' group list', function() {
     var MiniUserMeta = null
     var user = null
     var MiniGroup = null
-    var MiniGroupRelation = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         var MiniDevice = require('../../lib/model/device')
         MiniGroup = require('../../lib/model/group')
-        MiniGroupRelation = require('../../lib/model/group-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
@@ -52,7 +50,7 @@ describe(protocol + ' group list', function() {
     })
     it(protocol + ' should return 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/devices/get_my_devices')
+            .post('/api/v1/groups/list')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'

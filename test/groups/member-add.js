@@ -2,23 +2,28 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' group add', function() {
+describe(protocol + ' add a member to the group', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
     var MiniUserMeta = null
     var user = null
+    var addUser = null
     var MiniGroup = null
+    var MiniUserGroupRelation = null
     before(function*(done) {
-
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         var MiniDevice = require('../../lib/model/device')
         MiniGroup = require('../../lib/model/group')
+        MiniUserGroupRelation = require('../../lib/model/user-group-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
+        yield MiniGroup.create(user.id, 'source')
+        addUser = yield MiniUser.create('James', 'james')
+        yield MiniDevice.create(addUser, 'web client', 'JsQCsjF3yr7KACyT')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -36,50 +41,72 @@ describe(protocol + ' group add', function() {
         return done()
     })
 
-    it(protocol + ' should add a group', function*(done) {
+    it(protocol + ' should add a member to the group', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/groups/add')
+            .post('/api/v1/groups/members/add')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                name: 'development'
+                name: 'source',
+                uuid: addUser.uuid
             })
             .expect(200)
             .end()
-        var groupList = yield MiniGroup.getAllByUserId(user.id)
-        groupList[0].name.should.equal('development')
+        var group = yield MiniGroup.getByName(user.id, 'source')
+        var groupId = group.id
+        var existed = yield MiniUserGroupRelation.exist(groupId, addUser.id)
+        existed.should.equal(true)
         done()
     })
     it(protocol + ' should return 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/groups/add')
+            .post('/api/v1/groups/members/add')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
             })
             .send({
-                name: 'development'
+                name: 'source',
+                uuid: addUser.uuid
             })
             .expect(401)
             .end()
         done()
     })
-
     it(protocol + ' should return 409', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/groups/add')
+            .post('/api/v1/groups/members/add')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                name: 'development'
+                name: 'sourcesssss',
+                uuid: addUser.uuid
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('group has existed.')
+        res.body.error_description.should.equal('group not exist.')
         done()
     })
+    it(protocol + ' should return 409', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/groups/members/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                name: 'source',
+                uuid: 'addUser.uuid'
+            })
+            .expect(409)
+            .end()
+        res.body.error_description.should.equal('member not exist.')
+        done()
+    })
+
+
 })
