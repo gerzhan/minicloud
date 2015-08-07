@@ -72,7 +72,7 @@ describe(protocol + ' devices', function() {
                 })
                 .expect(409)
                 .end()
-            res.body.error_description.should.equal('device not existed.')
+            res.body.error_description.should.equal('device not exist.')
             done()
         })
         it(protocol + ' should remove one device', function*(done) {

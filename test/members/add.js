@@ -70,7 +70,7 @@ describe(protocol + ' member add', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('Prohibit registered users.')
+        res.body.error_description.should.equal('prohibit register new users.')
         done()
     })
 })
