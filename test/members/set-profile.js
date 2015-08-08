@@ -17,7 +17,7 @@ describe(protocol + ' set profile', function() {
 
         yield MiniUserMeta.create(user.id, 'nick', 'smallwa')
         yield MiniUserMeta.create(user.id, 'avatar', '/images/default_avatar.png')
-        yield MiniUserMeta.create(user.id, 'email', 'smallwa@minicloud.cn')
+        yield MiniUserMeta.create(user.id, 'email', 'smallwa@minicloud.io')
         yield MiniUserMeta.create(user.id, 'space', 1048570)
         yield MiniUserMeta.create(user.id, 'used_space', 10249)
 
@@ -46,14 +46,14 @@ describe(protocol + ' set profile', function() {
             .send({
                 nick: 'smallwater',
                 avatar: '/images/123.png',
-                email: 'water@minicloud.cn'
+                email: 'water@minicloud.io'
             })
             .expect(200)
             .end()
         var metaList = yield MiniUserMeta.getAll(user.id)
         metaList[0].value.should.equal('smallwater')
         metaList[1].value.should.equal('/images/123.png')
-        metaList[2].value.should.equal('water@minicloud.cn')
+        metaList[2].value.should.equal('water@minicloud.io')
         done()
 
     })
@@ -67,7 +67,7 @@ describe(protocol + ' set profile', function() {
             .send({
                 nick: 'smallwater',
                 avatar: '/images/123.png',
-                email: 'water@minicloud.cn'
+                email: 'water@minicloud.io'
             })
             .expect(401)
             .end()
