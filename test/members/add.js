@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' member add', function() {
+describe(protocol + ' member/add', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -17,7 +17,7 @@ describe(protocol + ' member add', function() {
         var metaEmail = yield MiniUserMeta.create(user.id, 'email', 'Jerry@minicloud.io')
         return done()
     })
-    it(protocol + ' should add a member', function*(done) {
+    it(protocol + ' members/add 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/add')
             .type('json')
@@ -37,7 +37,7 @@ describe(protocol + ' member add', function() {
         metaList[1].value.should.equal('Allen@minicloud.io')
         done()
     })
-    it(protocol + ' should return 409', function*(done) {
+    it(protocol + ' members/add 409 member_existed', function*(done) {
         var userObj = yield MiniUser.getByName('Jerry')
         userObj.name.should.equal('Jerry')
 
@@ -52,10 +52,10 @@ describe(protocol + ' member add', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('member has existed.')
+        res.body.error.should.equal('member_existed')
         done()
     })
-    it(protocol + ' should prohibit registered users', function*(done) {
+    it(protocol + ' members/add 409 prohibit_registration', function*(done) {
         var Minioption = require('../../lib/model/option')
         var option = yield Minioption.create('user_register_enabled', '0')
 
@@ -70,7 +70,7 @@ describe(protocol + ' member add', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('prohibit register new users.')
+        res.body.error.should.equal('prohibit_registration')
         done()
     })
 })

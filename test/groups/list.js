@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' group list', function() {
+describe(protocol + ' groups/list', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -36,7 +36,7 @@ describe(protocol + ' group list', function() {
         return done()
     })
 
-    it(protocol + ' should get group list', function*(done) {
+    it(protocol + ' groups/list 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/list')
             .type('json')
@@ -48,7 +48,7 @@ describe(protocol + ' group list', function() {
         res.body[0].name.should.equal('source')
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' groups/list 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/list')
             .type('json')

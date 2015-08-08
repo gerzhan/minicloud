@@ -29,7 +29,7 @@ describe(protocol + ' reset password', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' should 200 reset password success', function*(done) {
+    it(protocol + ' members/reset_password 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/reset_password')
             .type('json')
@@ -49,7 +49,7 @@ describe(protocol + ' reset password', function() {
         ciphertext.should.equal(password)
         done()
     })
-    it(protocol + ' should member locked', function*(done) {
+    it(protocol + ' members/reset_password 409 member_locked', function*(done) {
         //ready data
         var MiniUserMeta = require("../../lib/model/user-meta")
         yield MiniUserMeta.create(user.id, "password_error_count", "6")
@@ -71,7 +71,7 @@ describe(protocol + ' reset password', function() {
 
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' members/reset_password 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/reset_password')
             .type('json')
@@ -86,7 +86,7 @@ describe(protocol + ' reset password', function() {
             .end()
         done()
     })
-    it(protocol + ' should return 409 old password invalid', function*(done) {
+    it(protocol + ' members/reset_password 409 old_password_invalid', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/reset_password')
             .type('json')

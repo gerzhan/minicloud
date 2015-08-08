@@ -36,7 +36,7 @@ describe(protocol + ' set profile', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' should return 200', function*(done) {
+    it(protocol + ' members/set_profile 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/set_profile')
             .type('json')
@@ -57,7 +57,7 @@ describe(protocol + ' set profile', function() {
         done()
 
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' members/set_profile 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/set_profile')
             .type('json')

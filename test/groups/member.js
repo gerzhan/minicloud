@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' get members in current group', function() {
+describe(protocol + ' groups/members', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -48,7 +48,7 @@ describe(protocol + ' get members in current group', function() {
         return done()
     })
 
-    it(protocol + ' get members in current group', function*(done) {
+    it(protocol + ' groups/members 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members')
             .type('json')
@@ -63,7 +63,7 @@ describe(protocol + ' get members in current group', function() {
         res.body[0].name.should.equal('James')
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' groups/members 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members')
             .type('json')
@@ -77,7 +77,7 @@ describe(protocol + ' get members in current group', function() {
             .end()
         done()
     })
-    it(protocol + ' should return 409', function*(done) {
+    it(protocol + ' groups/members 409 ', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members')
             .type('json')
@@ -89,7 +89,7 @@ describe(protocol + ' get members in current group', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('group not exist.')
+        res.body.error.should.equal('group_not_exist')
         done()
     })
 

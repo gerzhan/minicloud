@@ -31,7 +31,7 @@ describe(protocol + ' event', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it('should get user login logs', function*(done) {
+    it(protocol + ' events/get_login_events 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/events/get_login_events')
             .type('json')
@@ -44,7 +44,18 @@ describe(protocol + ' event', function() {
         userIp.should.equal('::ffff:127.0.0.1')
         done()
     })
-    it('should clean user\'s all login logs', function*(done) {
+    it(protocol + ' events/get_login_events 401', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/events/get_login_events')
+            .type('json')
+            .set({
+                Authorization: 'Bearer 12234'
+            })
+            .expect(401)
+            .end()
+        done()
+    })
+    it(protocol + ' events/clean_login_events 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/events/clean_login_events')
             .type('json')
@@ -58,15 +69,18 @@ describe(protocol + ' event', function() {
             result.length.should.equal(0)
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' events/clean_login_events 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/events/get_login_events')
+            .post('/api/v1/events/clean_login_events')
             .type('json')
             .set({
-                Authorization: 'Bearer 12234'
+                Authorization: 'Bearer 1234'
             })
             .expect(401)
             .end()
+            var eventModel = dbPool.eventModel
+            var result =  yield eventModel.find({user_id: 1,type: 1}).coRun()
+            result.length.should.equal(0)
         done()
     })
 })

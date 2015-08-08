@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' add a member to the group', function() {
+describe(protocol + ' groups/members/add', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -41,7 +41,7 @@ describe(protocol + ' add a member to the group', function() {
         return done()
     })
 
-    it(protocol + ' should add a member to the group', function*(done) {
+    it(protocol + ' groups/members/add 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members/add')
             .type('json')
@@ -60,7 +60,7 @@ describe(protocol + ' add a member to the group', function() {
         existed.should.equal(true)
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' groups/members/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members/add')
             .type('json')
@@ -75,7 +75,7 @@ describe(protocol + ' add a member to the group', function() {
             .end()
         done()
     })
-    it(protocol + ' should return 409', function*(done) {
+    it(protocol + ' groups/members/add 409 group_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members/add')
             .type('json')
@@ -88,10 +88,10 @@ describe(protocol + ' add a member to the group', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('group not exist.')
+        res.body.error.should.equal('group_not_exist')
         done()
     })
-    it(protocol + ' should return 409', function*(done) {
+    it(protocol + ' groups/members/add 409 member_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members/add')
             .type('json')
@@ -104,7 +104,7 @@ describe(protocol + ' add a member to the group', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('member not exist.')
+        res.body.error.should.equal('member_not_exist')
         done()
     })
 

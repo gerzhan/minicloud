@@ -60,7 +60,7 @@ describe(protocol + ' devices', function() {
         done()
     })
     describe(protocol + ' devices/remove', function() {
-        it(protocol + ' should return 409', function*(done) {
+        it(protocol + ' devices/remove 409 device_not_exist', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/devices/remove')
                 .type('json')
@@ -72,10 +72,10 @@ describe(protocol + ' devices', function() {
                 })
                 .expect(409)
                 .end()
-            res.body.error_description.should.equal('device not exist.')
+            res.body.error.should.equal('device_not_exist')
             done()
         })
-        it(protocol + ' should remove one device', function*(done) {
+        it(protocol + ' devices/remove 200', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/devices/remove')
                 .type('json')
@@ -96,7 +96,7 @@ describe(protocol + ' devices', function() {
             done()
 
         })
-        it(protocol + ' should return 401', function*(done) {
+        it(protocol + ' devices/remove 401', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/devices/remove')
                 .type('json')

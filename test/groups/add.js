@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' group add', function() {
+describe(protocol + ' groups/add', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -36,7 +36,7 @@ describe(protocol + ' group add', function() {
         return done()
     })
 
-    it(protocol + ' should add a group', function*(done) {
+    it(protocol + ' groups/add 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/add')
             .type('json')
@@ -52,7 +52,7 @@ describe(protocol + ' group add', function() {
         groupList[0].name.should.equal('development')
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' groups/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/add')
             .type('json')
@@ -67,7 +67,7 @@ describe(protocol + ' group add', function() {
         done()
     })
 
-    it(protocol + ' should return 409', function*(done) {
+    it(protocol + ' groups/add 409 group_existed', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/add')
             .type('json')
@@ -79,7 +79,7 @@ describe(protocol + ' group add', function() {
             })
             .expect(409)
             .end()
-        res.body.error_description.should.equal('group has existed.')
+        res.body.error.should.equal('group_existed')
         done()
     })
 })

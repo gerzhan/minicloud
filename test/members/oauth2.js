@@ -2,7 +2,7 @@ var request = require("co-supertest")
 var context = require("../context")
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' oauth2', function() {
-     this.timeout(10000)
+    this.timeout(10000)
     var app = null
         //before hook start app server,initialize data
     before(function*(done) {
@@ -16,7 +16,7 @@ describe(protocol + ' oauth2', function() {
     })
 
     describe(protocol + ' oauth2/token', function() {
-        it('should return token', function*(done) {
+        it(protocol + ' oauth2/token 200', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -33,7 +33,7 @@ describe(protocol + ' oauth2', function() {
             res.body.token_type.should.equal('bearer')
             done()
         })
-        it(protocol + ' should return 401,user not existed or disabled', function*(done) {
+        it(protocol + ' oauth2/token 401 member not exist or disable', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -46,10 +46,11 @@ describe(protocol + ' oauth2', function() {
                 })
                 .expect(401)
                 .end()
-            res.body.error_description.should.equal('user not exist or disable')
+            res.body.error.should.equal('invalid_grant')
+            res.body.error_description.should.equal('user not exist or disable.')
             done()
         })
-        it(protocol + ' should return 401,incorrect password', function*(done) {
+        it(protocol + ' oauth2/token 401 incorrect password', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -61,11 +62,12 @@ describe(protocol + ' oauth2', function() {
                     client_secret: 'bqGeM4Yrjs3tncJZ'
                 })
                 .expect(401)
-                .end()
-            res.body.error_description.should.equal('incorrect password')
+                .end() 
+            res.body.error.should.equal('invalid_grant')
+            res.body.error_description.should.equal('incorrect password.')
             done()
         })
-        it(protocol + ' should return 409,lock user', function*(done) {
+        it(protocol + ' oauth2/token 401 member locked', function*(done) {
             //ready data
             var MiniUserMeta = require("../../lib/model/user-meta")
             var meta = yield MiniUserMeta.create(1, "password_error_count", "6")
@@ -81,8 +83,9 @@ describe(protocol + ' oauth2', function() {
                 })
                 .expect(401)
                 .end()
-            res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes')
-            //reset password status
+            res.body.error.should.equal('invalid_grant')
+            res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes.')
+                //reset password status
             yield MiniUserMeta.create(1, "password_error_count", "0")
             done()
         })

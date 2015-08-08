@@ -31,7 +31,7 @@ describe(protocol + ' devices', function() {
         return done()
     })
 
-    it(protocol + ' should get all devices for the current user', function*(done) {
+    it(protocol + ' devices/get_my_devices 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/devices/get_my_devices')
             .type('json')
@@ -47,7 +47,7 @@ describe(protocol + ' devices', function() {
         done()
     })
 
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' devices/get_my_devices 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/devices/get_my_devices')
             .type('json')

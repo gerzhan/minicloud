@@ -59,7 +59,7 @@ describe(protocol + ' members', function() {
         return done()
     })
 
-    it(protocol + ' should get user details', function*(done) {
+    it(protocol + ' members/get_my_account 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/get_my_account')
             .type('json')
@@ -71,7 +71,7 @@ describe(protocol + ' members', function() {
         res.body.name.should.equal('admin')
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' members/get_my_account 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/get_my_account')
             .type('json')
@@ -82,7 +82,7 @@ describe(protocol + ' members', function() {
             .end()
         done()
     })
-    it(protocol + ' should get members list', function*(done) {
+    it(protocol + ' members/list 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/list')
             .type('json') 
@@ -101,7 +101,18 @@ describe(protocol + ' members', function() {
         body.members[3].name.should.equal('admin') 
         done()
     })
-    it(protocol + ' should search a certain member', function*(done) {
+    it(protocol + ' members/list 401', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/list')
+            .type('json') 
+            .set({
+                Authorization: 'Bearer 1111'
+            })
+            .expect(401)
+            .end()  
+        done()
+    })
+    it(protocol + ' members/search 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/search')
             .type('json')
@@ -118,6 +129,20 @@ describe(protocol + ' members', function() {
         body.cursor.should.equal('')
         body.members.length.should.equal(1)
         body.members[0].name.should.equal('good') 
+        done()
+    })
+    it(protocol + ' members/search 401', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/search')
+            .type('json')
+            .set({
+                Authorization: 'Bearer 1111'
+            })
+            .send({
+                key: 'z'
+            })
+            .expect(401)
+            .end() 
         done()
     })
 })
