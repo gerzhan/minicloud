@@ -1,9 +1,0 @@
-{
-  "name": "login",
-  "description": "signin/signup", 
-  "routes": { 
-    "/login": "login",
-    "/signup": "signup",
-    "/error": "error"
-  }
-}
