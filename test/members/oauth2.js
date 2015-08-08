@@ -82,7 +82,7 @@ describe(protocol + ' oauth2', function() {
                 .expect(401)
                 .end()
             res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes')
-            var MiniUserMeta = require("../../lib/model/user-meta")
+            //reset password status
             yield MiniUserMeta.create(1, "password_error_count", "0")
             done()
         })

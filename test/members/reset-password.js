@@ -3,7 +3,7 @@ var context = require('../context')
 var helpers = require('../../lib/helpers')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' reset password', function() {
-     this.timeout(10000)
+    this.timeout(10000)
     var app = null
     var accessToken = null
     var MiniUser = null
@@ -29,7 +29,7 @@ describe(protocol + ' reset password', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' should reset password', function*(done) {
+    it(protocol + ' should 200 reset password success', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/reset_password')
             .type('json')
@@ -49,6 +49,28 @@ describe(protocol + ' reset password', function() {
         ciphertext.should.equal(password)
         done()
     })
+    it(protocol + ' should member locked', function*(done) {
+        //ready data
+        var MiniUserMeta = require("../../lib/model/user-meta")
+        yield MiniUserMeta.create(user.id, "password_error_count", "6")
+        var res = yield request(app)
+            .post('/api/v1/members/reset_password')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                old_password: 'ttoomm',
+                new_password: 'ttoomm1'
+            })
+            .expect(409)
+            .end()
+        res.body.error.should.equal('member_locked')
+            //reset password status
+        yield MiniUserMeta.create(user.id, "password_error_count", "0")
+
+        done()
+    })
     it(protocol + ' should return 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/reset_password')
@@ -64,7 +86,7 @@ describe(protocol + ' reset password', function() {
             .end()
         done()
     })
-    it(protocol + ' should return 409', function*(done) {
+    it(protocol + ' should return 409 old password invalid', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/reset_password')
             .type('json')
@@ -77,6 +99,7 @@ describe(protocol + ' reset password', function() {
             })
             .expect(409)
             .end()
+        res.body.error.should.equal('old_password_invalid')
         done()
     })
 })
