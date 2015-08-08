@@ -26,7 +26,7 @@ describe(protocol + ' groups/members', function() {
         addUser = yield MiniUser.create('James', 'james')
         yield MiniUserMeta.create(addUser.id, 'nick', 'smallwa')
         yield MiniUserMeta.create(addUser.id, 'avatar', '/images/default_avatar.png')
-        yield MiniUserMeta.create(addUser.id, 'email', 'smallwa@miniyun.cn')
+        yield MiniUserMeta.create(addUser.id, 'email', 'smallwa@minicloud.cn')
         yield MiniUserMeta.create(addUser.id, 'space', 1048570)
         yield MiniUserMeta.create(addUser.id, 'used_space', 10249)
         yield MiniDevice.create(addUser, 'web client', 'JsQCsjF3yr7KACyT')
