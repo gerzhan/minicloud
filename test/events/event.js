@@ -44,6 +44,20 @@ describe(protocol + ' event', function() {
         userIp.should.equal('::ffff:127.0.0.1')
         done()
     })
+    it(protocol + ' events/get_login_events 400', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/events/get_login_events')
+            .type('json')
+            .send({
+                limit:'abc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(400)
+            .end()
+        done()
+    })
     it(protocol + ' events/get_login_events 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/events/get_login_events')
