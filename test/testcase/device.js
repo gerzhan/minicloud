@@ -19,8 +19,8 @@ describe(protocol + ' device.js', function() {
         var device2 = yield MiniDevice.create(user,'chrome','JsQCsjF3yr7KACyT')
         assert.equal(device1.id,device2.id)
         global.oldVersion=false
-        var device1 = yield MiniDevice.create(user,'chrome','JsQCsjF3yr7KACyT')
-        var device2 = yield MiniDevice.create(user,'chrome','JsQCsjF3yr7KACyT')
+        var device1 = yield MiniDevice.create(user,'chrome1','JsQCsjF3yr7KACyT')
+        var device2 = yield MiniDevice.create(user,'chrome1','JsQCsjF3yr7KACyT')
         assert.equal(device1.id,device2.id)
         done()
     })    
