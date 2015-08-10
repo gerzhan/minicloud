@@ -22,5 +22,4 @@ describe(protocol + ' option.js', function() {
         option2.id.should.equal(option.id)
         done()
     })    
-    
 })
