@@ -3,6 +3,7 @@
  */
 var co = require('co')
 var appConfig = require("./config.json") 
+process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'mysql'
 //start app
 var config = appConfig['production'] 
 co.wrap(function*(){
