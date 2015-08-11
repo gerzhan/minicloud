@@ -37,6 +37,14 @@ describe(protocol + ' member/add', function() {
         metaList[1].value.should.equal('Allen@minicloud.io')
         done()
     })
+    it(protocol + ' members/add 400', function*(done) { 
+        var res = yield request(app)
+            .post('/api/v1/members/add')
+            .type('json') 
+            .expect(400)
+            .end() 
+        done()
+    })
     it(protocol + ' members/add 409 member_existed', function*(done) {
         var userObj = yield MiniUser.getByName('Jerry')
         userObj.name.should.equal('Jerry')

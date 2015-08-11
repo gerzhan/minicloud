@@ -101,6 +101,20 @@ describe(protocol + ' members', function() {
         body.members[3].name.should.equal('admin') 
         done()
     })
+    it(protocol + ' members/list 400', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/list')
+            .type('json')
+            .send({
+                limit: 'abc'
+            }) 
+            .set({
+                Authorization: 'Bearer '+accessToken
+            })
+            .expect(400)
+            .end()  
+        done()
+    })
     it(protocol + ' members/list 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/list')
@@ -129,6 +143,20 @@ describe(protocol + ' members', function() {
         body.cursor.should.equal('')
         body.members.length.should.equal(1)
         body.members[0].name.should.equal('good') 
+        done()
+    })
+    it(protocol + ' members/search 400', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/search')
+            .type('json')
+            .send({
+                limit: 'abc'
+            }) 
+            .set({
+                Authorization: 'Bearer '+accessToken
+            })
+            .expect(400)
+            .end()  
         done()
     })
     it(protocol + ' members/search 401', function*(done) {

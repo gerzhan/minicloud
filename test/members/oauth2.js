@@ -33,6 +33,14 @@ describe(protocol + ' oauth2', function() {
             res.body.token_type.should.equal('bearer')
             done()
         })
+        it(protocol + ' oauth2/token 400', function*(done) {
+            var res = yield request(app)
+                .post('/api/v1/oauth2/token')
+                .type('json') 
+                .expect(400)
+                .end() 
+            done()
+        })
         it(protocol + ' oauth2/token 401 member not exist or disable', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')

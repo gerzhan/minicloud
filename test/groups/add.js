@@ -82,4 +82,15 @@ describe(protocol + ' groups/add', function() {
         res.body.error.should.equal('group_existed')
         done()
     })
+    it(protocol + ' groups/add 400 ', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/groups/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(400)
+            .end()
+        done()
+    })
 })

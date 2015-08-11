@@ -31,7 +31,7 @@ function* getMyDeviceUuid(app, accessToken) {
     return res.body[0].uuid
 }
 describe(protocol + ' devices', function() {
-     this.timeout(10000)
+    this.timeout(10000)
     var app = null
     var accessToken = null
     var uuid = null
@@ -40,11 +40,12 @@ describe(protocol + ' devices', function() {
     var MiniEvent = null
     var MiniDevice = null
     var MiniAccessToken = null
+    var MiniUser = null
     var user = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
-        var MiniUser = require('../../lib/model/user')
+        MiniUser = require('../../lib/model/user')
         MiniDevice = require('../../lib/model/device')
         MiniOnlineDevice = require('../../lib/model/online-device')
         MiniEvent = require('../../lib/model/event')
@@ -60,6 +61,34 @@ describe(protocol + ' devices', function() {
         done()
     })
     describe(protocol + ' devices/remove', function() {
+        it(protocol + ' devices/remove 400', function*(done) {
+            var res = yield request(app)
+                .post('/api/v1/devices/remove')
+                .type('json')
+                .set({
+                    Authorization: 'Bearer ' + accessToken
+                })
+                .expect(400)
+                .end()
+            done()
+        })
+        it(protocol + ' devices/remove 401 other\'s uuid', function*(done) {
+            var user1 = yield MiniUser.create('admin1', 'admin1')
+                //create user device
+            var device1 = yield MiniDevice.create(user1, 'chrome', 'JsQCsjF3yr7KACyT') 
+            var res = yield request(app)
+                .post('/api/v1/devices/remove')
+                .type('json')
+                .send({
+                    uuid: device1.uuid
+                })
+                .set({
+                    Authorization: 'Bearer ' + accessToken
+                })
+                .expect(401)
+                .end()
+            done()
+        })
         it(protocol + ' devices/remove 409 device_not_exist', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/devices/remove')

@@ -49,6 +49,17 @@ describe(protocol + ' reset password', function() {
         ciphertext.should.equal(password)
         done()
     })
+    it(protocol + ' members/reset_password 400', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/reset_password')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            }) 
+            .expect(400)
+            .end() 
+        done()
+    })
     it(protocol + ' members/reset_password 409 member_locked', function*(done) {
         //ready data
         var MiniUserMeta = require("../../lib/model/user-meta")

@@ -92,5 +92,16 @@ describe(protocol + ' groups/members', function() {
         res.body.error.should.equal('group_not_exist')
         done()
     })
+     it(protocol + ' groups/members 400 ', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/groups/members')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(400)
+            .end()
+        done()
+    })
 
 })
