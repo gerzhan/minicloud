@@ -18,11 +18,8 @@ TESTS = test/members \
 		test/events \
 		test/devices \
 		test/groups \
-<<<<<<< HEAD
 		test/departments
-=======
 		test/testcase
->>>>>>> 805510f2d306456db7db8d7340efdbc9f3afff96
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
 		./node_modules/.bin/_mocha \
