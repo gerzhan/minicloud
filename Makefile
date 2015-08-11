@@ -18,7 +18,7 @@ TESTS = test/members \
 		test/events \
 		test/devices \
 		test/groups \
-		test/departments
+		test/departments \
 		test/testcase
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
