@@ -40,6 +40,13 @@ describe(protocol + ' simplePage', function() {
         var conditons = {
             detail:orm.like('%a%')
         } 
+        var page1 = yield helpers.simplePage(global.dbPool.userModel,conditons,3,'','ID ASC')
+        assert.equal(page1.items[0].name,'admin0')
+        assert.equal(page1.items[1].name,'admin1')
+        assert.equal(page1.items[2].name,'admin2')
+        assert.equal(page1.items.length,3)
+        assert.equal(page1.has_more,true) 
+
         var page1 = yield helpers.simplePage(global.dbPool.userModel,conditons,3,'abcd','ID ASC')
         assert.equal(page1.items[0].name,'admin0')
         assert.equal(page1.items[1].name,'admin1')
