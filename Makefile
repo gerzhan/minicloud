@@ -35,7 +35,7 @@ test-cov:
 		$(TESTS) \
 		--bail	 
 test-travis:
-	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN) $(FLAGS) \
+	@NODE_ENV=test $(BIN) $(FLAGS) \
 		./node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		--report lcovonly \
