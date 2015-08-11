@@ -1,8 +1,9 @@
-var appConfig = require("../config.json")
+var appConfig = require('../config.json')
+process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'mysql'
 var isTravis = Boolean(process.env.CI)
 var config = appConfig[process.env.NODE_ENV]
 if(isTravis){
-	config = appConfig["travis-ci"]
+	config = appConfig['travis-ci']
 } 
 /**
  * Return test App
@@ -11,7 +12,7 @@ if(isTravis){
  */
 exports.getApp = function*(){
 	yield initDBTables()
-	var app = yield require("../lib/loader/app-loader")(config) 
+	var app = yield require('../lib/loader/app-loader')(config) 
 	return app.listen()
 } 
 /**
@@ -34,7 +35,7 @@ function syncModel(model){
  * @api public
  */
 function* initDBTables(){
-	var dbPool = yield require("../lib/loader/db-loader")(config)
+	var dbPool = yield require('../lib/loader/db-loader')(config)
 	var models = dbPool.models 
 	for(var i=0;i<models.length;i++){
 		var item = models[i] 

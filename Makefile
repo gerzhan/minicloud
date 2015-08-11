@@ -21,7 +21,7 @@ TESTS = test/members \
 		test/departments \
 		test/testcase
 test:
-	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN)  \
+	@NODE_ENV=test $(BIN)  \
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
