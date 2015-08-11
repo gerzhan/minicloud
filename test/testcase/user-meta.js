@@ -44,8 +44,8 @@ describe(protocol + ' user-meta.js', function() {
         var afterTime = now.getTime() - 15 * 60 * 1000
         var afterDate = new Date()
         afterDate.setTime(afterTime)
-        var db = global.dbPool.db
-        db.driver.execQuery('update miniyun_user_metas set updated_at=? where id=?', [afterDate, meta.id], function(err, data) {
+        var db = global.dbPool.db 
+        db.driver.execQuery('update '+global.dbPool.userMetaModel.table+' set updated_at=? where id=?', [afterDate, meta.id], function(err, data) {
             co.wrap(function*() {
                 //reset password_error_count=0
                 yield MiniUserMeta.isLocked(user.id)
