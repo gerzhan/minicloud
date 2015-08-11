@@ -92,6 +92,24 @@ it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
        group.name.should.equal('koakoa')
         done()
     })
+ it(protocol + ' groups/rename 200', function*(done) {
+
+        var res = yield request(app)
+            .post('/api/v1/groups/rename')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                old_name: 'koakoa',
+                new_name: 'koakoa'
+            })
+            .expect(200)
+            .end()
+       var group = yield MiniGroup.getByName(user.id, 'koakoa')
+       group.name.should.equal('koakoa')
+        done()
+    })
  it(protocol + ' groups/rename 400', function*(done) {
 
         var res = yield request(app)
