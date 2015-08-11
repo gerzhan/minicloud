@@ -3,6 +3,8 @@
     "description": "department module",
     "valid_admin_access_token":true,
     "routes": {
-        "/api/v1/departments/add": "add"
+        "/api/v1/departments/add": "add",
+        "/api/v1/departments/members": "members",
+        "/api/v1/departments/membersAdd": "membersAdd"
     }
 }
