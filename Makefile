@@ -19,7 +19,8 @@ TESTS = test/members \
 		test/devices \
 		test/groups \
 		test/departments \
-		test/testcase
+		test/testcase \
+		test/testcase/page
 test:
 	@NODE_ENV=test $(BIN)  \
 		./node_modules/.bin/_mocha \
