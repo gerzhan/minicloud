@@ -1,9 +1,8 @@
 {
     "name": "department",
     "description": "department module",
-    "valid_admin_access_token":false,
+    "valid_admin_access_token":true,
     "routes": {
-        "/api/v1/departments/add": "add",
-        "/api/v1/departments/children":"children"
+        "/api/v1/departments/add": "add"
     }
 }

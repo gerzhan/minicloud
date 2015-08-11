@@ -60,7 +60,7 @@ describe(protocol + ' department add', function() {
 
     })
 
-    it(protocol + ' should add a department', function*(done) { 
+    it(protocol + ' departments/add 200', function*(done) { 
         var res = yield request(app)
             .post('/api/v1/departments/add')
             .type('json')
@@ -77,7 +77,7 @@ describe(protocol + ' department add', function() {
         departmentList[0].name.should.equal('minicloud_inc')
         done()
     })
-    it(protocol + ' should return 400', function*(done) {
+    it(protocol + ' departments/add 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/add')
             .type('json')
@@ -92,7 +92,7 @@ describe(protocol + ' department add', function() {
             .end()
         done()
     })
-    it(protocol + ' should return 401', function*(done) {
+    it(protocol + ' departments/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/add')
             .type('json')
@@ -103,7 +103,7 @@ describe(protocol + ' department add', function() {
             .end()
         done()
     })
-    it(protocol + ' should return 409 department_existed', function*(done) {
+    it(protocol + '  departments/add 409 department_existed', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/add')
             .type('json')
@@ -119,20 +119,20 @@ describe(protocol + ' department add', function() {
         res.body.error.should.equal('department_existed')
         done()
     })
-    // it(protocol + ' should return 409', function*(done) {
-    //     var res = yield request(app)
-    //         .post('/api/v1/departments/add')
-    //         .type('json')
-    //         .set({
-    //             Authorization: 'Bearer '+accessToken2
-    //         })
-    //         .send({
-    //             parent_id:-1,
-    //             name: 'minicloud_dev'
-    //         })
-    //         .expect(409)
-    //         .end()
-    //     res.body.error.should.equal('department_existed')
-    //     done()
-    // })
+    it(protocol + ' departments/add 401 require_administrator_token', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer '+accessToken2
+            })
+            .send({
+                parent_id:-1,
+                name: 'minicloud_dev'
+            })
+            .expect(401)
+            .end()
+        res.body.error.should.equal('require_administrator_token')
+        done()
+    })
 })

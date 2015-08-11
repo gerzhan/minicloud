@@ -36,7 +36,7 @@ describe(protocol + ' departments children', function() {
         return done()
     })
 
-    it(protocol + ' departments children 200', function*(done) {
+    it(protocol + ' departments/children 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/children')
             .type('json')
@@ -51,7 +51,7 @@ describe(protocol + ' departments children', function() {
         res.body[0].name.should.equal('MiniDepartment_inc')
         done()
     })
-    it(protocol + ' departments children 400', function*(done) {
+    it(protocol + ' departments/children 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/children')
             .type('json')
@@ -65,7 +65,7 @@ describe(protocol + ' departments children', function() {
             .end()
         done()
     })
-    it(protocol + ' departments children 401', function*(done) {
+    it(protocol + ' departments/children 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/children')
             .type('json')
@@ -76,7 +76,7 @@ describe(protocol + ' departments children', function() {
             .end()
         done()
     })
-    it(protocol + ' departments children 409 parent department not exist', function*(done) {
+    it(protocol + ' departments/children 409 parent_department_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/children')
             .type('json')
@@ -88,6 +88,7 @@ describe(protocol + ' departments children', function() {
             })
             .expect(409)
             .end()
+        res.body.error.should.equal('parent_department_not_exist')
         done()
     })
 })

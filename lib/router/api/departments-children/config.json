@@ -1,0 +1,7 @@
+{
+    "name": "department",
+    "description": "department module", 
+    "routes": { 
+        "/api/v1/departments/children":"children"
+    }
+}
