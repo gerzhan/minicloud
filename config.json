@@ -74,8 +74,11 @@
             "static_host": "http://127.0.0.1:8031"
         },
         "mysql": {
-            "host": "127.0.0.1",
-            "user": "root", 
+            "host": "127.0.0.1", 
+            "port": 3306,
+            "user": "root",
+            "password": "",
+            "table_prefix":"miniyun_",
             "database": "minicloud_test"
         },
         "postgres": {
