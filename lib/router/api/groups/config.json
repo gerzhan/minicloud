@@ -7,6 +7,7 @@
         "/api/v1/groups/members/add": "addMember",
         "/api/v1/groups/members":"getMemberList",
         "/api/v1/groups/members/remove": "removeMember",
-        "/api/v1/groups/remove": "remove"
+        "/api/v1/groups/remove": "remove",
+        "/api/v1/groups/rename": "rename"
     }
 }
