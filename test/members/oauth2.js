@@ -16,6 +16,22 @@ describe(protocol + ' oauth2', function() {
     })
 
     describe(protocol + ' oauth2/token', function() {
+        it(protocol + ' oauth2/token 401 invalid_client', function*(done) {
+            var res = yield request(app)
+                .post('/api/v1/oauth2/token')
+                .type('json')
+                .send({
+                    name: 'admin',
+                    password: 'admin',
+                    device_name: 'ji1111m-pc-windows7',
+                    client_id: 'JsQCsjF3yr7KACyT1',
+                    client_secret: 'bqGeM4Yrjs3tncJZ'
+                })
+                .expect(401)
+                .end()
+            res.body.error.should.equal('invalid_client')
+            done()
+        })
         it(protocol + ' oauth2/token 200', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
