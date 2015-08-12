@@ -4,7 +4,10 @@
     "valid_admin_access_token":true,
     "routes": {
         "/api/v1/departments/add": "add",
+        "/api/v1/departments/remove": "remove",
+        "/api/v1/departments/rename": "rename",
         "/api/v1/departments/members": "members",
-        "/api/v1/departments/members/add": "membersAdd"
+        "/api/v1/departments/members/add": "membersAdd",
+        "/api/v1/departments/members/remove": "membersRemove"
     }
 }

@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' departments members add', function() {
+describe(protocol + ' departments members remove', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -31,7 +31,7 @@ describe(protocol + ' departments members add', function() {
         yield MiniUserMeta.create(user2.id,"nick",'Peter')
         var department = yield MiniDepartment.create(-1,"MiniDepartment_inc")
         yield MiniUserDepartmentRelation.create(department.id,user.id)
-        yield MiniUserDepartmentRelation.create(department.id,user2.id)
+        // yield MiniUserDepartmentRelation.create(department.id,user2.id)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -64,9 +64,9 @@ describe(protocol + ' departments members add', function() {
         return done()
     })
 
-    it(protocol + ' departments/members/add 200', function*(done) {
+    it(protocol + ' departments/members/remove 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/departments/members/add')
+            .post('/api/v1/departments/members/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -78,12 +78,12 @@ describe(protocol + ' departments members add', function() {
             .expect(200)
             .end()
         var memberList = yield MiniUserDepartmentRelation.getAllByDepartmentId(1)
-        memberList[0].id.should.equal(userId)
+        memberList.length.should.equal(0)
         done()
     })
-    it(protocol + ' departments/members/add 400', function*(done) {
+    it(protocol + ' departments/members/remove 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/departments/members/add')
+            .post('/api/v1/departments/members/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -96,9 +96,9 @@ describe(protocol + ' departments members add', function() {
             .end()
         done()
     })
-    it(protocol + ' departments/members/add 401', function*(done) {
+    it(protocol + ' departments/members/remove 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/departments/members/add')
+            .post('/api/v1/departments/members/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
@@ -111,9 +111,9 @@ describe(protocol + ' departments members add', function() {
             .end()
         done()
     })
-    it(protocol + ' departments/members/add 401 require_administrator_token', function*(done) {
+    it(protocol + ' departments/members/remove 401 require_administrator_token', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/departments/members/add')
+            .post('/api/v1/departments/members/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer '+accessToken2
@@ -127,9 +127,9 @@ describe(protocol + ' departments members add', function() {
         res.body.error.should.equal('require_administrator_token')
         done()
     })
-    it(protocol + ' departments/members/add 409 department_not_exist', function*(done) {
+    it(protocol + ' departments/members/remove 409 department_not_exist', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/departments/members/add')
+            .post('/api/v1/departments/members/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -143,9 +143,9 @@ describe(protocol + ' departments members add', function() {
             res.body.error.should.equal('department_not_exist')
         done()
     })
-    it(protocol + ' departments/members/add 409 member_not_exist', function*(done) {
+    it(protocol + ' departments/members/remove 409 member_not_exist', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/departments/members/add')
+            .post('/api/v1/departments/members/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
