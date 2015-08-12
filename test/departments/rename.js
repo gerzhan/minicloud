@@ -86,12 +86,12 @@ describe(protocol + ' department rename', function() {
             })
             .send({
                 id:1,
-                new_name: 'minicloud_inc'
+                new_name: 'minicloud_dev'
             })
             .expect(200)
             .end() 
         var department = yield MiniDepartment.getById(1)
-        department.name.should.equal('minicloud_inc')
+        department.name.should.equal('minicloud_dev')
         done()
     })
     it(protocol + ' departments/rename 400', function*(done) {
