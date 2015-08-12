@@ -103,22 +103,6 @@ describe(protocol + ' department add', function() {
             .end()
         done()
     })
-    it(protocol + '  departments/add 409 department_existed', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/departments/add')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                parent_id:-1,
-                name: 'minicloud_inc'
-            })
-            .expect(409)
-            .end()
-        res.body.error.should.equal('department_existed')
-        done()
-    })
     it(protocol + ' departments/add 401 require_administrator_token', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/add')
@@ -133,6 +117,22 @@ describe(protocol + ' department add', function() {
             .expect(401)
             .end()
         res.body.error.should.equal('require_administrator_token')
+        done()
+    })
+    it(protocol + '  departments/add 409 department_existed', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                parent_id:-1,
+                name: 'minicloud_inc'
+            })
+            .expect(409)
+            .end()
+        res.body.error.should.equal('department_existed')
         done()
     })
 })

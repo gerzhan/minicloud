@@ -23,6 +23,7 @@ describe(protocol + ' departments members', function() {
         yield MiniUserMeta.create(user.id,"nick",'Allis')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
+        yield MiniUserMeta.create(user2.id,"is_admin",'0')
         yield MiniUserMeta.create(user2.id,"nick",'Peter')
         var department = yield MiniDepartment.create(-1,"MiniDepartment_inc")
         yield MiniUserDepartmentRelation.create(department.id,user.id)
@@ -41,6 +42,21 @@ describe(protocol + ' departments members', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
+
+        var res = yield request(app)
+            .post('/api/v1/oauth2/token')
+            .type('json')
+            .send({
+                name: 'peter',
+                password: 'peter',
+                device_name: 'peter-pc-windows7',
+                client_id: 'JsQCsjF3yr7KACyT',
+                client_secret: 'bqGeM4Yrjs3tncJZ'
+            })
+            .expect(200)
+            .end()
+            //set access_token
+        accessToken2 = res.body.access_token
         return done()
     })
 
@@ -84,7 +100,22 @@ describe(protocol + ' departments members', function() {
             .end()
         done()
     })
-    it(protocol + ' departments/members 409 department not exist', function*(done) {
+    it(protocol + ' departments/members 401 require_administrator_token', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/members')
+            .type('json')
+            .set({
+                Authorization: 'Bearer '+ accessToken2
+            })
+            .send({
+                id: 1
+            })
+            .expect(401)
+            .end()
+        res.body.error.should.equal('require_administrator_token')
+        done()
+    })
+    it(protocol + ' departments/members 409 department_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/members')
             .type('json')
@@ -96,6 +127,7 @@ describe(protocol + ' departments members', function() {
             })
             .expect(409)
             .end()
+            res.body.error.should.equal('department_not_exist')
         done()
     })
 })
