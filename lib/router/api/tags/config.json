@@ -1,0 +1,9 @@
+{
+    "name": "tag",
+    "description": "tag module",
+    "routes": {
+        "/api/v1/tags/add": "add",
+        "/api/v1/tags/list": "list",
+        "/api/v1/tags/files/add": "addFile"
+    }
+}
