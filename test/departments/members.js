@@ -14,7 +14,7 @@ describe(protocol + ' departments members', function() {
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         MiniUserMeta = require('../../lib/model/user-meta')
-        MiniUserDepartmentRelation = require('../../lib/model/user-group-relation')
+        MiniUserDepartmentRelation = require('../../lib/model/user-department-relation')
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
