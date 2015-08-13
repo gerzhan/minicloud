@@ -120,8 +120,10 @@ describe(protocol + ' devices', function() {
             deviceList.length.should.equal(0)
             var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
             eventList.length.should.equal(0)
+            //TODO MiniToken
             var deviceObj = yield MiniDevice.getById(device.id)
             should(deviceObj).not.be.ok()
+
             done()
 
         })
