@@ -119,13 +119,12 @@ describe(protocol + ' devices', function() {
             var deviceList = yield MiniOnlineDevice.getAllDeviceId(device.id)
             deviceList.length.should.equal(0)
             var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
-            eventList.length.should.equal(0)
-            //TODO MiniToken
+            eventList.length.should.equal(0) 
+            var token = yield MiniAccessToken.getToken(accessToken)
+            should(token).not.be.ok()
             var deviceObj = yield MiniDevice.getById(device.id)
             should(deviceObj).not.be.ok()
-
             done()
-
         })
         it(protocol + ' devices/remove 401', function*(done) {
             var res = yield request(app)

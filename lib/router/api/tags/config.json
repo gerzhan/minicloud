@@ -4,6 +4,9 @@
     "routes": {
         "/api/v1/tags/add": "add",
         "/api/v1/tags/list": "list",
-        "/api/v1/tags/files/add": "addFile"
+        "/api/v1/tags/files/add": "addFile",
+        "/api/v1/tags/files":"getFileList",
+        "/api/v1/tags/files/remove":"removeFile",
+        "/api/v1/tags/remove":"remove"
     }
 }

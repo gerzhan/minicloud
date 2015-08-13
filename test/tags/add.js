@@ -6,7 +6,6 @@ describe(protocol + ' tags/add', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
-    var MiniUserMeta = null
     var user = null
     var MiniTag = null
     before(function*(done) {

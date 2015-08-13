@@ -2,11 +2,10 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' Tags/list', function() {
+describe(protocol + ' tags/list', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
-    var MiniUserMeta = null
     var user = null
     var MiniTag = null
     before(function*(done) {
