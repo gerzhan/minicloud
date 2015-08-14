@@ -75,20 +75,5 @@ describe(protocol + ' departments children', function() {
             .expect(401)
             .end()
         done()
-    })
-    it(protocol + ' departments/children 409 parent_department_not_exist', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/departments/children')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                parent_id: '10'
-            })
-            .expect(409)
-            .end()
-        res.body.error.should.equal('parent_department_not_exist')
-        done()
-    })
+    })     
 })
