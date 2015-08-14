@@ -9,6 +9,7 @@ describe(protocol + ' departments members', function() {
     var MiniUserMeta = null
     var user = null
     var MiniDepartment = null
+    var department1 = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
@@ -19,15 +20,15 @@ describe(protocol + ' departments members', function() {
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id,"is_admin",'1')
-        yield MiniUserMeta.create(user.id,"nick",'Allis')
+        yield MiniUserMeta.create(user.id, 'is_admin', '1')
+        yield MiniUserMeta.create(user.id, 'nick', 'Allis')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id,"is_admin",'0')
-        yield MiniUserMeta.create(user2.id,"nick",'Peter')
-        var department = yield MiniDepartment.create(-1,"MiniDepartment_inc")
-        yield MiniUserDepartmentRelation.create(department.id,user.id)
-        yield MiniUserDepartmentRelation.create(department.id,user2.id)
+        yield MiniUserMeta.create(user2.id, 'is_admin', '0')
+        yield MiniUserMeta.create(user2.id, 'nick', 'Peter')
+        department1 = yield MiniDepartment.create(-1, 'MiniDepartment_inc')
+        yield MiniUserDepartmentRelation.create(department1.id, user.id)
+        yield MiniUserDepartmentRelation.create(department1.id, user2.id)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -68,7 +69,7 @@ describe(protocol + ' departments members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 1
+                id: department1.id
             })
             .expect(200)
             .end()
@@ -105,10 +106,10 @@ describe(protocol + ' departments members', function() {
             .post('/api/v1/departments/members')
             .type('json')
             .set({
-                Authorization: 'Bearer '+ accessToken2
+                Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id: 1
+                id: department1.id
             })
             .expect(401)
             .end()
@@ -127,7 +128,7 @@ describe(protocol + ' departments members', function() {
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('department_not_exist')
+        res.body.error.should.equal('department_not_exist')
         done()
     })
 })

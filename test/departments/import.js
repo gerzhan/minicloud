@@ -10,7 +10,7 @@ describe(protocol + ' department import', function() {
     var user = null
     var MiniDepartment = null
     var MiniDepartmentpRelation = null
-    before(function*(done) { 
+    before(function*(done) {
         app = yield context.getApp()
 
         var MiniApp = require('../../lib/model/app')
@@ -20,10 +20,10 @@ describe(protocol + ' department import', function() {
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id,"is_admin",'1')
+        yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id,"is_admin",'0')
+        yield MiniUserMeta.create(user2.id, 'is_admin', '0')
         user3 = yield MiniUser.create('tom', 'tom')
         yield MiniUser.create('jony', 'jony')
         yield MiniUser.create('ryan', 'ryan')
@@ -70,7 +70,11 @@ describe(protocol + ' department import', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                data:[{"department-member":"minicloud_inc|market|chengdu_office,tom,jony"},{"department-member":"minicloud_inc|R&D|office,ryan,yili,tjx,jim"}]
+                data: [{
+                    'department-member': 'minicloud_inc|market|chengdu_office,tom,jony'
+                }, {
+                    'department-member': 'minicloud_inc|R&D|office,ryan,yili,tjx,jim'
+                }]
             })
             .expect(200)
             .end()
@@ -90,7 +94,11 @@ describe(protocol + ' department import', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                data:[{"department-member":"minicloud_inc|market|chengdu_office|"},{"department-member":"minicloud_inc|R&D|office,"}]
+                data: [{
+                    'department-member': 'minicloud_inc|market|chengdu_office|'
+                }, {
+                    'department-member': 'minicloud_inc|R&D|office,'
+                }]
             })
             .expect(200)
             .end()
@@ -103,10 +111,10 @@ describe(protocol + ' department import', function() {
             .post('/api/v1/departments/import')
             .type('json')
             .set({
-                Authorization: 'Bearer '+ accessToken
+                Authorization: 'Bearer ' + accessToken
             })
             .send({
-                data:""
+                data: ''
             })
             .expect(400)
             .end()
@@ -128,10 +136,14 @@ describe(protocol + ' department import', function() {
             .post('/api/v1/departments/import')
             .type('json')
             .set({
-                Authorization: 'Bearer '+accessToken2
+                Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                data:[{"department-member":"minicloud_inc|market|chengdu_office,tom,jony"},{"department-member":"minicloud_inc|R&D|office,ryan,yili,tjx,jim"}]
+                data: [{
+                    'department-member': 'minicloud_inc|market|chengdu_office,tom,jony'
+                }, {
+                    'department-member': 'minicloud_inc|R&D|office,ryan,yili,tjx,jim'
+                }]
             })
             .expect(401)
             .end()

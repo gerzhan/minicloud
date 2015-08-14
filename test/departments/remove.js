@@ -9,7 +9,10 @@ describe(protocol + ' department remove', function() {
     var MiniUserMeta = null
     var user = null
     var MiniDepartment = null
-    before(function*(done) { 
+    var department1 = null
+    var department2 = null
+    var department3 = null
+    before(function*(done) {
         app = yield context.getApp()
 
         var MiniApp = require('../../lib/model/app')
@@ -20,15 +23,16 @@ describe(protocol + ' department remove', function() {
         MiniUserDepartmentRelation = require('../../lib/model/user-department-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id,"is_admin",'1')
+        yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id,"is_admin",'0')
+        yield MiniUserMeta.create(user2.id, 'is_admin', '0')
 
-        yield MiniDepartment.create(1,'minicloud_inc')
-        var department2 = yield MiniDepartment.create(2,'minicloud_dev')
-        yield MiniUserDepartmentRelation.create(department2.id,user2.id)
-        
+        department1 = yield MiniDepartment.create(-1, 'minicloud_inc')
+        department2 = yield MiniDepartment.create(department1.id, 'minicloud_dev')
+        department3 = yield MiniDepartment.create(department1.id, 'minicloud_market')
+        yield MiniUserDepartmentRelation.create(department2.id, user2.id)
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -70,13 +74,13 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:1
+                id: department3.id
             })
             .expect(200)
-            .end() 
-        var departmentList = yield MiniDepartment.getById(1)
+            .end()
+        var departmentList = yield MiniDepartment.getById(department3.id)
         var assert = require('assert')
-        assert.equal(departmentList,null)
+        assert.equal(departmentList, null)
         done()
     })
     it(protocol + ' departments/remove 400', function*(done) {
@@ -84,10 +88,10 @@ describe(protocol + ' department remove', function() {
             .post('/api/v1/departments/remove')
             .type('json')
             .set({
-                Authorization: 'Bearer '+ accessToken
+                Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:"xx"
+                id: 'xx'
             })
             .expect(400)
             .end()
@@ -109,10 +113,10 @@ describe(protocol + ' department remove', function() {
             .post('/api/v1/departments/remove')
             .type('json')
             .set({
-                Authorization: 'Bearer '+accessToken2
+                Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id:2
+                id: department1.id
             })
             .expect(401)
             .end()
@@ -127,11 +131,26 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:10
+                id: 10
             })
             .expect(409)
             .end()
         res.body.error.should.equal('department_not_exist')
+        done()
+    })
+    it(protocol + '  departments/remove 409 department_remains_subsectors', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/remove')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                id: department1.id
+            })
+            .expect(409)
+            .end()
+        res.body.error.should.equal('department_remains_subsectors')
         done()
     })
     it(protocol + '  departments/remove 409 department_remains_users', function*(done) {
@@ -142,7 +161,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:2
+                id: department2.id
             })
             .expect(409)
             .end()

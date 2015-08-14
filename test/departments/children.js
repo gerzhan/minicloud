@@ -18,7 +18,7 @@ describe(protocol + ' departments children', function() {
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
-        yield MiniDepartment.create(-1,"MiniDepartment_inc")
+        yield MiniDepartment.create(-1, 'MiniDepartment_inc')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')

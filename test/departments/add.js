@@ -10,7 +10,7 @@ describe(protocol + ' department add', function() {
     var user = null
     var MiniDepartment = null
     var MiniDepartmentpRelation = null
-    before(function*(done) { 
+    before(function*(done) {
         app = yield context.getApp()
 
         var MiniApp = require('../../lib/model/app')
@@ -20,12 +20,12 @@ describe(protocol + ' department add', function() {
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id,"is_admin",'1')
+        yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
 
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id,"is_admin",'0')
-        
+        yield MiniUserMeta.create(user2.id, 'is_admin', '0')
+
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -60,7 +60,7 @@ describe(protocol + ' department add', function() {
 
     })
 
-    it(protocol + ' departments/add 200', function*(done) { 
+    it(protocol + ' departments/add 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/add')
             .type('json')
@@ -68,12 +68,12 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id:-1,
+                parent_id: -1,
                 name: 'minicloud_inc'
             })
             .expect(200)
-            .end() 
-        var departmentList = yield MiniDepartment.getChildren(-1) 
+            .end()
+        var departmentList = yield MiniDepartment.getChildren(-1)
         departmentList[0].name.should.equal('minicloud_inc')
         done()
     })
@@ -82,10 +82,10 @@ describe(protocol + ' department add', function() {
             .post('/api/v1/departments/add')
             .type('json')
             .set({
-                Authorization: 'Bearer '+ accessToken
+                Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id:"abc",
+                parent_id: 'abc',
                 name: 'minicloud_inc'
             })
             .expect(400)
@@ -108,10 +108,10 @@ describe(protocol + ' department add', function() {
             .post('/api/v1/departments/add')
             .type('json')
             .set({
-                Authorization: 'Bearer '+accessToken2
+                Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                parent_id:-1,
+                parent_id: -1,
                 name: 'minicloud_dev'
             })
             .expect(401)
@@ -127,7 +127,7 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id:-1,
+                parent_id: -1,
                 name: 'minicloud_inc'
             })
             .expect(409)

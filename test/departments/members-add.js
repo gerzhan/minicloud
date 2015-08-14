@@ -12,6 +12,7 @@ describe(protocol + ' departments members add', function() {
     var uuid = null
     var userId = null
     var MiniUserDepartmentRelation = null
+    var department = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
@@ -24,14 +25,14 @@ describe(protocol + ' departments members add', function() {
         user = yield MiniUser.create('admin', 'admin')
         uuid = user.uuid
         userId = user.id
-        yield MiniUserMeta.create(user.id,"is_admin",'1')
-        yield MiniUserMeta.create(user.id,"nick",'Allis')
+        yield MiniUserMeta.create(user.id, 'is_admin', '1')
+        yield MiniUserMeta.create(user.id, 'nick', 'Allis')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id,"nick",'Peter')
-        var department = yield MiniDepartment.create(-1,"MiniDepartment_inc")
-        yield MiniUserDepartmentRelation.create(department.id,user.id)
-        yield MiniUserDepartmentRelation.create(department.id,user2.id)
+        yield MiniUserMeta.create(user2.id, 'nick', 'Peter')
+        department = yield MiniDepartment.create(-1, 'MiniDepartment_inc')
+        yield MiniUserDepartmentRelation.create(department.id, user.id)
+        yield MiniUserDepartmentRelation.create(department.id, user2.id)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -72,8 +73,8 @@ describe(protocol + ' departments members add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 1,
-                uuid:uuid
+                id: department.id,
+                uuid: uuid
             })
             .expect(200)
             .end()
@@ -90,7 +91,7 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: 'abc',
-                uuid:'xxx'
+                uuid: 'xxx'
             })
             .expect(400)
             .end()
@@ -104,8 +105,8 @@ describe(protocol + ' departments members add', function() {
                 Authorization: 'Bearer 12234'
             })
             .send({
-                id: 1,
-                uuid:uuid
+                id: department.id,
+                uuid: uuid
             })
             .expect(401)
             .end()
@@ -116,11 +117,11 @@ describe(protocol + ' departments members add', function() {
             .post('/api/v1/departments/members/add')
             .type('json')
             .set({
-                Authorization: 'Bearer '+accessToken2
+                Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id: 1,
-                uuid:uuid
+                id: department.id,
+                uuid: uuid
             })
             .expect(401)
             .end()
@@ -136,11 +137,11 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: 10,
-                uuid:uuid
+                uuid: uuid
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('department_not_exist')
+        res.body.error.should.equal('department_not_exist')
         done()
     })
     it(protocol + ' departments/members/add 409 member_not_exist', function*(done) {
@@ -151,12 +152,12 @@ describe(protocol + ' departments members add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 1,
-                uuid:'xxxx'
+                id: department.id,
+                uuid: 'xxxx'
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('member_not_exist')
+        res.body.error.should.equal('member_not_exist')
         done()
     })
 })

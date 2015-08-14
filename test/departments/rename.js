@@ -10,7 +10,9 @@ describe(protocol + ' department rename', function() {
     var user = null
     var MiniDepartment = null
     var MiniDepartmentpRelation = null
-    before(function*(done) { 
+    var department1 = null
+    var department2 = null
+    before(function*(done) {
         app = yield context.getApp()
 
         var MiniApp = require('../../lib/model/app')
@@ -20,13 +22,13 @@ describe(protocol + ' department rename', function() {
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id,"is_admin",'1')
+        yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id,"is_admin",'0')
+        yield MiniUserMeta.create(user2.id, 'is_admin', '0')
 
-        var department = yield MiniDepartment.create(-1,'minicloud_inc')
-        var department = yield MiniDepartment.create(-1,'minicloud_sale')
+        department1 = yield MiniDepartment.create(-1, 'minicloud_inc')
+        department2 = yield MiniDepartment.create(-1, 'minicloud_sale')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -68,11 +70,11 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:1,
+                id: 1,
                 new_name: 'minicloud_dev'
             })
             .expect(200)
-            .end() 
+            .end()
         var department = yield MiniDepartment.getById(1)
         department.name.should.equal('minicloud_dev')
         done()
@@ -85,12 +87,12 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:1,
+                id: department1.id,
                 new_name: 'minicloud_dev'
             })
             .expect(200)
-            .end() 
-        var department = yield MiniDepartment.getById(1)
+            .end()
+        var department = yield MiniDepartment.getById(department1.id)
         department.name.should.equal('minicloud_dev')
         done()
     })
@@ -99,10 +101,10 @@ describe(protocol + ' department rename', function() {
             .post('/api/v1/departments/rename')
             .type('json')
             .set({
-                Authorization: 'Bearer '+ accessToken
+                Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:"abc",
+                id: 'abc',
                 new_name: 'minicloud_dev'
             })
             .expect(400)
@@ -125,10 +127,10 @@ describe(protocol + ' department rename', function() {
             .post('/api/v1/departments/rename')
             .type('json')
             .set({
-                Authorization: 'Bearer '+accessToken2
+                Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id:1,
+                id: department1.id,
                 new_name: 'minicloud_dev'
             })
             .expect(401)
@@ -144,7 +146,7 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:10,
+                id: 10,
                 new_name: 'minicloud_dev'
             })
             .expect(409)
@@ -160,7 +162,7 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id:1,
+                id: department1.id,
                 new_name: 'minicloud_sale'
             })
             .expect(409)
