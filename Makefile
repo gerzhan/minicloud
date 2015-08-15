@@ -18,9 +18,7 @@ TESTS = test/members \
 		test/events \
 		test/devices \
 		test/groups \
-		test/departments \
 		test/testcase \
-		test/testcase/page \
 		test/tags
 test:
 	@NODE_ENV=test $(BIN)  \
