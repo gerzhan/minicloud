@@ -2,8 +2,9 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var php = require('phpjs')
+var assert = require('assert')
 describe(protocol + ' event', function() {
-     this.timeout(10000)
+    this.timeout(10000)
     var app = null
     var accessToken = null
         //before hook start app server,initialize data
@@ -49,7 +50,7 @@ describe(protocol + ' event', function() {
             .post('/api/v1/events/get_login_events')
             .type('json')
             .send({
-                limit:'abc'
+                limit: 'abc'
             })
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -78,9 +79,14 @@ describe(protocol + ' event', function() {
             })
             .expect(200)
             .end()
-            var eventModel = dbPool.eventModel
-            var result =  yield eventModel.find({user_id: 1,type: 1}).coRun()
-            result.length.should.equal(0)
+        var eventModel = sequelizePool.eventModel
+        var count = yield eventModel.count({
+            where: {
+                user_id: 1,
+                type: 1
+            }
+        })
+        assert.equal(count, 0)
         done()
     })
     it(protocol + ' events/clean_login_events 401', function*(done) {
@@ -91,10 +97,7 @@ describe(protocol + ' event', function() {
                 Authorization: 'Bearer 1234'
             })
             .expect(401)
-            .end()
-            var eventModel = dbPool.eventModel
-            var result =  yield eventModel.find({user_id: 1,type: 1}).coRun()
-            result.length.should.equal(0)
+            .end() 
         done()
     })
 })
