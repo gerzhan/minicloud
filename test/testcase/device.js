@@ -26,7 +26,7 @@ describe(protocol + ' device.js', function() {
     })    
     it(protocol + ' getAllByUserId', function*(done) {
         var deviceList = yield MiniDevice.getAllByUserId(1234) 
-        assert.equal(deviceList,null)
+        assert.equal(deviceList.length,0)
         done()
     })
 })
