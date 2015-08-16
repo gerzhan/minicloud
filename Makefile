@@ -14,12 +14,15 @@ endif
 
 REQUIRED = --require should --require should-http --require co-mocha
 
-TESTS = test/members \
-		test/events \
+TESTS = test/departments \
 		test/devices \
+		test/events \
 		test/groups \
+		test/members \
+		test/tags \
 		test/testcase \
-		test/tags
+		test/testcase/page
+		
 test:
 	@NODE_ENV=test $(BIN)  \
 		./node_modules/.bin/_mocha \
