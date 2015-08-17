@@ -2,6 +2,7 @@ var appConfig = require('../config.json')
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'mysql'
 var isTravis = Boolean(process.env.CI)
 var config = appConfig[process.env.NODE_ENV]
+process.setMaxListeners(0)
 if (isTravis) {
     config = appConfig['travis-ci']
 }
