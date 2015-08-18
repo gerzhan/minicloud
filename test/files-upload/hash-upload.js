@@ -123,15 +123,15 @@ describe(protocol + ' files/hash_upload', function() {
             .type('json')
             .send({
                 'hash': 'X123456',
-                'path': '/home/X.docx'
+                'path': '/home/X.doc'
             })
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
             .end()
-        var file = yield MiniFile.getByPath(user.id, '/home/x.docx')
-        file.name.should.equal('X.docx')
+        var file = yield MiniFile.getByPath(user.id, '/home/x.doc')
+        file.name.should.equal('X.doc')
         var version = yield MiniVersion.getByHash('X123456')
         version.ref_count.should.equal(2)
         done()
