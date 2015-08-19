@@ -25,7 +25,7 @@ describe(protocol + ' tags/files/remove', function() {
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         tag = yield MiniTag.create(user.id, 'green')
-        file = yield MiniFile.create(1, 1, 1439349235, 1439349235, 'test', 0, 0, ' /1/abc/test', 0, null)
+        file = yield MiniFile.createFolder(user.id,'/abc/test')
         yield MiniFileTagRelation.create(tag.id,file.id)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')

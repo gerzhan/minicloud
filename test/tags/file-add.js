@@ -24,7 +24,7 @@ describe(protocol + ' tags/files/add', function() {
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         yield MiniTag.create(user.id, 'green')
-        file = yield MiniFile.create(1, 1, 1439349235, 1439349235, 'test', 0, 0, ' /1/abc/test', 0, null)
+        file = yield MiniFile.createFolder(user.id,'/abc/test')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
