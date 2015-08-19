@@ -42,6 +42,20 @@ describe(protocol + ' file.js', function() {
         file1.name.should.equal('ho_me')
         done()
     }) 
+    it(protocol + ' create Folder Special character', function*(done) {
+        var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录1'
+        var file5 = yield MiniFile.createFolder(1,filePath) 
+        file5.name.should.equal('测__试__目_录1')
+        var file4 = yield MiniFile.getByPath(1,'//ho\\me//d:o*c////DO"CX//201?508/')  
+        file4.name.should.equal('201_508')
+        var file3 = yield MiniFile.getByPath(1,'//ho\\me//d:o*c////DO"CX//')  
+        file3.name.should.equal('DO_CX')
+        var file2 = yield MiniFile.getByPath(1,'//ho\\me//d:o*c////')  
+        file2.name.should.equal('d_o_c')
+        var file1 = yield MiniFile.getByPath(1,'//ho\\me//')  
+        file1.name.should.equal('ho_me')
+        done()
+    })
     it(protocol + ' create File', function*(done) {
         var MiniVersion = require('../../lib/model/version')
         var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
@@ -53,6 +67,17 @@ describe(protocol + ' file.js', function() {
         file5.mime.should.equal('application/msword')
         var file4 = yield MiniFile.getByPath(1,'//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录')
         file4.id.should.equal(file5.parent_id)
+        done()
+    }) 
+    it(protocol + ' update File name', function*(done) {
+        var MiniVersion = require('../../lib/model/version')
+        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试B.doc'
+        var file1 = yield MiniFile.createFile(1,filePath,version,null)
+        file1.name.should.equal('测试B.doc') 
+        filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试b.doc'
+        var file2 = yield MiniFile.createFile(1,filePath,version,null)
+        file2.name.should.equal('测试b.doc') 
         done()
     })    
 })
