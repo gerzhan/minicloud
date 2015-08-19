@@ -6,7 +6,9 @@ describe(protocol + ' files/hash_upload', function() {
     this.timeout(10000)
     var app = null
     var accessToken = null
+    var accessToken1 = null
     var user = null
+    var user1 = null
     before(function*(done) {
         app = yield context.getApp()
             //ready data
@@ -14,7 +16,7 @@ describe(protocol + ' files/hash_upload', function() {
         var MiniUser = require('../../lib/model/user')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
-
+        user1 = yield MiniUser.create('admin1', 'admin1')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -29,6 +31,20 @@ describe(protocol + ' files/hash_upload', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
+        var res = yield request(app)
+            .post('/api/v1/oauth2/token')
+            .type('json')
+            .send({
+                name: 'admin1',
+                password: 'admin1',
+                device_name: 'ji1111m-pc-windows7',
+                client_id: 'JsQCsjF3yr7KACyT',
+                client_secret: 'bqGeM4Yrjs3tncJZ'
+            })
+            .expect(200)
+            .end()
+            //set access_token
+        accessToken1 = res.body.access_token
         return done()
     })
     it(protocol + ' files/hash_upload 400', function*(done) {
@@ -117,25 +133,25 @@ describe(protocol + ' files/hash_upload', function() {
     it(protocol + ' files/hash_upload 200', function*(done) {
         //ready data
         var MiniUserMeta = require('../../lib/model/user-meta')
-        yield MiniUserMeta.create(user.id, 'space', '10240')
+        yield MiniUserMeta.create(user1.id, 'space', '10240')
         var MiniVersion = require('../../lib/model/version')
         var MiniFile = require('../../lib/model/file')
-        yield MiniVersion.create('X123456', 1234, 'doc')
+        yield MiniVersion.create('H2', 1234, 'doc')
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')
             .type('json')
             .send({
-                'hash': 'X123456',
-                'path': '/home/X.doc'
+                'hash': 'H2',
+                'path': '/home/X2.doc'
             })
             .set({
-                Authorization: 'Bearer ' + accessToken
+                Authorization: 'Bearer ' + accessToken1
             })
             .expect(200)
             .end()
-        var file = yield MiniFile.getByPath(user.id, '/home/x.doc')
-        file.name.should.equal('X.doc')
-        var version = yield MiniVersion.getByHash('X123456')
+        var file = yield MiniFile.getByPath(user1.id, '/home/x2.doc')
+        file.name.should.equal('X2.doc')
+        var version = yield MiniVersion.getByHash('H2')
         version.ref_count.should.equal(2)
         done()
     })
