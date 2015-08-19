@@ -27,6 +27,13 @@ describe(protocol + ' file.js', function() {
         file1.id.should.equal(file2.parent_id)
         file1.name.should.equal('home')
         done()
+    })
+    it(protocol + ' when path same,rename folder', function*(done) {
+        var file1 = yield MiniFile.createFolder(1,'//home//doc////DOCX//201508/测试*:目录ABC//') 
+        file1.name.should.equal('测试__目录ABC')
+        file1 = yield MiniFile.createFolder(1,'//home//doc////DOCX//201508/测试*:目录abc//')
+        file1.name.should.equal('测试__目录abc')
+        done()
     })  
     it(protocol + ' create Folder Special character', function*(done) {
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//'
