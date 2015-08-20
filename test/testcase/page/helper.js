@@ -49,6 +49,7 @@ describe(protocol + ' simplePage', function() {
         assert.equal(page1.items[2].name,'admin2')
         assert.equal(page1.items.length,3)
         assert.equal(page1.has_more,true) 
+        assert.equal(page1.count,11) 
 
         var page1 = yield helpers.simplePage(global.sequelizePool.userModel,conditons,3,'abcd','ID ASC')
         assert.equal(page1.items[0].name,'admin0')
