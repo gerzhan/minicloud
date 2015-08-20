@@ -24,8 +24,8 @@ describe(protocol + ' file-meta.js', function() {
         }
         var meta1 = yield MiniFileMeta.addVersion(1, historyVersion1)
         var meta2 = yield MiniFileMeta.addVersion(1, historyVersion2) 
+        var meta3 = yield MiniFileMeta.getByKey(1,'versions')
         assert(meta2.versions.length,2)
-
         assert(meta2.versions[0].hash,'X12344')
         assert(meta2.versions[1].hash,'X12345')
         done()
