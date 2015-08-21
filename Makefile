@@ -20,9 +20,11 @@ TESTS = test/departments \
 		test/files-upload \
 		test/groups \
 		test/members \
+		test/members-console \
 		test/tags \
 		test/testcase \
 		test/testcase/page
+
 		
 test:
 	@NODE_ENV=test $(BIN)  \
