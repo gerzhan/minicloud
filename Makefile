@@ -14,7 +14,8 @@ endif
 
 REQUIRED = --require should --require should-http --require co-mocha
 
-TESTS = test/departments \
+TESTS = test/files \
+        test/departments \
 		test/devices \
 		test/events \
 		test/files-upload \

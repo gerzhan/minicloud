@@ -1,0 +1,9 @@
+{
+    "name": "file",
+    "description": "file module",
+    "routes": {
+        "/api/v1/files/create_folder": "createFolder",
+        "/api/v1/files/get-metadata":"getMetadata"
+        
+    }
+}
