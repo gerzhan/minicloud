@@ -92,7 +92,7 @@ describe(protocol + ' members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
-            .end()
+            .end() 
         var body = res.body
         cursor = body.cursor
         body.has_more.should.equal(true)
