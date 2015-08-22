@@ -4,10 +4,21 @@ node_js:
   - "iojs-v1"
   - "iojs-v2"
 sudo: false
-script: "make test-travis"
+
+cache:
+  directories:
+    - node_modules
+
+addons:
+  postgresql: "9.4"
+
 before_script:
   - mysql -e 'create database minicloud_test;'
   - psql -c 'create database minicloud_test;' -U postgres
+  - "psql minicloud_test -c 'create extension postgis;' -U postgres"
+
+script: "make test-travis"
+
 services:
   - mongodb
 after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"

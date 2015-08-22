@@ -34,7 +34,7 @@ test:
 		$(TESTS) \
 		--bail 
 test-cov:
-	@NODE_ENV=test $(BIN) $(FLAGS) \
+	@NODE_ENV=test  $(BIN) $(FLAGS) \
 		./node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		-- -u exports \
@@ -42,14 +42,22 @@ test-cov:
 		$(TESTS) \
 		--bail	 
 test-travis:
-	@NODE_ENV=test $(BIN) $(FLAGS) \
+	@NODE_ENV=test ORM_PROTOCOL=mysql $(BIN) $(FLAGS) \
 		./node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		--report lcovonly \
 		-- -u exports \
 		$(REQUIRED) \
 		$(TESTS) \
-		--bail  
+		--bail
+	@NODE_ENV=test ORM_PROTOCOL=postgres $(BIN) $(FLAGS) \
+		./node_modules/.bin/istanbul cover \
+		./node_modules/.bin/_mocha \
+		--report lcovonly \
+		-- -u exports \
+		$(REQUIRED) \
+		$(TESTS) \
+		--bail     
 bench:
 	@$(MAKE) -C benchmarks
 
