@@ -58,7 +58,7 @@ describe(protocol + ' oauth2', function() {
             var onlineDevices = yield MiniOnlineDevice.getAllDeviceId(device.id)
             onlineDevices.length.should.equal(1)
             done()
-        })
+        }) 
         it(protocol + ' oauth2/token 400', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')

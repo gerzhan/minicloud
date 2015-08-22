@@ -23,8 +23,8 @@ TESTS = test/devices \
 		test/members \
 		test/members-console \
 		test/tags \
-		test/testcase \
-		test/testcase/page
+		test/unit \
+		test/unit/page
 
 		
 test:

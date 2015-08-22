@@ -5,6 +5,7 @@ describe(protocol + ' members', function() {
     this.timeout(15000)
     var app = null
     var accessToken = null
+    var user1 = null
         //before hook start app server,initialize data
     before(function*(done) {
         //start server
@@ -14,12 +15,12 @@ describe(protocol + ' members', function() {
         var MiniUser = require('../../lib/model/user')
         var MiniUserMeta = require('../../lib/model/user-meta')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        var user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id, 'email', 'app@minicloud.io')
-        yield MiniUserMeta.create(user.id, 'nick', 'jim')
-        yield MiniUserMeta.create(user.id, 'phone', '+864000250057')
-        yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
-        yield MiniUserMeta.create(user.id, 'is_admin', '1')
+        user1 = yield MiniUser.create('admin', 'admin')
+        yield MiniUserMeta.create(user1.id, 'email', 'app@minicloud.io')
+        yield MiniUserMeta.create(user1.id, 'nick', 'jim')
+        yield MiniUserMeta.create(user1.id, 'phone', '+864000250057')
+        yield MiniUserMeta.create(user1.id, 'total_space', '1073741824')
+        yield MiniUserMeta.create(user1.id, 'is_admin', '1')
 
         var user = yield MiniUser.create('jim', 'jim')
         yield MiniUserMeta.create(user.id, 'email', 'jim@minicloud.io')
@@ -85,20 +86,20 @@ describe(protocol + ' members', function() {
     it(protocol + ' members/list 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/list')
-            .type('json') 
+            .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(200)
             .end()
-        var body = res.body  
+        var body = res.body
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
-        body.members.length.should.equal(4) 
+        body.members.length.should.equal(4)
         body.members[0].name.should.equal('admin')
         body.members[1].name.should.equal('jim')
-        body.members[2].name.should.equal('tom') 
-        body.members[3].name.should.equal('good') 
+        body.members[2].name.should.equal('tom')
+        body.members[3].name.should.equal('good')
         done()
     })
     it(protocol + ' members/list 400', function*(done) {
@@ -107,23 +108,23 @@ describe(protocol + ' members', function() {
             .type('json')
             .send({
                 limit: 'abc'
-            }) 
+            })
             .set({
-                Authorization: 'Bearer '+accessToken
+                Authorization: 'Bearer ' + accessToken
             })
             .expect(400)
-            .end()  
+            .end()
         done()
     })
     it(protocol + ' members/list 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/list')
-            .type('json') 
+            .type('json')
             .set({
                 Authorization: 'Bearer 1111'
             })
             .expect(401)
-            .end()  
+            .end()
         done()
     })
     it(protocol + ' members/search 200', function*(done) {
@@ -138,11 +139,11 @@ describe(protocol + ' members', function() {
             })
             .expect(200)
             .end()
-        var body = res.body 
+        var body = res.body
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
         body.members.length.should.equal(1)
-        body.members[0].name.should.equal('good') 
+        body.members[0].name.should.equal('good')
         done()
     })
     it(protocol + ' members/search 400', function*(done) {
@@ -151,12 +152,12 @@ describe(protocol + ' members', function() {
             .type('json')
             .send({
                 limit: 'abc'
-            }) 
+            })
             .set({
-                Authorization: 'Bearer '+accessToken
+                Authorization: 'Bearer ' + accessToken
             })
             .expect(400)
-            .end()  
+            .end()
         done()
     })
     it(protocol + ' members/search 401', function*(done) {
@@ -170,7 +171,25 @@ describe(protocol + ' members', function() {
                 key: 'z'
             })
             .expect(401)
-            .end() 
+            .end()
+        done()
+    })
+    it(protocol + ' members/search 401', function*(done) {
+        var MiniDevice = require('../../lib/model/device')
+        var devices = yield MiniDevice.getAllByUserId(user1.id)
+        var device = devices[0]
+        yield device.destroy()
+        var res = yield request(app)
+            .post('/api/v1/members/search')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                key: 'z'
+            })
+            .expect(401)
+            .end()
         done()
     })
 })
