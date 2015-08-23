@@ -8,6 +8,7 @@ describe(protocol + ' files/get-metadata', function() {
     var MiniUser = null
     var user = null
     var file = null
+    var device = null
     var addUser = null
     var MiniTag = null
     var MiniFile = null
@@ -28,15 +29,9 @@ describe(protocol + ' files/get-metadata', function() {
         yield MiniTag.create(user.id, 'folder')
         yield MiniTag.create(user.id, 'green')
         yield MiniTag.create(user.id, 'white')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
-        file = yield MiniFile.createFile(user.id, '/Image/123/1.doc', version, null)
-        var fileTag2 = yield MiniTag.getByName(user.id, 'green')
-        var fileTag3 = yield MiniTag.getByName(user.id, 'white')
-        yield MiniFileTagRelation.create(fileTag2.id, file.id)
-        yield MiniFileTagRelation.create(fileTag3.id, file.id)
+        
 
-        var file2 = yield MiniFile.createFolder(user.id, '/LIGht/好/')
-        yield MiniFileTagRelation.create(fileTag2.id, file2.id)
+        
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -51,6 +46,24 @@ describe(protocol + ' files/get-metadata', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
+        //get current device
+        var devices = yield MiniDevice.getAllByUserId(user.id)
+        device = devices[0]
+        for(var i=0;i<devices.length;i++){
+            var item = devices[i]
+            if(item.client_id==='JsQCsjF3yr7KACyT'){
+                device = item
+            }
+        }
+        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        file = yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
+        var fileTag2 = yield MiniTag.getByName(user.id, 'green')
+        var fileTag3 = yield MiniTag.getByName(user.id, 'white')
+        yield MiniFileTagRelation.create(fileTag2.id, file.id)
+        yield MiniFileTagRelation.create(fileTag3.id, file.id)
+        var file2 = yield MiniFile.createFolder(device, '/LIGht/好/')
+        yield MiniFileTagRelation.create(fileTag2.id, file2.id)
+        
         return done()
     })
 

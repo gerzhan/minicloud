@@ -9,11 +9,13 @@ describe(protocol + ' files/hash_upload', function() {
     var accessToken1 = null
     var user = null
     var user1 = null
+    var deivce = null
     before(function*(done) {
         app = yield context.getApp()
             //ready data
         var MiniApp = require('../../lib/model/app')
         var MiniUser = require('../../lib/model/user')
+        var MiniDevice = require('../../lib/model/device')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         user1 = yield MiniUser.create('admin1', 'admin1')
@@ -28,8 +30,17 @@ describe(protocol + ' files/hash_upload', function() {
                 client_secret: 'bqGeM4Yrjs3tncJZ'
             })
             .expect(200)
-            .end()
-            //set access_token
+            .end()  
+            //get current device
+        var devices = yield MiniDevice.getAllByUserId(user.id)
+        device = devices[0]
+        for (var i = 0; i < devices.length; i++) {
+            var item = devices[i]
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
+                device = item
+            }
+        }
+        //set access_token
         accessToken = res.body.access_token
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -93,7 +104,7 @@ describe(protocol + ' files/hash_upload', function() {
         var version = yield MiniVersion.create('X123456', 1073741825, 'doc')
         var version1 = yield MiniVersion.create('X1', 1, 'doc')
         var MiniFile = require('../../lib/model/file') 
-        yield MiniFile.createFile(user.id,'/home/d.doc',version1,null)
+        yield MiniFile.createFile(device, '/home/d.doc', version1, null)
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')
             .type('json')

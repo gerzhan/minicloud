@@ -24,7 +24,7 @@ describe(protocol + ' tags/files/add', function() {
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         yield MiniTag.create(user.id, 'green')
-        file = yield MiniFile.createFolder(user.id,'/abc/test')
+        
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -39,6 +39,16 @@ describe(protocol + ' tags/files/add', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
+        //get current device
+        var devices = yield MiniDevice.getAllByUserId(user.id)
+        device = devices[0]
+        for(var i=0;i<devices.length;i++){
+            var item = devices[i]
+            if(item.client_id==='JsQCsjF3yr7KACyT'){
+                device = item
+            }
+        }
+        file = yield MiniFile.createFolder(device,'/abc/test')
         return done()
     })
     it(protocol + ' tags/files/add 200', function*(done) {
