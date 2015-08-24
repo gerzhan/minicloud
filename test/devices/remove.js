@@ -54,8 +54,15 @@ describe(protocol + ' devices', function() {
         user = yield MiniUser.create('admin', 'admin')
         accessToken = yield getAdminAccessToken(app)
         uuid = yield getMyDeviceUuid(app, accessToken)
+        //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
+        for(var i=0;i<devices.length;i++){
+            var item = devices[i]
+            if(item.client_id==='JsQCsjF3yr7KACyT'){
+                device = item
+            }
+        }
         yield MiniOnlineDevice.create(user.id, device.id, device.client_id)
         yield MiniEvent.createLoginEvent(user.id, device.id, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
         done()

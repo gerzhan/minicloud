@@ -10,6 +10,9 @@ describe(protocol + ' department add', function() {
     var user = null
     var MiniDepartment = null
     var MiniDepartmentpRelation = null
+    after(function*(done){ 
+        sequelizePool.db.close()
+    })
     before(function*(done) {
         app = yield context.getApp()
 
