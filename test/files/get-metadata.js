@@ -29,9 +29,9 @@ describe(protocol + ' files/get-metadata', function() {
         yield MiniTag.create(user.id, 'folder')
         yield MiniTag.create(user.id, 'green')
         yield MiniTag.create(user.id, 'white')
-        
 
-        
+
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -46,12 +46,12 @@ describe(protocol + ' files/get-metadata', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
-        //get current device
+            //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
-        for(var i=0;i<devices.length;i++){
+        for (var i = 0; i < devices.length; i++) {
             var item = devices[i]
-            if(item.client_id==='JsQCsjF3yr7KACyT'){
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
                 device = item
             }
         }
@@ -63,7 +63,9 @@ describe(protocol + ' files/get-metadata', function() {
         yield MiniFileTagRelation.create(fileTag3.id, file.id)
         var file2 = yield MiniFile.createFolder(device, '/LIGht/好/')
         yield MiniFileTagRelation.create(fileTag2.id, file2.id)
-        
+        var file3 = yield MiniFile.createFolder(device, '/LIGht/好/123')
+        var version2 = yield MiniVersion.create('X2234567', 1107374182, 'doc')
+        var file4 = yield MiniFile.createFile(device, '/Image/123/hello.doc', version2, null)
         return done()
     })
 
@@ -83,6 +85,7 @@ describe(protocol + ' files/get-metadata', function() {
         res.body.name.should.equal('1.doc')
         done()
     })
+
     it(protocol + ' files/get-metadata 200 folder', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/get-metadata')
@@ -97,6 +100,38 @@ describe(protocol + ' files/get-metadata', function() {
             .end()
         res.body.tag.should.equal('folder,green')
         res.body.name.should.equal('好')
+        done()
+    })
+    it(protocol + ' files/get-metadata 200 folder', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/get-metadata')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: '/LIGht/好/123',
+            })
+            .expect(200)
+            .end()
+        res.body.tag.should.equal('folder')
+        res.body.name.should.equal('123')
+        done()
+    })
+    it(protocol + ' files/get-metadata 200 file', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/get-metadata')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: '/Image/123/hello.doc',
+            })
+            .expect(200)
+            .end()
+        res.body.tag.should.equal('file')
+        res.body.name.should.equal('hello.doc')
         done()
     })
     it(protocol + ' files/get-metadata 400', function*(done) {
