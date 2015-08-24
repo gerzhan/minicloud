@@ -13,19 +13,32 @@ if (isTravis) {
  */
 exports.getApp = function*() {
         yield initDBTables()
-        var app = yield require('../lib/loader/app-loader')(config)
-        return app.listen()
-    } 
-/**
- * Create tables from models 
- * @api public
- */
-function* initDBTables() { 
-    var sequelizePool = yield require('../lib/loader/sequelize-loader')(config)
-    var models = sequelizePool.models
+        if (!global.app) {
+            var app = yield require('../lib/loader/app-loader')(config)
+            global.app = app.listen()
+        }
+        return global.app
+
+    }
+    /**
+     * Create tables from models 
+     * @api public
+     */
+function* initDBTables() {
+    if (!global.sequelizePool) {
+        var sequelizePool = yield require('../lib/loader/sequelize-loader')(config)
+        var models = sequelizePool.models
+        for (var i = 0; i < models.length; i++) {
+            var model = models[i]
+            yield model.drop()
+            yield model.sync()
+        }
+        global.sequelizePool = sequelizePool
+    }
+    //clean table
+    var models = global.sequelizePool.models
     for (var i = 0; i < models.length; i++) {
-        var model = models[i]
-        yield model.drop()
-        yield model.sync()
+        var model = models[i] 
+        yield model.destroy({truncate:true}) 
     }
 }

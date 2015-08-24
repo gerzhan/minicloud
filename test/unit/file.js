@@ -29,7 +29,7 @@ describe(protocol + ' file.js', function() {
             })
             .expect(200)
             .end()
-            //set access_token
+            //set access_token 
         accessToken = res.body.access_token
         //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
