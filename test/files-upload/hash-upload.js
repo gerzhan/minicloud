@@ -163,7 +163,7 @@ describe(protocol + ' files/hash_upload', function() {
         var file = yield MiniFile.getByPath(user1.id, '/home/x2.doc')
         file.name.should.equal('X2.doc')
         var version = yield MiniVersion.getByHash('H2')
-        version.ref_count.should.equal(2)
+        version.ref_count.should.equal(1)
         done()
     })
 })
