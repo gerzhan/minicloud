@@ -30,7 +30,7 @@ describe(protocol + ' files/hash_upload', function() {
                 client_secret: 'bqGeM4Yrjs3tncJZ'
             })
             .expect(200)
-            .end()  
+            .end()
             //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
@@ -69,6 +69,23 @@ describe(protocol + ' files/hash_upload', function() {
             .end()
         done()
     })
+    it(protocol + ' files/hash_upload 400 error mode', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                mode: 'update1',
+                hash: 'xxxxx',
+                path: '/home/a.doc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(400)
+            .end()
+        res.body.error_description[0].mode.should.equal('not support mode.')
+        done()
+    })
     it(protocol + ' files/hash_upload 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')
@@ -103,7 +120,7 @@ describe(protocol + ' files/hash_upload', function() {
         var MiniVersion = require('../../lib/model/version')
         var version = yield MiniVersion.create('X123456', 1073741825, 'doc')
         var version1 = yield MiniVersion.create('X1', 1, 'doc')
-        var MiniFile = require('../../lib/model/file') 
+        var MiniFile = require('../../lib/model/file')
         yield MiniFile.createFile(device, '/home/d.doc', version1, null)
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')
@@ -141,7 +158,7 @@ describe(protocol + ' files/hash_upload', function() {
         res.body.error.should.equal('over_space')
         done()
     })
-    it(protocol + ' files/hash_upload 200', function*(done) {
+    it(protocol + ' files/hash_upload mode:add', function*(done) {
         //ready data
         var MiniUserMeta = require('../../lib/model/user-meta')
         yield MiniUserMeta.create(user1.id, 'space', '10240')
@@ -164,6 +181,138 @@ describe(protocol + ' files/hash_upload', function() {
         file.name.should.equal('X2.doc')
         var version = yield MiniVersion.getByHash('H2')
         version.ref_count.should.equal(1)
+            //second
+        yield MiniVersion.create('H3', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'hash': 'H3',
+                'path': '/home/x2.doc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        res.body.name.should.equal('x2 (1).doc')
+            //third
+        yield MiniVersion.create('H4', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'hash': 'H4',
+                'path': '/home/x2.doc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        res.body.name.should.equal('x2 (2).doc')
+        done()
+    })
+    it(protocol + ' files/hash_upload mode:overwrite', function*(done) {
+        //ready data
+        var MiniUserMeta = require('../../lib/model/user-meta')
+        yield MiniUserMeta.create(user1.id, 'space', '10240')
+        var MiniVersion = require('../../lib/model/version')
+        var MiniFile = require('../../lib/model/file')
+        var MiniFileMeta = require('../../lib/model/file-meta')
+        yield MiniVersion.create('H21', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'mode': 'overwrite',
+                'hash': 'H21',
+                'path': '/home/X3.doc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        var file = yield MiniFile.getByPath(user1.id, '/home/X3.doc')
+        var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
+        meta.versions.length.should.equal(1)
+        yield MiniVersion.create('H22', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'mode': 'overwrite',
+                'hash': 'H22',
+                'path': '/home/x3.doc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
+        meta.versions.length.should.equal(2)
+        done()
+    })
+    it(protocol + ' files/hash_upload mode:update', function*(done) {
+        //ready data
+        var MiniUserMeta = require('../../lib/model/user-meta')
+        yield MiniUserMeta.create(user1.id, 'space', '10240')
+        var MiniVersion = require('../../lib/model/version')
+        var MiniFile = require('../../lib/model/file')
+        var MiniFileMeta = require('../../lib/model/file-meta')
+        yield MiniVersion.create('H31', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'mode': 'update',
+                'hash': 'H31',
+                'path': '/home/X4.doc',
+                'parent_hash': ''
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        var file = yield MiniFile.getByPath(user1.id, '/home/X4.doc')
+        var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
+        meta.versions.length.should.equal(1)
+
+        yield MiniVersion.create('H32', 1234, 'doc')
+        yield MiniVersion.create('H33', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'mode': 'update',
+                'hash': 'H33',
+                'path': '/home/X4.doc',
+                'parent_hash': 'H32'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        res.body.name.should.equal('X4 (conflicted copy).doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'mode': 'update',
+                'hash': 'H33',
+                'path': '/home/X4.doc',
+                'parent_hash': 'H32'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken1
+            })
+            .expect(200)
+            .end()
+        res.body.name.should.equal('X4 (conflicted copy)(1).doc') 
         done()
     })
 })
