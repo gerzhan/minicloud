@@ -31,7 +31,7 @@ describe(protocol + ' departments members remove', function() {
         user2 = yield MiniUser.create('peter', 'peter')
         yield MiniUserMeta.create(user2.id, "nick", 'Peter')
         department = yield MiniDepartment.create(-1, "MiniDepartment_inc")
-        yield MiniUserDepartmentRelation.create(department.id, user.id)
+        yield MiniUserDepartmentRelation.create(department.id, user.id, department.path)
             // yield MiniUserDepartmentRelation.create(department.id,user2.id)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
