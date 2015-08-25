@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 describe(protocol + ' file.js', function() {
-    this.timeout(20000)
+    this.timeout(10000)
     var app = null 
     var MiniFile = null 
     var user = null
@@ -105,6 +105,11 @@ describe(protocol + ' file.js', function() {
         file5.mime.should.equal('application/msword')
         var file4 = yield MiniFile.getByPath(user.id,'//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录')
         file4.id.should.equal(file5.parent_id)
+        //asset fileMeta
+        var MiniFileMeta = require('../../lib/model/file-meta')
+        var meta = yield MiniFileMeta.getByKey(file5.id, 'versions')
+        assert(meta.versions.length, 1)
+        assert(meta.versions[0].hash, 'X1234567')
         done()
     }) 
     it(protocol + ' update File name', function*(done) {

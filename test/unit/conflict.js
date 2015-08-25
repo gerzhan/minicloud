@@ -84,9 +84,10 @@ describe(protocol + ' conflict.js', function() {
         })
         var MiniFileMeta = require('../../lib/model/file-meta')
         var meta = yield MiniFileMeta.getByKey(file3.id, 'versions')
-        assert(meta.versions.length, 2)
-        assert(meta.versions[0].hash, 'X12')
-        assert(meta.versions[1].hash, 'X11')
+        assert(meta.versions.length, 3)
+        assert(meta.versions[0].hash, 'X13')
+        assert(meta.versions[1].hash, 'X12')
+        assert(meta.versions[2].hash, 'X11')
         done()
     })
     it(protocol + ' update mode', function*(done) {
