@@ -30,9 +30,21 @@ describe(protocol + ' departments members add', function() {
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
         yield MiniUserMeta.create(user2.id, 'nick', 'Peter')
+        user3 = yield MiniUser.create('tom', 'tom')
+        yield MiniUserMeta.create(user3.id, 'nick', 'Tom')
+        user4 = yield MiniUser.create('jim', 'jim')
+        yield MiniUserMeta.create(user4.id, 'nick', 'Jim')
+        user5 = yield MiniUser.create('eric', 'eric')
+        yield MiniUserMeta.create(user5.id, 'nick', 'Eric')
+
         department = yield MiniDepartment.create(-1, 'MiniDepartment_inc')
-        yield MiniUserDepartmentRelation.create(department.id, user.id)
-        yield MiniUserDepartmentRelation.create(department.id, user2.id)
+        department2 = yield MiniDepartment.create(department.id, 'MiniDepartment_inc2')
+        department3 = yield MiniDepartment.create(department2.id, 'MiniDepartment_inc3')
+        yield MiniUserDepartmentRelation.create(department.id, user.id, department.path)
+        yield MiniUserDepartmentRelation.create(department2.id, user2.id, department2.path)
+        yield MiniUserDepartmentRelation.create(department3.id, user3.id, department3.path)
+        yield MiniUserDepartmentRelation.create(department3.id, user4.id, department3.path)
+        yield MiniUserDepartmentRelation.create(department3.id, user5.id, department3.path)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -74,7 +86,8 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: department.id,
-                uuid: uuid
+                uuid: uuid,
+                path:department.path
             })
             .expect(200)
             .end()
@@ -91,7 +104,8 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: 'abc',
-                uuid: 'xxx'
+                uuid: 'xxx',
+                path:department.path
             })
             .expect(400)
             .end()
@@ -106,7 +120,8 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: department.id,
-                uuid: uuid
+                uuid: uuid,
+                path:department.path
             })
             .expect(401)
             .end()
@@ -121,7 +136,8 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: department.id,
-                uuid: uuid
+                uuid: uuid,
+                path:department.path
             })
             .expect(401)
             .end()
@@ -137,7 +153,8 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: 10,
-                uuid: uuid
+                uuid: uuid,
+                path:department.path
             })
             .expect(409)
             .end()
@@ -153,7 +170,8 @@ describe(protocol + ' departments members add', function() {
             })
             .send({
                 id: department.id,
-                uuid: 'xxxx'
+                uuid: 'xxxx',
+                path:department.path
             })
             .expect(409)
             .end()

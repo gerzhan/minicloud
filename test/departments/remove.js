@@ -31,7 +31,7 @@ describe(protocol + ' department remove', function() {
         department1 = yield MiniDepartment.create(-1, 'minicloud_inc')
         department2 = yield MiniDepartment.create(department1.id, 'minicloud_dev')
         department3 = yield MiniDepartment.create(department1.id, 'minicloud_market')
-        yield MiniUserDepartmentRelation.create(department2.id, user2.id)
+        yield MiniUserDepartmentRelation.create(department2.id, user2.id, department2.path)
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')

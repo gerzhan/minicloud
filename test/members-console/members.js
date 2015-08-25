@@ -57,10 +57,11 @@ describe(protocol + ' members', function() {
 
         department = yield MiniDepartment.create(-1, 'MiniDepartment_inc')
         departmentSon = yield MiniDepartment.create(department.id, 'MiniDepartment_inc_son')
-        yield MiniUserDepartmentRelation.create(department.id, user.id)
-        yield MiniUserDepartmentRelation.create(department.id, user2.id)
-        yield MiniUserDepartmentRelation.create(departmentSon.id, user3.id)
-        yield MiniUserDepartmentRelation.create(departmentSon.id, user4.id)
+
+        yield MiniUserDepartmentRelation.create(department.id, user.id, department.path)
+        yield MiniUserDepartmentRelation.create(department.id, user2.id, department.path)
+        yield MiniUserDepartmentRelation.create(departmentSon.id, user3.id, departmentSon.path)
+        yield MiniUserDepartmentRelation.create(departmentSon.id, user4.id, departmentSon.path)
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
