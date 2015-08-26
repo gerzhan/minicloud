@@ -74,7 +74,6 @@ describe(protocol + ' department rename', function() {
             //set access_token
         accessToken2 = res.body.access_token
         return done()
-        return done()
     })
     it(protocol + ' departments/rename 200', function*(done) {
         var res = yield request(app)
