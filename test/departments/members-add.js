@@ -87,7 +87,6 @@ describe(protocol + ' departments members add', function() {
             .send({
                 id: department.id,
                 uuid: uuid,
-                path:department.path
             })
             .expect(200)
             .end()
@@ -105,7 +104,6 @@ describe(protocol + ' departments members add', function() {
             .send({
                 id: 'abc',
                 uuid: 'xxx',
-                path:department.path
             })
             .expect(400)
             .end()
@@ -121,7 +119,6 @@ describe(protocol + ' departments members add', function() {
             .send({
                 id: department.id,
                 uuid: uuid,
-                path:department.path
             })
             .expect(401)
             .end()
@@ -137,7 +134,6 @@ describe(protocol + ' departments members add', function() {
             .send({
                 id: department.id,
                 uuid: uuid,
-                path:department.path
             })
             .expect(401)
             .end()
@@ -154,7 +150,6 @@ describe(protocol + ' departments members add', function() {
             .send({
                 id: 10,
                 uuid: uuid,
-                path:department.path
             })
             .expect(409)
             .end()
@@ -171,7 +166,6 @@ describe(protocol + ' departments members add', function() {
             .send({
                 id: department.id,
                 uuid: 'xxxx',
-                path:department.path
             })
             .expect(409)
             .end()
