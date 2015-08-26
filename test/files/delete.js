@@ -109,6 +109,21 @@ it(protocol + ' files/delete 400', function*(done) {
              res.body.error.should.equal('path_not_exist')
         done()
     })
+ it(protocol + ' files/delete 409', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/delete')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: ['zz','kk']
+            })
+            .expect(409)
+            .end()
+             res.body.error.should.equal('path_not_exist')
+        done()
+    })
     it(protocol + ' files/delete 200 file', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/delete')
