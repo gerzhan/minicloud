@@ -2,17 +2,17 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' files/get-metadata', function() {
+describe(protocol + ' files/delete', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
     var user = null
     var file = null
     var device = null
-    var addUser = null
     var MiniTag = null
     var MiniFile = null
     var MiniFileTagRelation = null
+    var fileHelpers = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
@@ -20,13 +20,12 @@ describe(protocol + ' files/get-metadata', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniTag = require('../../lib/model/tag')
         var MiniVersion = require('../../lib/model/version')
+        fileHelpers = require('../../lib/file-helpers')
         MiniFile = require('../../lib/model/file')
         MiniFileTagRelation = require('../../lib/model/file-tag-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
-        yield MiniTag.create(user.id, 'file')
-        yield MiniTag.create(user.id, 'folder')
         yield MiniTag.create(user.id, 'green')
         yield MiniTag.create(user.id, 'white')
 
@@ -64,16 +63,55 @@ describe(protocol + ' files/get-metadata', function() {
         var file3 = yield MiniFile.createFolder(device, '/LIGht/好/123')
         var version2 = yield MiniVersion.create('X2234567', 1107374182, 'doc')
         var file4 = yield MiniFile.createFile(device, '/Image/123/hello.doc', version2, null)
-         // var file5 = yield MiniFile.createFolder(device, '/Image/123/hello.doc')
-         
-         // var version3 = yield MiniVersion.create('X2234667', 1107373482, 'doc')
-         // var file6 = yield MiniFile.createFile(device, '/Image/123/hello.doc/aaa.doc', version3, null)
+
+        var file5 = yield MiniFile.createFolder(device, '/ab/cd/')
+        var version3 = yield MiniVersion.create('X8888888', 1107374181, 'doc')
+        var file6 = yield MiniFile.createFile(device, '/ef/gh/i.doc', version3, null)
         return done()
     })
-
-    it(protocol + ' files/get-metadata 200 file', function*(done) {
+it(protocol + ' files/delete 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/delete')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(400)
+            .end()
+        done()
+    })
+ it(protocol + ' files/delete 401', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/delete')
+            .type('json')
+            .set({
+                Authorization: 'Bearer 1234'
+            })
+            .send({
+                path: '/Image/123/1.doc'
+            })
+            .expect(401)
+            .end()
+        done()
+    })
+ it(protocol + ' files/delete 409', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/delete')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: '/zz/'
+            })
+            .expect(409)
+            .end()
+             res.body.error.should.equal('path_not_exist')
+        done()
+    })
+    it(protocol + ' files/delete 200 file', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/files/delete')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -83,112 +121,46 @@ describe(protocol + ' files/get-metadata', function() {
             })
             .expect(200)
             .end()
-        res.body.tag.should.equal('file,green,white')
-        res.body.name.should.equal('1.doc')
+        var deleteFileList = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
+        deleteFileList.is_deleted.should.equal(true)
         done()
     })
 
-    it(protocol + ' files/get-metadata 200 folder', function*(done) {
+    it(protocol + ' files/delete 200 folder', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/delete')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                path: '/LIGht/好/'
+                path: 'LIGht'
             })
             .expect(200)
             .end()
-        res.body.tag.should.equal('folder,green')
-        res.body.name.should.equal('好')
+        var deleteFileList = yield MiniFile.getChildrenByPath(user.id, 'LIGht')
+        deleteFileList.length.should.equal(3)
+        deleteFileList[2].is_deleted.should.equal(true)
         done()
     })
-    it(protocol + ' files/get-metadata 200 folder', function*(done) {
+    it(protocol + ' files/delete 200 folder and file', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/delete')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                path: '/LIGht/好/123'
+                path: ['ab', 'ef']
             })
             .expect(200)
             .end()
-        res.body.tag.should.equal('folder')
-        res.body.name.should.equal('123')
-        done()
-    })
-    it(protocol + ' files/get-metadata 200 file', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                path: '/Image/123/hello.doc'
-            })
-            .expect(200)
-            .end()
-        res.body.tag.should.equal('file')
-        res.body.name.should.equal('hello.doc')
-        done()
-    })
-    it(protocol + ' files/get-metadata 400', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .expect(400)
-            .end()
-        done()
-    })
-    it(protocol + ' files/get-metadata 401', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
-            .type('json')
-            .set({
-                Authorization: 'Bearer 1234'
-            })
-            .send({
-                path: '/LIGht/好/'
-            })
-            .expect(401)
-            .end()
-        done()
-    })
-    it(protocol + ' files/get-metadata 409 file', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                path: '/Image/123/2.doc'
-            })
-            .expect(409)
-            .end()
-        res.body.error.should.equal('path_not_exist')
-        done()
-    })
-    it(protocol + ' files/get-metadata 409 folder', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                path: '/LIGht/好好好/'
-            })
-            .expect(409)
-            .end()
-        res.body.error.should.equal('path_not_exist')
+        var deleteFileList = yield MiniFile.getChildrenByPath(user.id, 'ab')
+        deleteFileList.length.should.equal(2)
+        deleteFileList[1].is_deleted.should.equal(true)
+        var deleteFileList2 = yield MiniFile.getChildrenByPath(user.id, 'ef')
+        deleteFileList2.length.should.equal(3)
+        deleteFileList2[2].is_deleted.should.equal(true)
         done()
     })
 

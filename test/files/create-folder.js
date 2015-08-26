@@ -49,7 +49,7 @@ describe(protocol + ' files/create_folder', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                path: 'Image',
+                path: 'Image'
             })
             .expect(200)
             .end()
@@ -76,7 +76,7 @@ describe(protocol + ' files/create_folder', function() {
                 Authorization: 'Bearer 1234'
             })
             .send({
-                path: 'Image',
+                path: 'Image'
             })
             .expect(401)
             .end()
