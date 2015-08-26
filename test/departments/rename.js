@@ -176,7 +176,7 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department1.id,
+                id: department2.id,
                 new_name: 'minicloud_sale'
             })
             .expect(409)
