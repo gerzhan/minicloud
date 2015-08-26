@@ -9,7 +9,7 @@ describe(protocol + ' department rename', function() {
     var MiniUserMeta = null
     var user = null
     var MiniDepartment = null
-    var MiniDepartmentpRelation = null
+    var MiniUserDepartmentRelation = null
     var department1 = null
     var department2 = null
     before(function*(done) {
@@ -18,6 +18,7 @@ describe(protocol + ' department rename', function() {
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         MiniUserMeta = require('../../lib/model/user-meta')
+        MiniUserDepartmentRelation = require('../../lib/model/user-department-relation')
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
@@ -26,9 +27,23 @@ describe(protocol + ' department rename', function() {
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
         yield MiniUserMeta.create(user2.id, 'is_admin', '0')
+        user3 = yield MiniUser.create('tom', 'tom')
+        yield MiniUserMeta.create(user3.id, 'nick', 'Tom')
+        user4 = yield MiniUser.create('jim', 'jim')
+        yield MiniUserMeta.create(user4.id, 'nick', 'Jim')
+        user5 = yield MiniUser.create('eric', 'eric')
+        yield MiniUserMeta.create(user5.id, 'nick', 'Eric')
 
         department1 = yield MiniDepartment.create(-1, 'minicloud_inc')
         department2 = yield MiniDepartment.create(-1, 'minicloud_sale')
+        department3 = yield MiniDepartment.create(department1.id, 'minicloud_sale_3')
+        department4 = yield MiniDepartment.create(department3.id, 'minicloud_sale_4')
+        yield MiniUserDepartmentRelation.create(department1.id, user.id, department1.path)
+        yield MiniUserDepartmentRelation.create(department2.id, user2.id, department2.path)
+        yield MiniUserDepartmentRelation.create(department3.id, user3.id, department3.path)
+        yield MiniUserDepartmentRelation.create(department4.id, user4.id, department4.path)
+        yield MiniUserDepartmentRelation.create(department4.id, user5.id, department4.path)
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -60,24 +75,6 @@ describe(protocol + ' department rename', function() {
         accessToken2 = res.body.access_token
         return done()
     })
-
-    it(protocol + ' departments/rename 200', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/departments/rename')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                id: 1,
-                new_name: 'minicloud_dev'
-            })
-            .expect(200)
-            .end()
-        var department = yield MiniDepartment.getById(1)
-        department.name.should.equal('minicloud_dev')
-        done()
-    })
     it(protocol + ' departments/rename 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/rename')
@@ -93,6 +90,23 @@ describe(protocol + ' department rename', function() {
             .end()
         var department = yield MiniDepartment.getById(department1.id)
         department.name.should.equal('minicloud_dev')
+        done()
+    })
+    it(protocol + ' departments/rename 200', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/rename')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                id: department3.id,
+                new_name: 'happiness'
+            })
+            .expect(200)
+            .end()
+        var department = yield MiniDepartment.getById(department3.id)
+        department.name.should.equal('happiness')
         done()
     })
     it(protocol + ' departments/rename 400', function*(done) {
@@ -161,7 +175,7 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department1.id,
+                id: department2.id,
                 new_name: 'minicloud_sale'
             })
             .expect(409)
