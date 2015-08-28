@@ -1,7 +1,6 @@
 var request = require('co-supertest')
 var context = require('../context')
-var protocol = process.env.ORM_PROTOCOL
-var php = require('phpjs')
+var protocol = process.env.ORM_PROTOCOL 
 var assert = require('assert')
 describe(protocol + ' event', function() {
     this.timeout(10000)
