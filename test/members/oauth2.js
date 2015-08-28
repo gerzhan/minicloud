@@ -60,21 +60,18 @@ describe(protocol + ' oauth2', function() {
             done()
         })
         it(protocol + ' oauth2/token socket.io 200', function*(done) {
-            var client = require('../socket-io-client')
-            var socket = client(app)
-            socket.on('connect', function() {
-                socket.emit('/api/v1/oauth2/token', {
-                    header: {},
-                    data: {
-                        name: 'admin',
-                        password: 'admin',
-                        device_name: 'ji1111m-pc-windows7',
-                        client_id: 'JsQCsjF3yr7KACyT',
-                        client_secret: 'bqGeM4Yrjs3tncJZ'
-                    }
-                }, function(body) { 
-                    done()
-                })
+            global.socket.emit('/api/v1/oauth2/token', {
+                header: {},
+                data: {
+                    name: 'admin',
+                    password: 'admin',
+                    device_name: 'ji1111m-pc-windows7',
+                    client_id: 'JsQCsjF3yr7KACyT',
+                    client_secret: 'bqGeM4Yrjs3tncJZ'
+                }
+            }, function(body) {
+                body.token_type.should.equal('bearer')
+                done()
             })
         })
         it(protocol + ' oauth2/token 400', function*(done) {
