@@ -11,6 +11,7 @@ describe(protocol + ' files/delete', function() {
     var device = null
     var MiniTag = null
     var MiniFile = null
+    var MiniEvent = null
     var MiniFileTagRelation = null
     var fileHelpers = null
     before(function*(done) {
@@ -22,6 +23,7 @@ describe(protocol + ' files/delete', function() {
         var MiniVersion = require('../../lib/model/version')
         fileHelpers = require('../../lib/file-helpers')
         MiniFile = require('../../lib/model/file')
+        MiniEvent = require('../../lib/model/event')
         MiniFileTagRelation = require('../../lib/model/file-tag-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
@@ -69,7 +71,7 @@ describe(protocol + ' files/delete', function() {
         var file6 = yield MiniFile.createFile(device, '/ef/gh/i.doc', version3, null)
         return done()
     })
-it(protocol + ' files/delete 400', function*(done) {
+    it(protocol + ' files/delete 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/delete')
             .type('json')
@@ -80,7 +82,7 @@ it(protocol + ' files/delete 400', function*(done) {
             .end()
         done()
     })
- it(protocol + ' files/delete 401', function*(done) {
+    it(protocol + ' files/delete 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/delete')
             .type('json')
@@ -94,7 +96,7 @@ it(protocol + ' files/delete 400', function*(done) {
             .end()
         done()
     })
- it(protocol + ' files/delete 409', function*(done) {
+    it(protocol + ' files/delete 409', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/delete')
             .type('json')
@@ -106,10 +108,10 @@ it(protocol + ' files/delete 400', function*(done) {
             })
             .expect(409)
             .end()
-             res.body.error.should.equal('path_not_exist')
+        res.body.error.should.equal('path_not_exist')
         done()
     })
- it(protocol + ' files/delete 409', function*(done) {
+    it(protocol + ' files/delete 409', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/delete')
             .type('json')
@@ -117,11 +119,11 @@ it(protocol + ' files/delete 400', function*(done) {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                path: ['zz','kk']
+                path: ['zz', 'kk']
             })
             .expect(409)
             .end()
-             res.body.error.should.equal('path_not_exist')
+        res.body.error.should.equal('path_not_exist')
         done()
     })
     it(protocol + ' files/delete 200 file', function*(done) {
@@ -138,6 +140,16 @@ it(protocol + ' files/delete 400', function*(done) {
             .end()
         var deleteFileList = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
         deleteFileList.is_deleted.should.equal(true)
+        var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+        var flag = false
+        for (var i = 0; i < eventList.length; i++) {
+            if (eventList[i].type === 0) {
+                var context = JSON.parse(eventList[i].context)
+                if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
+                    flag = true
+            }
+        }
+        flag.should.equal(true)
         done()
     })
 
@@ -156,6 +168,16 @@ it(protocol + ' files/delete 400', function*(done) {
         var deleteFileList = yield MiniFile.getChildrenByPath(user.id, 'LIGht')
         deleteFileList.length.should.equal(3)
         deleteFileList[2].is_deleted.should.equal(true)
+        var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+        var flag = false
+        for (var i = 0; i < eventList.length; i++) {
+            if (eventList[i].type === 0) {
+                var context = JSON.parse(eventList[i].context)
+                if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
+                    flag = true
+            }
+        }
+        flag.should.equal(true)
         done()
     })
     it(protocol + ' files/delete 200 folder and file', function*(done) {
@@ -176,8 +198,16 @@ it(protocol + ' files/delete 400', function*(done) {
         var deleteFileList2 = yield MiniFile.getChildrenByPath(user.id, 'ef')
         deleteFileList2.length.should.equal(3)
         deleteFileList2[2].is_deleted.should.equal(true)
+        var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+        var flag = false
+        for (var i = 0; i < eventList.length; i++) {
+            if (eventList[i].type === 0) {
+                var context = JSON.parse(eventList[i].context)
+                if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
+                    flag = true
+            }
+        }
+        flag.should.equal(true)
         done()
     })
-
-
 })
