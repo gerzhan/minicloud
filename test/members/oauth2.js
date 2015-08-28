@@ -51,20 +51,38 @@ describe(protocol + ' oauth2', function() {
                 .expect(200)
                 .end()
             res.should.have.header('Content-Type', 'application/json; charset=utf-8')
-            res.body.token_type.should.equal('bearer') 
+            res.body.token_type.should.equal('bearer')
             var devices = yield MiniDevice.getAllByUserId(user.id)
-            var device = devices[0] 
+            var device = devices[0]
             device.client_id.should.equal('JsQCsjF3yr7KACyT')
             var onlineDevices = yield MiniOnlineDevice.getAllDeviceId(device.id)
             onlineDevices.length.should.equal(1)
             done()
-        }) 
+        })
+        it(protocol + ' oauth2/token socket.io 200', function*(done) {
+            var client = require('../socket-io-client')
+            var socket = client(app)
+            socket.on('connect', function() {
+                socket.emit('/api/v1/oauth2/token', {
+                    header: {},
+                    data: {
+                        name: 'admin',
+                        password: 'admin',
+                        device_name: 'ji1111m-pc-windows7',
+                        client_id: 'JsQCsjF3yr7KACyT',
+                        client_secret: 'bqGeM4Yrjs3tncJZ'
+                    }
+                }, function(body) { 
+                    done()
+                })
+            })
+        })
         it(protocol + ' oauth2/token 400', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
-                .type('json') 
+                .type('json')
                 .expect(400)
-                .end() 
+                .end()
             done()
         })
         it(protocol + ' oauth2/token 401 member not exist or disable', function*(done) {
@@ -96,7 +114,7 @@ describe(protocol + ' oauth2', function() {
                     client_secret: 'bqGeM4Yrjs3tncJZ'
                 })
                 .expect(401)
-                .end() 
+                .end()
             res.body.error.should.equal('invalid_grant')
             res.body.error_description.should.equal('incorrect password.')
             done()
