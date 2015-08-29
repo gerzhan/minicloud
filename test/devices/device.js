@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' devices', function() {
-     this.timeout(10000)
+    this.timeout(10000)
     var app = null
     var accessToken = null
     before(function*(done) {
@@ -46,7 +46,16 @@ describe(protocol + ' devices', function() {
         res.body[1].name.should.equal('ji1111m-pc-windows7')
         done()
     })
-
+    it(protocol + ' devices/get_my_devices socket.io 200', function*(done) {
+        global.socket.emit('/api/v1/devices/get_my_devices', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        }, function(body) {
+            body.length.should.equal(2)
+            done()
+        })
+    })
     it(protocol + ' devices/get_my_devices 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/devices/get_my_devices')
