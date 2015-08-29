@@ -44,6 +44,17 @@ describe(protocol + ' event', function() {
         userIp.should.equal('::ffff:127.0.0.1')
         done()
     })
+    it(protocol + ' events/get_login_events socket.io 200 ', function*(done) {
+            global.socket.emit('/api/v1/events/get_login_events', {
+                header: {
+                    Authorization: 'Bearer ' + accessToken
+                }
+            }, function(body) { 
+                var userIp = body.events[0].ip
+                userIp.should.equal('::ffff:127.0.0.1')
+                done()
+            })
+        })
     it(protocol + ' events/get_login_events 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/events/get_login_events')
