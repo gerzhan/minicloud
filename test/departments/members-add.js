@@ -94,6 +94,24 @@ describe(protocol + ' departments members add', function() {
         memberList[0].id.should.equal(userId)
         done()
     })
+    it(protocol + ' departments/members/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/members/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                id: department.id,
+                uuid: uuid
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var memberList = yield MiniUserDepartmentRelation.getAllByDepartmentId(1)
+                memberList[0].id.should.equal(userId)
+                done()
+            })()
+        })
+    })
     it(protocol + ' departments/members/add 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/members/add')

@@ -76,6 +76,19 @@ describe(protocol + ' departments members', function() {
         res.body[0].metas.nick.should.equal('Allis')
         done()
     })
+    it(protocol + ' departments/members socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/members', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                id: department1.id
+            }
+        }, function(body) {
+            body[0].metas.nick.should.equal('Allis')
+            done()
+        })
+    })
     it(protocol + ' departments/members 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/members')

@@ -44,6 +44,18 @@ describe(protocol + ' files/get_store_server', function() {
         assert.equal(pos, 0)
         done()
     })
+    it(protocol + ' files/get_store_server request_host socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/files/get_store_server', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        }, function(body) {
+            var host = body.host 
+            var pos = host.indexOf('http://0.0.0.0')
+            assert.equal(pos, 0)
+            done()
+        })
+    })
     it(protocol + ' files/get_store_server option.minicloud_host 200', function*(done) {
         var MiniOption = require('../../lib/model/option')
         yield MiniOption.create('minicloud_host', 'http://demo.minicloud.io')

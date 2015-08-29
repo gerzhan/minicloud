@@ -152,7 +152,33 @@ describe(protocol + ' files/delete', function() {
         flag.should.equal(true)
         done()
     })
-
+    it(protocol + ' files/delete  socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/files/delete', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                path: '/Image/123/1.doc'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var deleteFileList = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
+                deleteFileList.is_deleted.should.equal(true)
+                var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+                var flag = false
+                for (var i = 0; i < eventList.length; i++) {
+                    if (eventList[i].type === 0) {
+                        var context = JSON.parse(eventList[i].context)
+                        if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
+                            flag = true
+                    }
+                }
+                flag.should.equal(true)
+                done()
+            })()
+        })
+    })
     it(protocol + ' files/delete 200 folder', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/delete')

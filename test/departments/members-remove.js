@@ -82,6 +82,24 @@ describe(protocol + ' departments members remove', function() {
         memberList.length.should.equal(0)
         done()
     })
+    it(protocol + ' departments/members/remove socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/members/remove', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                id: department.id,
+                uuid: uuid
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var memberList = yield MiniUserDepartmentRelation.getAllByDepartmentId(1)
+                memberList.length.should.equal(0)
+                done()
+            })()
+        })
+    })
     it(protocol + ' departments/members/remove 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/members/remove')

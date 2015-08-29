@@ -92,6 +92,24 @@ describe(protocol + ' department rename', function() {
         department.name.should.equal('minicloud_dev')
         done()
     })
+    it(protocol + ' departments/rename  socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/rename', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                id: department1.id,
+                new_name: 'minicloud_dev'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var department = yield MiniDepartment.getById(department1.id)
+                department.name.should.equal('minicloud_dev')
+                done()
+            })()
+        })
+    })
     it(protocol + ' departments/rename 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/rename')
