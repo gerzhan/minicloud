@@ -1,7 +1,7 @@
 
   [![build status][travis-image]][travis-url]
   [![Test coverage][coveralls-image]][coveralls-url]
-  [![devDependency Status](https://david-dm.org/atom/electron/dev-status.svg)](https://david-dm.org/minicloud/minicloudjs#info=devDependencies)
+  [![devDependency Status](https://david-dm.org/atom/electron/dev-status.svg)](https://david-dm.org/minicloud/minicloud#info=devDependencies)
   
 
   minicloud v2.2 entry
@@ -11,7 +11,7 @@
 
   MIT
  
-[travis-image]: https://img.shields.io/travis/minicloud/minicloudjs/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/minicloud/minicloudjs 
-[coveralls-image]: https://img.shields.io/coveralls/minicloud/minicloudjs/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/minicloud/minicloudjs?branch=master
+[travis-image]: https://img.shields.io/travis/minicloud/minicloud/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/minicloud/minicloud 
+[coveralls-image]: https://img.shields.io/coveralls/minicloud/minicloud/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/minicloud/minicloud?branch=master
