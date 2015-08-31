@@ -6,13 +6,14 @@ describe(protocol + ' files/upload_session/start', function() {
     this.timeout(10000)
     var app = null
     var accessToken = null
+    var device = null
     before(function*(done) {
         app = yield context.getApp()
             //ready data
         var MiniApp = require('../../lib/model/app')
         var MiniUser = require('../../lib/model/user')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        yield MiniUser.create('admin', 'admin')
+        var user = yield MiniUser.create('admin', 'admin')
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -26,7 +27,17 @@ describe(protocol + ' files/upload_session/start', function() {
             })
             .expect(200)
             .end()
-            //set access_token
+            //get current device
+        var MiniDevice = require('../../lib/model/device')
+        var devices = yield MiniDevice.getAllByUserId(user.id)
+        device = devices[0]
+        for (var i = 0; i < devices.length; i++) {
+            var item = devices[i]
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
+                device = item
+            }
+        }
+        //set access_token
         accessToken = res.body.access_token
         return done()
     })
@@ -39,7 +50,7 @@ describe(protocol + ' files/upload_session/start', function() {
             })
             .expect(200)
             .end()
-        var host = res.body.host
+        var host = res.body.store_host
         var pos = host.indexOf('http://127.0.0.1')
         assert.equal(pos, 0)
         done()
@@ -50,7 +61,7 @@ describe(protocol + ' files/upload_session/start', function() {
                 Authorization: 'Bearer ' + accessToken
             }
         }, function(body) {
-            var host = body.host 
+            var host = body.store_host
             var pos = host.indexOf('http://0.0.0.0')
             assert.equal(pos, 0)
             done()
@@ -68,7 +79,7 @@ describe(protocol + ' files/upload_session/start', function() {
             })
             .expect(200)
             .end()
-        res.body.host.should.equal('http://demo.minicloud.io')
+        res.body.store_host.should.equal('http://demo.minicloud.io')
         done()
     })
 
@@ -108,7 +119,7 @@ describe(protocol + ' files/upload_session/start', function() {
             })
             .expect(200)
             .end()
-        res.body.host.should.equal('http://192.168.0.11')
+        res.body.store_host.should.equal('http://192.168.0.11')
         done()
     })
     it(protocol + ' files/upload_session/start 401', function*(done) {
@@ -158,7 +169,26 @@ describe(protocol + ' files/upload_session/start', function() {
             })
             .expect(409)
             .end()
-        res.body.error.should.equal('no_valid_minicloud_store_node')
+        res.body.error.should.equal('no_valid_minicloud_storage_node')
+        done()
+    })
+    it(protocol + ' files/upload_session/start 409 option.site_default_space over_space', function*(done) {
+        //ready data
+        var MiniOption = require('../../lib/model/option')
+        yield MiniOption.create('site_default_space', '1024')
+        var MiniVersion = require('../../lib/model/version')
+        var version = yield MiniVersion.create('X123456', 1073741825, 'doc') 
+        var MiniFile = require('../../lib/model/file')
+        yield MiniFile.createFile(device, '/home/d.doc', version, null)
+        var res = yield request(app)
+            .post('/api/v1/files/upload_session/start')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(409)
+            .end()
+        res.body.error.should.equal('over_space')
         done()
     })
 })

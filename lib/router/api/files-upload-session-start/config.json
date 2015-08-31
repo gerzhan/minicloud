@@ -1,8 +1,0 @@
-{
-    "name": "files-upload",
-    "description": "files-upload module", 
-    "valid_access_token": false,
-    "routes": { 
-        "/api/v1/files/upload-session/start": "start"
-    }
-}
