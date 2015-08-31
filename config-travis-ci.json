@@ -1,0 +1,29 @@
+{
+    "port": 8032,
+    "version": 2.2, 
+    "mysql": {
+        "host": "127.0.0.1", 
+        "port": 3306,
+        "user": "root",
+        "password": "",
+        "table_prefix":"miniyun_",
+        "database": "minicloud_test"
+    },
+    "data":"./data",
+    "cache":"./cache",
+    "postgres": {
+        "host": "127.0.0.1",
+        "user": "postgres", 
+        "database": "minicloud_test"
+    },
+    "redshift": {
+        "host": "127.0.0.1",
+        "user": "postgres", 
+        "database": "minicloud_test"
+    },
+    "mongodb": {
+        "host": "127.0.0.1",
+        "user": "root", 
+        "database": "minicloud_test"
+    }
+}

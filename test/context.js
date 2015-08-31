@@ -1,12 +1,11 @@
-var appConfig = require('../config.json')
+var isTravis = Boolean(process.env.CI) 
+var config = require('../config-test.json')
+if (isTravis) {
+    config = appConfig['../config-travis-ci.json']
+}
 var client = require('./socket-io-client')
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'mysql'
-var isTravis = Boolean(process.env.CI)
-var config = appConfig[process.env.NODE_ENV]
 process.setMaxListeners(0)
-if (isTravis) {
-    config = appConfig['travis-ci']
-}
 var initSocketClient = function(app) {
         return function(done) {
             var socket = client(app)
