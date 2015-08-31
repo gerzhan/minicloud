@@ -2,7 +2,7 @@
     "name": "files-upload",
     "description": "files-upload module", 
     "routes": {
-    	"/api/v1/files/get_store_server": "getStoreServer",
+    	"/api/v1/files/upload_session/start": "uploadSessionStart",
         "/api/v1/files/hash_upload": "hashUpload",
         "/api/v1/files/upload": "upload",
         "/api/v1/files/upload-session/append": "append",

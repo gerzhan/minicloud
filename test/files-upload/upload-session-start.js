@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
-describe(protocol + ' files/get_store_server', function() {
+describe(protocol + ' files/upload_session/start', function() {
     this.timeout(10000)
     var app = null
     var accessToken = null
@@ -30,9 +30,9 @@ describe(protocol + ' files/get_store_server', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' files/get_store_server request_host 200', function*(done) {
+    it(protocol + ' files/upload_session/start request_host 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get_store_server')
+            .post('/api/v1/files/upload_session/start')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -44,8 +44,8 @@ describe(protocol + ' files/get_store_server', function() {
         assert.equal(pos, 0)
         done()
     })
-    it(protocol + ' files/get_store_server request_host socket.io  200', function*(done) {
-        global.socket.emit('/api/v1/files/get_store_server', {
+    it(protocol + ' files/upload_session/start request_host socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/files/upload_session/start', {
             header: {
                 Authorization: 'Bearer ' + accessToken
             }
@@ -56,12 +56,12 @@ describe(protocol + ' files/get_store_server', function() {
             done()
         })
     })
-    it(protocol + ' files/get_store_server option.minicloud_host 200', function*(done) {
+    it(protocol + ' files/upload_session/start option.minicloud_host 200', function*(done) {
         var MiniOption = require('../../lib/model/option')
         yield MiniOption.create('minicloud_host', 'http://demo.minicloud.io')
 
         var res = yield request(app)
-            .post('/api/v1/files/get_store_server')
+            .post('/api/v1/files/upload_session/start')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -72,7 +72,7 @@ describe(protocol + ' files/get_store_server', function() {
         done()
     })
 
-    it(protocol + ' files/get_store_server 200', function*(done) {
+    it(protocol + ' files/upload_session/start 200', function*(done) {
         var MiniStorageNode = require('../../lib/model/store-node')
         var node1 = yield MiniStorageNode.create('store1', 'http://192.168.0.10', '1234')
         yield MiniStorageNode.setStatus(node1.name, true)
@@ -101,7 +101,7 @@ describe(protocol + ' files/get_store_server', function() {
         }
         yield MiniOption.create('active_plugins', JSON.stringify(plugins))
         var res = yield request(app)
-            .post('/api/v1/files/get_store_server')
+            .post('/api/v1/files/upload_session/start')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -111,9 +111,9 @@ describe(protocol + ' files/get_store_server', function() {
         res.body.host.should.equal('http://192.168.0.11')
         done()
     })
-    it(protocol + ' files/get_store_server 401', function*(done) {
+    it(protocol + ' files/upload_session/start 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get_store_server')
+            .post('/api/v1/files/upload_session/start')
             .type('json')
             .set({
                 Authorization: 'Bearer 1234'
@@ -122,7 +122,7 @@ describe(protocol + ' files/get_store_server', function() {
             .end()
         done()
     })
-    it(protocol + ' files/get_store_server 409', function*(done) {
+    it(protocol + ' files/upload_session/start 409', function*(done) {
         var MiniStorageNode = require('../../lib/model/store-node')
         var node1 = yield MiniStorageNode.create('store1', 'http://192.168.0.10', '1234')
         yield MiniStorageNode.setSaveCount(node1.name, 10)
@@ -151,7 +151,7 @@ describe(protocol + ' files/get_store_server', function() {
         }
         yield MiniOption.create('active_plugins', JSON.stringify(plugins))
         var res = yield request(app)
-            .post('/api/v1/files/get_store_server')
+            .post('/api/v1/files/upload_session/start')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
