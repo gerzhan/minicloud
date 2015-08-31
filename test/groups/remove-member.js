@@ -69,7 +69,24 @@ describe(protocol + ' groups/members/remove', function() {
         existed2.should.equal(false)
         done()
     })
-
+    it(protocol + ' groups/memebers/remove socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/members/remove', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'source',
+                uuid: addUser.uuid
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var existed2 = yield MiniUserGroupRelation.exist(group.id, addUser.id)
+                existed2.should.equal(false)
+                done()
+            })()
+        })
+    })
     it(protocol + ' groups/memebers/remove 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members/remove')

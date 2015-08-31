@@ -34,7 +34,7 @@ describe(protocol + ' tags/add', function() {
         accessToken = res.body.access_token
         return done()
     })
-it(protocol + ' tags/add 200', function*(done) {
+    it(protocol + ' tags/add 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/add')
             .type('json')
@@ -50,7 +50,24 @@ it(protocol + ' tags/add 200', function*(done) {
         tagList[0].name.should.equal('green')
         done()
     })
- it(protocol + ' tags/add 400 ', function*(done) {
+    it(protocol + ' tags/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/tags/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'green'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var tagList = yield MiniTag.getAllByUserId(user.id)
+                tagList[0].name.should.equal('green')
+                done()
+            })()
+        })
+    })
+    it(protocol + ' tags/add 400 ', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/add')
             .type('json')
@@ -61,7 +78,7 @@ it(protocol + ' tags/add 200', function*(done) {
             .end()
         done()
     })
-it(protocol + ' tags/add 401', function*(done) {
+    it(protocol + ' tags/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/add')
             .type('json')
@@ -75,7 +92,7 @@ it(protocol + ' tags/add 401', function*(done) {
             .end()
         done()
     })
-it(protocol + ' tags/add 409 tag_existed', function*(done) {
+    it(protocol + ' tags/add 409 tag_existed', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/add')
             .type('json')

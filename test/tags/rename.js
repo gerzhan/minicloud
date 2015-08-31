@@ -112,6 +112,24 @@ describe(protocol + ' tags/rename', function() {
         tag.name.should.equal('black')
         done()
     })
+    it(protocol + ' tags/rename socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/tags/rename', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                old_name: 'black',
+                new_name: 'black'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var tag = yield MiniTag.getByName(user.id, 'black')
+                tag.name.should.equal('black')
+                done()
+            })()
+        })
+    })
     it(protocol + ' tags/rename 400', function*(done) {
 
         var res = yield request(app)

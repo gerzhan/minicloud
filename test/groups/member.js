@@ -63,6 +63,19 @@ describe(protocol + ' groups/members', function() {
         res.body[0].name.should.equal('James')
         done()
     })
+    it(protocol + ' groups/members socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/members', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'source'
+            }
+        }, function(body) {
+            body[0].name.should.equal('James')
+            done()
+        })
+    })
     it(protocol + ' groups/members 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members')
@@ -92,7 +105,7 @@ describe(protocol + ' groups/members', function() {
         res.body.error.should.equal('group_not_exist')
         done()
     })
-     it(protocol + ' groups/members 400 ', function*(done) {
+    it(protocol + ' groups/members 400 ', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members')
             .type('json')
