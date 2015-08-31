@@ -1,7 +1,7 @@
 var isTravis = Boolean(process.env.CI) 
 var config = require('../config-test.json')
 if (isTravis) {
-    config = require['../config-travis-ci.json']
+    config = require('../config-travis-ci.json')
 }
 var client = require('./socket-io-client')
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'mysql'
