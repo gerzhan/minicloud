@@ -67,7 +67,7 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                path: '/minicloud_inc'
+                path: '/minicloud_inc/abc/efg/hij/kln'
             })
             .expect(200)
             .end()
@@ -161,21 +161,6 @@ describe(protocol + ' department add', function() {
             .expect(409)
             .end()
         res.body.error.should.equal('department_existed')
-        done()
-    })
-    it(protocol + ' departments/add 409 parent_department_not_exist', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/departments/add')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                path: '/minicloud_inc/xxxxxx/MiniUser'
-            })
-            .expect(409)
-            .end()
-            res.body.error.should.equal('parent_department_not_exist')
         done()
     })
 })

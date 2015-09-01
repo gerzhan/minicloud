@@ -71,9 +71,9 @@ describe(protocol + ' department import', function() {
             })
             .send({
                 data: [{
-                    'department-member': 'minicloud_inc|market|chengdu_office,tom,jony'
+                    'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
                 }, {
-                    'department-member': 'minicloud_inc|R&D|office,ryan,yili,tjx,jim'
+                    'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
                 }]
             })
             .expect(200)
@@ -95,9 +95,9 @@ describe(protocol + ' department import', function() {
             })
             .send({
                 data: [{
-                    'department-member': 'minicloud_inc|market|chengdu_office|'
+                    'department-member': '/minicloud_inc/market/chengdu_office/'
                 }, {
-                    'department-member': 'minicloud_inc|R&D|office,'
+                    'department-member': '/minicloud_inc/R&D/office,'
                 }]
             })
             .expect(200)
@@ -113,9 +113,9 @@ describe(protocol + ' department import', function() {
             },
             data: {
                 data: [{
-                    'department-member': 'minicloud_inc|market|chengdu_office|'
+                    'department-member': '/minicloud_inc/market/chengdu_office/'
                 }, {
-                    'department-member': 'minicloud_inc|R&D|office,'
+                    'department-member': '/minicloud_inc/R&D/office,'
                 }]
             }
         }, function(body) {
@@ -158,9 +158,9 @@ describe(protocol + ' department import', function() {
             })
             .send({
                 data: [{
-                    'department-member': 'minicloud_inc|market|chengdu_office,tom,jony'
+                    'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
                 }, {
-                    'department-member': 'minicloud_inc|R&D|office,ryan,yili,tjx,jim'
+                    'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
                 }]
             })
             .expect(401)
