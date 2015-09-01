@@ -1,27 +1,32 @@
 {
-  "name": "minicloudjs",
+  "name": "minicloud",
   "version": "0.5.0",
   "description": "minicloud mix/private cloud",
   "main": "index.js",
   "scripts": {
     "test": "make test"
   },
-  "repository": "minicloud/minicloudjs",
+  "repository": "minicloud",
   "keywords": [
     "miniyun",
     "minicloud"
   ],
   "license": "MIT",
   "dependencies": {
+    "basic-auth": "^1.0.3",
     "co": "^4.6.0",
     "co-body": "^2.0.0",
     "co-fs-plus": "^0.3.1",
-    "co-request": "^0.2.1", 
+    "co-request": "^0.2.1",
+    "cookies": "^0.5.0",
     "debug": "^2.2.0",
+    "delegates": "^0.1.0",
     "kcors": "^1.0.1",
     "koa": "^0.21.0",
     "koa-bodyparser": "^2.0.1",
+    "koa-compose": "^2.3.0",
     "koa-compress": "^1.0.8",
+    "koa-generic-session": "^1.9.2",
     "koa-http-proxy": "^0.0.1",
     "koa-json-filter": "0.0.1",
     "koa-logger": "^1.3.0",
@@ -37,17 +42,18 @@
     "md5": "^2.0.0",
     "mime": "^1.3.4",
     "mysql": "^2.9.0",
-    "orm-timestamps": "^0.5.2",
-    "phpjs": "^1.3.2",
+    "parseurl": "^1.3.0",
     "pinyin": "^2.5.1",
     "redis": "^0.12.1",
     "sequelize": "^3.6.0",
+    "socket.io": "^1.3.6",
     "statuses": "^1.2.0",
     "string": "^3.3.1",
     "swig": "^1.4.2",
+    "thenify": "^3.1.0",
     "thunkify": "^2.1.2",
     "urlencode": "^1.1.0",
-    "xml-parser": "^1.2.1"
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "babel": "^5.0.0",
@@ -60,9 +66,9 @@
     "pg": "4.3.0",
     "should": "^7.0.2",
     "should-http": "^0.0.4",
-    "sqlite3": "^3.0.9",
     "supertest": "^1.0.1",
-    "test-console": "^1.0.0"
+    "test-console": "^1.0.0",
+    "socket.io-client": "~1.3.4"
   },
   "engines": {
     "node": ">= 0.11.16",

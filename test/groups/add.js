@@ -52,6 +52,23 @@ describe(protocol + ' groups/add', function() {
         groupList[0].name.should.equal('development')
         done()
     })
+    it(protocol + ' groups/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'development'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var groupList = yield MiniGroup.getAllByUserId(user.id)
+                groupList[0].name.should.equal('development')
+                done()
+            })()
+        })
+    })
     it(protocol + ' groups/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/add')

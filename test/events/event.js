@@ -1,7 +1,6 @@
 var request = require('co-supertest')
 var context = require('../context')
-var protocol = process.env.ORM_PROTOCOL
-var php = require('phpjs')
+var protocol = process.env.ORM_PROTOCOL 
 var assert = require('assert')
 describe(protocol + ' event', function() {
     this.timeout(10000)
@@ -44,6 +43,17 @@ describe(protocol + ' event', function() {
         var userIp = res.body.events[0].ip
         userIp.should.equal('::ffff:127.0.0.1')
         done()
+    })
+    it(protocol + ' events/get_login_events socket.io 200 ', function*(done) {
+        global.socket.emit('/api/v1/events/get_login_events', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        }, function(body) {
+            var userIp = body.events[0].ip
+            userIp.should.equal('::ffff:127.0.0.1')
+            done()
+        })
     })
     it(protocol + ' events/get_login_events 400', function*(done) {
         var res = yield request(app)

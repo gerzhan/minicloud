@@ -60,6 +60,26 @@ describe(protocol + ' groups/members/add', function() {
         existed.should.equal(true)
         done()
     })
+    it(protocol + ' groups/members/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/members/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'source',
+                uuid: addUser.uuid
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var group = yield MiniGroup.getByName(user.id, 'source')
+                var groupId = group.id
+                var existed = yield MiniUserGroupRelation.exist(groupId, addUser.id)
+                existed.should.equal(true)
+                done()
+            })()
+        })
+    })
     it(protocol + ' groups/members/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/members/add')

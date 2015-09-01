@@ -47,7 +47,16 @@ it(protocol + ' tags/list 200', function*(done) {
         res.body[0].name.should.equal('green')
         done()
     })
-
+ it(protocol + ' tags/list socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/tags/list', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        }, function(body) {
+           body[0].name.should.equal('green')
+            done()
+        })
+    })
  it(protocol + ' tags/list 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/list')

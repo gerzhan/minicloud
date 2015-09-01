@@ -24,7 +24,7 @@ describe(protocol + ' tags/files/add', function() {
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         yield MiniTag.create(user.id, 'green')
-        
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -39,16 +39,16 @@ describe(protocol + ' tags/files/add', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
-        //get current device
+            //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
-        for(var i=0;i<devices.length;i++){
+        for (var i = 0; i < devices.length; i++) {
             var item = devices[i]
-            if(item.client_id==='JsQCsjF3yr7KACyT'){
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
                 device = item
             }
         }
-        file = yield MiniFile.createFolder(device,'/abc/test')
+        file = yield MiniFile.createFolder(device, '/abc/test')
         return done()
     })
     it(protocol + ' tags/files/add 200', function*(done) {
@@ -70,6 +70,26 @@ describe(protocol + ' tags/files/add', function() {
         existed.should.equal(true)
         done()
     })
+    it(protocol + ' tags/files/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/tags/files/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'green',
+                file_id: file.id
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var tag = yield MiniTag.getByName(user.id, 'green')
+                var tagId = tag.id
+                var existed = yield MiniFileTagRelation.exist(tagId, file.id)
+                existed.should.equal(true)
+                done()
+            })()
+        })
+    })
     it(protocol + ' tags/files/add 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/add')
@@ -85,7 +105,7 @@ describe(protocol + ' tags/files/add', function() {
             .end()
         done()
     })
-it(protocol + ' tags/files/add 409 tag_not_exist', function*(done) {
+    it(protocol + ' tags/files/add 409 tag_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/add')
             .type('json')
@@ -101,7 +121,7 @@ it(protocol + ' tags/files/add 409 tag_not_exist', function*(done) {
         res.body.error.should.equal('tag_not_exist')
         done()
     })
-it(protocol + ' tags/files/add 409 file_not_exist', function*(done) {
+    it(protocol + ' tags/files/add 409 file_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/add')
             .type('json')
@@ -117,7 +137,7 @@ it(protocol + ' tags/files/add 409 file_not_exist', function*(done) {
         res.body.error.should.equal('file_not_exist')
         done()
     })
- it(protocol + ' tags/files/add 400', function*(done) {
+    it(protocol + ' tags/files/add 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/add')
             .type('json')

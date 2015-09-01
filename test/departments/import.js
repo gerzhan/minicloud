@@ -106,6 +106,24 @@ describe(protocol + ' department import', function() {
         res.body.failed_count.should.equal(0)
         done()
     })
+    it(protocol + ' departments/import socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/import', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                data: [{
+                    'department-member': 'minicloud_inc|market|chengdu_office|'
+                }, {
+                    'department-member': 'minicloud_inc|R&D|office,'
+                }]
+            }
+        }, function(body) {
+            body.success_count.should.equal(0)
+            body.failed_count.should.equal(0)
+            done()
+        })
+    })
     it(protocol + ' departments/import 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/import')

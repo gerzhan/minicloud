@@ -54,12 +54,12 @@ describe(protocol + ' devices', function() {
         user = yield MiniUser.create('admin', 'admin')
         accessToken = yield getAdminAccessToken(app)
         uuid = yield getMyDeviceUuid(app, accessToken)
-        //get current device
+            //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
-        for(var i=0;i<devices.length;i++){
+        for (var i = 0; i < devices.length; i++) {
             var item = devices[i]
-            if(item.client_id==='JsQCsjF3yr7KACyT'){
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
                 device = item
             }
         }
@@ -82,7 +82,7 @@ describe(protocol + ' devices', function() {
         it(protocol + ' devices/remove 401 other\'s uuid', function*(done) {
             var user1 = yield MiniUser.create('admin1', 'admin1')
                 //create user device
-            var device1 = yield MiniDevice.create(user1, 'chrome', 'JsQCsjF3yr7KACyT') 
+            var device1 = yield MiniDevice.create(user1, 'chrome', 'JsQCsjF3yr7KACyT')
             var res = yield request(app)
                 .post('/api/v1/devices/remove')
                 .type('json')
@@ -126,12 +126,33 @@ describe(protocol + ' devices', function() {
             var deviceList = yield MiniOnlineDevice.getAllDeviceId(device.id)
             deviceList.length.should.equal(0)
             var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
-            eventList.length.should.equal(0) 
+            eventList.length.should.equal(0)
             var token = yield MiniAccessToken.getToken(accessToken)
             should(token).not.be.ok()
             var deviceObj = yield MiniDevice.getById(device.id)
             should(deviceObj).not.be.ok()
             done()
+        })
+        it(protocol + ' devices/remove socket.io 200 ', function*(done) {
+            global.socket.emit('/api/v1/devices/remove', {
+                header: {
+                    Authorization: 'Bearer ' + accessToken
+                }
+            }, function(body) {
+                var co = require('co')
+                co.wrap(function*() {
+                    var deviceList = yield MiniOnlineDevice.getAllDeviceId(device.id)
+                    deviceList.length.should.equal(0)
+                    var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+                    eventList.length.should.equal(0)
+                    var token = yield MiniAccessToken.getToken(accessToken)
+                    should(token).not.be.ok()
+                    var deviceObj = yield MiniDevice.getById(device.id)
+                    should(deviceObj).not.be.ok()
+                    done()
+                })()
+
+            })
         })
         it(protocol + ' devices/remove 401', function*(done) {
             var res = yield request(app)

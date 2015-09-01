@@ -69,6 +69,19 @@ describe(protocol + ' tags/files/tags', function() {
             res.body[0].name.should.equal('green')
         done()
     })
+     it(protocol + 'tags/files/tags socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/tags/files/tags', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                 file_id: file.id
+            }
+        }, function(body) {
+            body[0].name.should.equal('green')
+            done()
+        })
+    })
     it(protocol + ' tags/files/tags 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/tags')

@@ -123,6 +123,24 @@ describe(protocol + ' departments members add', function() {
             member.department_path.should.equal(department3.path)
         done()
     })
+    it(protocol + ' departments/members/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/members/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                path: department.path,
+                uuid: uuid
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var member = yield MiniUser.getByUuid(uuid)
+                member.department_path.should.equal(department.path)
+                done()
+            })()
+        })
+    })
     it(protocol + ' departments/members/add 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/members/add')

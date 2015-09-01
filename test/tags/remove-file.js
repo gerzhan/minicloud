@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
 describe(protocol + ' tags/files/remove', function() {
-   this.timeout(10000)
+    this.timeout(10000)
     var app = null
     var MiniUser = null
     var user = null
@@ -25,7 +25,7 @@ describe(protocol + ' tags/files/remove', function() {
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         tag = yield MiniTag.create(user.id, 'green')
-        
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -44,21 +44,21 @@ describe(protocol + ' tags/files/remove', function() {
         //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
-        for(var i=0;i<devices.length;i++){
+        for (var i = 0; i < devices.length; i++) {
             var item = devices[i]
-            if(item.client_id==='JsQCsjF3yr7KACyT'){
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
                 device = item
             }
         }
-        file = yield MiniFile.createFolder(device,'/abc/test')
-        yield MiniFileTagRelation.create(tag.id,file.id)
+        file = yield MiniFile.createFolder(device, '/abc/test')
+        yield MiniFileTagRelation.create(tag.id, file.id)
         return done()
     })
 
- it(protocol + ' tags/files/remove 200', function*(done) {
-      var existed = yield MiniFileTagRelation.exist(tag.id, file.id)
+    it(protocol + ' tags/files/remove 200', function*(done) {
+        var existed = yield MiniFileTagRelation.exist(tag.id, file.id)
         existed.should.equal(true)
- 
+
         var res = yield request(app)
             .post('/api/v1/tags/files/remove')
             .type('json')
@@ -75,13 +75,31 @@ describe(protocol + ' tags/files/remove', function() {
         existed2.should.equal(false)
         done()
     })
- it(protocol + ' tags/files/remove 401', function*(done) {
-      
+    it(protocol + ' tags/files/remove socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/tags/files/remove', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                name: 'green',
+                file_id: file.id
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var existed2 = yield MiniFileTagRelation.exist(tag.id, file.id)
+                existed2.should.equal(false)
+                done()
+            })()
+        })
+    })
+    it(protocol + ' tags/files/remove 401', function*(done) {
+
         var res = yield request(app)
             .post('/api/v1/tags/files/remove')
             .type('json')
             .set({
-               Authorization: 'Bearer 12234'
+                Authorization: 'Bearer 12234'
             })
             .send({
                 name: 'green',
@@ -91,7 +109,7 @@ describe(protocol + ' tags/files/remove', function() {
             .end()
         done()
     })
- it(protocol + ' tags/files/remove 409 tag_not_exist', function*(done) {
+    it(protocol + ' tags/files/remove 409 tag_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/remove')
             .type('json')
@@ -104,10 +122,10 @@ describe(protocol + ' tags/files/remove', function() {
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('tag_not_exist')
+        res.body.error.should.equal('tag_not_exist')
         done()
     })
- it(protocol + ' tags/files/remove 409 file_not_exist', function*(done) {
+    it(protocol + ' tags/files/remove 409 file_not_exist', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/remove')
             .type('json')
@@ -120,10 +138,10 @@ describe(protocol + ' tags/files/remove', function() {
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('file_not_exist')
+        res.body.error.should.equal('file_not_exist')
         done()
     })
- it(protocol + ' tags/files/remove 400', function*(done) {
+    it(protocol + ' tags/files/remove 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/tags/files/remove')
             .type('json')

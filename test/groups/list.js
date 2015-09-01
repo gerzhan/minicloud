@@ -48,6 +48,16 @@ describe(protocol + ' groups/list', function() {
         res.body[0].name.should.equal('source')
         done()
     })
+    it(protocol + ' groups/list socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/list', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        }, function(body) {
+            body[0].name.should.equal('source')
+            done()
+        })
+    })
     it(protocol + ' groups/list 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/groups/list')

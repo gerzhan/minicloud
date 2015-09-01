@@ -97,7 +97,7 @@ describe(protocol + ' files/hash_upload', function() {
             .end()
         done()
     })
-    it(protocol + ' files/hash_upload 409 hash_not_exists', function*(done) {
+    it(protocol + ' files/hash_upload 409 hash_not_existed', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')
             .type('json')
@@ -110,7 +110,7 @@ describe(protocol + ' files/hash_upload', function() {
             })
             .expect(409)
             .end()
-        res.body.error.should.equal('hash_not_exists')
+        res.body.error.should.equal('hash_not_existed')
         done()
     })
     it(protocol + ' files/hash_upload 409 option.site_default_space over_space', function*(done) {

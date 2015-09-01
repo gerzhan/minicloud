@@ -52,7 +52,20 @@ describe(protocol + ' departments children', function() {
         res.body[0].name.should.equal('MiniDepartment_inc')
         done()
     })
-    it(protocol + ' departments/children 200', function*(done) {
+    it(protocol + ' departments/children socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/children', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                parent_id: -1
+            }
+        }, function(body) {
+            body[0].name.should.equal('MiniDepartment_inc')
+            done()
+        })
+    })
+    it(protocol + ' departments/children 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/children')
             .type('json')
@@ -77,5 +90,5 @@ describe(protocol + ' departments children', function() {
             .expect(401)
             .end()
         done()
-    })     
+    })
 })

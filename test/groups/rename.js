@@ -22,7 +22,7 @@ describe(protocol + ' groups/rename', function() {
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         yield MiniGroup.create(user.id, 'source')
         yield MiniGroup.create(user.id, 'market')
-       
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -39,7 +39,7 @@ describe(protocol + ' groups/rename', function() {
         accessToken = res.body.access_token
         return done()
     })
-it(protocol + ' groups/rename 409 old_group_not_exist', function*(done) {
+    it(protocol + ' groups/rename 409 old_group_not_exist', function*(done) {
 
         var res = yield request(app)
             .post('/api/v1/groups/rename')
@@ -53,10 +53,10 @@ it(protocol + ' groups/rename 409 old_group_not_exist', function*(done) {
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('old_group_not_exist')
+        res.body.error.should.equal('old_group_not_exist')
         done()
     })
-it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
+    it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
 
         var res = yield request(app)
             .post('/api/v1/groups/rename')
@@ -70,11 +70,11 @@ it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
             })
             .expect(409)
             .end()
-            res.body.error.should.equal('new_group_existed')
+        res.body.error.should.equal('new_group_existed')
         done()
     })
 
- it(protocol + ' groups/rename 200', function*(done) {
+    it(protocol + ' groups/rename 200', function*(done) {
 
         var res = yield request(app)
             .post('/api/v1/groups/rename')
@@ -88,11 +88,11 @@ it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
             })
             .expect(200)
             .end()
-       var group = yield MiniGroup.getByName(user.id, 'koakoa')
-       group.name.should.equal('koakoa')
+        var group = yield MiniGroup.getByName(user.id, 'koakoa')
+        group.name.should.equal('koakoa')
         done()
     })
- it(protocol + ' groups/rename 200', function*(done) {
+    it(protocol + ' groups/rename 200', function*(done) {
 
         var res = yield request(app)
             .post('/api/v1/groups/rename')
@@ -106,11 +106,29 @@ it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
             })
             .expect(200)
             .end()
-       var group = yield MiniGroup.getByName(user.id, 'koakoa')
-       group.name.should.equal('koakoa')
+        var group = yield MiniGroup.getByName(user.id, 'koakoa')
+        group.name.should.equal('koakoa')
         done()
     })
- it(protocol + ' groups/rename 400', function*(done) {
+    it(protocol + ' groups/rename socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/rename', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                old_name: 'koakoa',
+                new_name: 'koakoa'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var group = yield MiniGroup.getByName(user.id, 'koakoa')
+                group.name.should.equal('koakoa')
+                done()
+            })()
+        })
+    })
+    it(protocol + ' groups/rename 400', function*(done) {
 
         var res = yield request(app)
             .post('/api/v1/groups/rename')
@@ -122,7 +140,7 @@ it(protocol + ' groups/rename 409 new_group_existed', function*(done) {
             .end()
         done()
     })
- it(protocol + ' groups/rename 401', function*(done) {
+    it(protocol + ' groups/rename 401', function*(done) {
 
         var res = yield request(app)
             .post('/api/v1/groups/rename')

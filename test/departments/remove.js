@@ -82,6 +82,24 @@ describe(protocol + ' department remove', function() {
         assert.equal(departmentList, null)
         done()
     })
+    it(protocol + ' departments/remove  socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/remove', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                path: department3.path
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var departmentList = yield MiniDepartment.getById(department3.id)
+                var assert = require('assert')
+                assert.equal(departmentList, null)
+                done()
+            })()
+        })
+    })
     it(protocol + ' departments/remove 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/remove')

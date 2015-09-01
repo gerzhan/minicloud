@@ -57,6 +57,20 @@ describe(protocol + ' files/create_folder', function() {
         res.body.path_lower.should.equal('/' + user.id + '/image')
         done()
     })
+    it(protocol + ' files/create_folder socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/files/create_folder', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                path: 'Image'
+            }
+        }, function(body) {
+            body.name.should.equal('Image')
+            body.path_lower.should.equal('/' + user.id + '/image')
+            done()
+        })
+    })
     it(protocol + ' files/create_folder 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/files/create_folder')

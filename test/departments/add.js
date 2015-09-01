@@ -91,6 +91,23 @@ describe(protocol + ' department add', function() {
         departmentList[0].name.should.equal('minicloud_inc')
         done()
     })
+    it(protocol + ' departments/add socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/add', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                path: '/minicloud_inc'
+            }
+        }, function(body) {
+            var co = require('co')
+            co.wrap(function*() {
+                var departmentList = yield MiniDepartment.getChildren('')
+                departmentList[0].name.should.equal('minicloud_inc')
+                done()
+            })()
+        })
+    })
     it(protocol + ' departments/add 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/add')
