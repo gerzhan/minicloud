@@ -20,7 +20,6 @@ describe(protocol + ' department remove', function() {
         MiniUserMeta = require('../../lib/model/user-meta')
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
-        MiniUserDepartmentRelation = require('../../lib/model/user-department-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniUserMeta.create(user.id, 'is_admin', '1')
@@ -28,10 +27,10 @@ describe(protocol + ' department remove', function() {
         user2 = yield MiniUser.create('peter', 'peter')
         yield MiniUserMeta.create(user2.id, 'is_admin', '0')
 
-        department1 = yield MiniDepartment.create(-1, 'minicloud_inc')
-        department2 = yield MiniDepartment.create(department1.id, 'minicloud_dev')
-        department3 = yield MiniDepartment.create(department1.id, 'minicloud_market')
-        yield MiniUserDepartmentRelation.create(department2.id, user2.id, department2.path)
+        department1 = yield MiniDepartment.create('/minicloud_inc')
+        department2 = yield MiniDepartment.create('/minicloud_inc/minicloud_dev')
+        department3 = yield MiniDepartment.create('/minicloud_inc/minicloud_market')
+        yield MiniUser.bindUserToDepartment(user2.id, department2.path)
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -74,7 +73,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department3.id
+                path: department3.path
             })
             .expect(200)
             .end()
@@ -91,7 +90,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 'xx'
+                path: ''
             })
             .expect(400)
             .end()
@@ -116,7 +115,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id: department1.id
+                path: department1.path
             })
             .expect(401)
             .end()
@@ -131,7 +130,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 10
+                path: '/xxxxx'
             })
             .expect(409)
             .end()
@@ -146,7 +145,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department1.id
+                path: department1.path
             })
             .expect(409)
             .end()
@@ -161,7 +160,7 @@ describe(protocol + ' department remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department2.id
+                path: department2.path
             })
             .expect(409)
             .end()

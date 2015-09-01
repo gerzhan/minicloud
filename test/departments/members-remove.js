@@ -11,14 +11,12 @@ describe(protocol + ' departments members remove', function() {
     var MiniDepartment = null
     var uuid = null
     var userId = null
-    var MiniUserDepartmentRelation = null
     var department = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         MiniUserMeta = require('../../lib/model/user-meta')
-        MiniUserDepartmentRelation = require('../../lib/model/user-department-relation')
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
@@ -30,9 +28,9 @@ describe(protocol + ' departments members remove', function() {
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
         yield MiniUserMeta.create(user2.id, "nick", 'Peter')
-        department = yield MiniDepartment.create(-1, "MiniDepartment_inc")
-        yield MiniUserDepartmentRelation.create(department.id, user.id, department.path)
-            // yield MiniUserDepartmentRelation.create(department.id,user2.id)
+        department = yield MiniDepartment.create("/MiniDepartment_inc")
+        yield MiniUser.bindUserToDepartment(user.id, department.path)
+        yield MiniUser.bindUserToDepartment(user2.id, department.path)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -73,13 +71,15 @@ describe(protocol + ' departments members remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department.id,
+                path: department.path,
                 uuid: uuid
             })
             .expect(200)
             .end()
-        var memberList = yield MiniUserDepartmentRelation.getAllByDepartmentId(1)
-        memberList.length.should.equal(0)
+            var user = yield MiniUser.getById(userId)
+            var assert = require('assert')
+            var departmentPath = user.department_path
+            assert.equal(departmentPath,null)
         done()
     })
     it(protocol + ' departments/members/remove 400', function*(done) {
@@ -90,7 +90,7 @@ describe(protocol + ' departments members remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 'abc',
+                path: '',
                 uuid: 'xxx'
             })
             .expect(400)
@@ -105,7 +105,7 @@ describe(protocol + ' departments members remove', function() {
                 Authorization: 'Bearer 12234'
             })
             .send({
-                id: department.id,
+                path: department.path,
                 uuid: uuid
             })
             .expect(401)
@@ -120,7 +120,7 @@ describe(protocol + ' departments members remove', function() {
                 Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id: department.id,
+                path: department.path,
                 uuid: uuid
             })
             .expect(401)
@@ -136,7 +136,7 @@ describe(protocol + ' departments members remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 10,
+                path: "/xxxx",
                 uuid: uuid
             })
             .expect(409)
@@ -152,7 +152,7 @@ describe(protocol + ' departments members remove', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department.id,
+                path: department.path,
                 uuid: 'xxxx'
             })
             .expect(409)

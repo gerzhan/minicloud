@@ -15,7 +15,6 @@ describe(protocol + ' departments members', function() {
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         MiniUserMeta = require('../../lib/model/user-meta')
-        MiniUserDepartmentRelation = require('../../lib/model/user-department-relation')
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
@@ -26,9 +25,9 @@ describe(protocol + ' departments members', function() {
         user2 = yield MiniUser.create('peter', 'peter')
         yield MiniUserMeta.create(user2.id, 'is_admin', '0')
         yield MiniUserMeta.create(user2.id, 'nick', 'Peter')
-        department1 = yield MiniDepartment.create(-1, 'MiniDepartment_inc')
-        yield MiniUserDepartmentRelation.create(department1.id, user.id, department1.path)
-        yield MiniUserDepartmentRelation.create(department1.id, user2.id, department1.path)
+        department1 = yield MiniDepartment.create('/MiniDepartment_inc')
+        yield MiniUser.bindUserToDepartment(user.id, department1.path)
+        yield MiniUser.bindUserToDepartment(user2.id, department1.path)
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -69,7 +68,7 @@ describe(protocol + ' departments members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: department1.id
+                path: department1.path
             })
             .expect(200)
             .end()
@@ -84,7 +83,7 @@ describe(protocol + ' departments members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 'abc'
+                path: ''
             })
             .expect(400)
             .end()
@@ -109,7 +108,7 @@ describe(protocol + ' departments members', function() {
                 Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                id: department1.id
+                path: department1.path
             })
             .expect(401)
             .end()
@@ -124,7 +123,7 @@ describe(protocol + ' departments members', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                id: 10
+                path: '/xxx'
             })
             .expect(409)
             .end()

@@ -12,7 +12,6 @@ describe(protocol + ' department add', function() {
     var MiniDepartmentpRelation = null
     before(function*(done) {
         app = yield context.getApp()
-
         var MiniApp = require('../../lib/model/app')
         MiniUser = require('../../lib/model/user')
         MiniUserMeta = require('../../lib/model/user-meta')
@@ -68,12 +67,27 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id: -1,
-                name: 'minicloud_inc'
+                path: '/minicloud_inc'
             })
             .expect(200)
             .end()
-        var departmentList = yield MiniDepartment.getChildren(-1)
+        var departmentList = yield MiniDepartment.getChildren('')
+        departmentList[0].name.should.equal('minicloud_inc')
+        done()
+    })
+    it(protocol + ' departments/add 200', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: '/minicloud_inc/minicloud_dev'
+            })
+            .expect(200)
+            .end()
+        var departmentList = yield MiniDepartment.getChildren('')
         departmentList[0].name.should.equal('minicloud_inc')
         done()
     })
@@ -85,8 +99,7 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id: 'abc',
-                name: 'minicloud_inc'
+                path: ''
             })
             .expect(400)
             .end()
@@ -111,8 +124,7 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken2
             })
             .send({
-                parent_id: -1,
-                name: 'minicloud_dev'
+                path: '/minicloud_dev'
             })
             .expect(401)
             .end()
@@ -127,12 +139,26 @@ describe(protocol + ' department add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id: -1,
-                name: 'minicloud_inc'
+                path: '/minicloud_inc'
             })
             .expect(409)
             .end()
         res.body.error.should.equal('department_existed')
+        done()
+    })
+    it(protocol + ' departments/add 409 parent_department_not_exist', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: '/minicloud_inc/xxxxxx/MiniUser'
+            })
+            .expect(409)
+            .end()
+            res.body.error.should.equal('parent_department_not_exist')
         done()
     })
 })

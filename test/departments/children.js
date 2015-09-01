@@ -18,7 +18,8 @@ describe(protocol + ' departments children', function() {
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
-        yield MiniDepartment.create(-1, 'MiniDepartment_inc')
+        yield MiniDepartment.create('/MiniDepartment_inc')
+        yield MiniDepartment.create('/MiniDepartment_inc/MiniDepartment_dev')
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -44,14 +45,14 @@ describe(protocol + ' departments children', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id: '-1'
+                path: ''
             })
             .expect(200)
             .end()
         res.body[0].name.should.equal('MiniDepartment_inc')
         done()
     })
-    it(protocol + ' departments/children 400', function*(done) {
+    it(protocol + ' departments/children 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/children')
             .type('json')
@@ -59,10 +60,11 @@ describe(protocol + ' departments children', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                parent_id: 'abc'
+                path: '/MiniDepartment_inc'
             })
-            .expect(400)
+            .expect(200)
             .end()
+        res.body[0].name.should.equal('MiniDepartment_dev')
         done()
     })
     it(protocol + ' departments/children 401', function*(done) {
