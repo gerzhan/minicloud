@@ -1,7 +1,7 @@
 {
     "name": "user",
     "description": "user module",
-    "valid_admin_access_token":true,
+    "roles":"3,9",
     "routes": {
         "/api/v1/members-console/list": "list"
     }

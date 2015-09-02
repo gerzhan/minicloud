@@ -18,8 +18,7 @@ describe(protocol + ' department add', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        user = yield MiniUser.create('admin', 'admin')
-        yield MiniUserMeta.create(user.id, 'is_admin', '1')
+        user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
 
         user2 = yield MiniUser.create('peter', 'peter')
@@ -72,7 +71,9 @@ describe(protocol + ' department add', function() {
             .expect(200)
             .end()
         var departmentList = yield MiniDepartment.getChildren('')
+        var departmentList2 = yield MiniDepartment.getChildren('/minicloud_inc')
         departmentList[0].name.should.equal('minicloud_inc')
+        departmentList2[0].name.should.equal('abc')
         done()
     })
     it(protocol + ' departments/add 200', function*(done) {

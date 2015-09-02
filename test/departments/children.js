@@ -16,7 +16,7 @@ describe(protocol + ' departments children', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        user = yield MiniUser.create('admin', 'admin')
+        user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         yield MiniDepartment.create('/MiniDepartment_inc')
         yield MiniDepartment.create('/MiniDepartment_inc/MiniDepartment_dev')

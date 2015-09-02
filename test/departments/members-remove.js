@@ -20,7 +20,7 @@ describe(protocol + ' departments members remove', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        user = yield MiniUser.create('admin', 'admin')
+        user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
         uuid = user.uuid
         userId = user.id
         yield MiniUserMeta.create(user.id, "is_admin", '1')

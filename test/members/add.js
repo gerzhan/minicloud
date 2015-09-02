@@ -25,7 +25,8 @@ describe(protocol + ' member/add', function() {
                 name: 'Allen',
                 password: '8k9v6n',
                 nick: 'littleAllen',
-                email: 'Allen@minicloud.io'
+                email: 'Allen@minicloud.io',
+                role: 1
             })
             .expect(200)
             .end()
@@ -37,7 +38,7 @@ describe(protocol + ' member/add', function() {
         metaList[1].value.should.equal('Allen@minicloud.io')
         done()
     })
-    it(protocol + ' members/add 400', function*(done) { 
+    it(protocol + ' members/add 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/add')
             .type('json') 

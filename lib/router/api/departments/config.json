@@ -1,7 +1,7 @@
 {
     "name": "department",
     "description": "department module",
-    "valid_admin_access_token":true,
+    "roles":"3,9",
     "routes": {
         "/api/v1/departments/add": "add",
         "/api/v1/departments/remove": "remove",

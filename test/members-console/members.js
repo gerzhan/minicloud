@@ -93,7 +93,7 @@ describe(protocol + ' members-console', function() {
             .post('/api/v1/members-console/list')
             .type('json') 
             .send({
-                department_id: department.id,
+                department_path: department.path,
                 limit: 1,
                 condition_key:'a',
             })
@@ -111,7 +111,7 @@ describe(protocol + ' members-console', function() {
             .post('/api/v1/members-console/list')
             .type('json') 
             .send({
-                department_id: department.id,
+                department_path: department.path,
                 limit: 2,
                 condition_key:'a',
                 cursor:cursor
@@ -131,7 +131,7 @@ describe(protocol + ' members-console', function() {
             .post('/api/v1/members-console/list')
             .type('json') 
             .send({
-                department_id: department.id,
+                department_path: department.path,
                 limit:1,
                 condition_admin:true
             })
@@ -149,7 +149,7 @@ describe(protocol + ' members-console', function() {
             .post('/api/v1/members-console/list')
             .type('json') 
             .send({
-                department_id: department.id,
+                department_path: department.path,
                 limit:1,
                 condition_disabled:true
             })
@@ -167,7 +167,6 @@ describe(protocol + ' members-console', function() {
             .post('/api/v1/members-console/list')
             .type('json')
             .send({
-                department_id: 'abc'
             }) 
             .set({
                 Authorization: 'Bearer '+ accessToken
@@ -181,7 +180,7 @@ describe(protocol + ' members-console', function() {
             .post('/api/v1/members-console/list')
             .type('json') 
             .send({
-                department_id: department.id,
+                department_path: department.path,
                 condition_key:'a',
             })
             .set({
