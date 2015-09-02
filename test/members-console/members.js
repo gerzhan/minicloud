@@ -85,6 +85,20 @@ describe(protocol + ' members-console', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
+        var res = yield request(app)
+            .post('/api/v1/oauth2/token')
+            .type('json')
+            .send({
+                name: 'tom',
+                password: 'tom',
+                device_name: 'ji1111m-pc-windows7',
+                client_id: 'JsQCsjF3yr7KACyT',
+                client_secret: 'bqGeM4Yrjs3tncJZ'
+            })
+            .expect(200)
+            .end()
+            //set access_token
+        accessToken2 = res.body.access_token
         return done()
     })
 
@@ -122,6 +136,26 @@ describe(protocol + ' members-console', function() {
             .expect(200)
             .end()
         var body = res.body
+        body.has_more.should.equal(false)
+        body.items[0].name.should.equal('good')
+        done()
+    })
+    it(protocol + ' members-console/list 200', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members-console/list')
+            .type('json') 
+            .send({
+                department_path: department.path,
+                limit: 1,
+                condition_key:'a',
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken2
+            })
+            .expect(200)
+            .end() 
+        var body = res.body
+        cursor = body.cursor
         body.has_more.should.equal(false)
         body.items[0].name.should.equal('good')
         done()
