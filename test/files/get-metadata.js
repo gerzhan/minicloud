@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' files/get-metadata', function() {
+describe(protocol + ' files/get_metadata', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -71,9 +71,9 @@ describe(protocol + ' files/get-metadata', function() {
         return done()
     })
 
-    it(protocol + ' files/get-metadata 200 file', function*(done) {
+    it(protocol + ' files/get_metadata 200 file', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -87,8 +87,8 @@ describe(protocol + ' files/get-metadata', function() {
         res.body.name.should.equal('1.doc')
         done()
     })
-    it(protocol + ' files/get-metadata  socket.io  200', function*(done) {
-        global.socket.emit('/api/v1/files/get-metadata', {
+    it(protocol + ' files/get_metadata  socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/files/get_metadata', {
             header: {
                 Authorization: 'Bearer ' + accessToken
             },
@@ -101,9 +101,9 @@ describe(protocol + ' files/get-metadata', function() {
             done()
         })
     })
-    it(protocol + ' files/get-metadata 200 folder', function*(done) {
+    it(protocol + ' files/get_metadata 200 folder', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -117,9 +117,9 @@ describe(protocol + ' files/get-metadata', function() {
         res.body.name.should.equal('好')
         done()
     })
-    it(protocol + ' files/get-metadata 200 folder', function*(done) {
+    it(protocol + ' files/get_metadata 200 folder', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -133,9 +133,9 @@ describe(protocol + ' files/get-metadata', function() {
         res.body.name.should.equal('123')
         done()
     })
-    it(protocol + ' files/get-metadata 200 file', function*(done) {
+    it(protocol + ' files/get_metadata 200 file', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -149,9 +149,9 @@ describe(protocol + ' files/get-metadata', function() {
         res.body.name.should.equal('hello.doc')
         done()
     })
-    it(protocol + ' files/get-metadata 400', function*(done) {
+    it(protocol + ' files/get_metadata 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -160,9 +160,9 @@ describe(protocol + ' files/get-metadata', function() {
             .end()
         done()
     })
-    it(protocol + ' files/get-metadata 401', function*(done) {
+    it(protocol + ' files/get_metadata 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer 1234'
@@ -174,9 +174,9 @@ describe(protocol + ' files/get-metadata', function() {
             .end()
         done()
     })
-    it(protocol + ' files/get-metadata 409 file', function*(done) {
+    it(protocol + ' files/get_metadata 409 file', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -189,9 +189,9 @@ describe(protocol + ' files/get-metadata', function() {
         res.body.error.should.equal('path_not_exist')
         done()
     })
-    it(protocol + ' files/get-metadata 409 folder', function*(done) {
+    it(protocol + ' files/get_metadata 409 folder', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/get-metadata')
+            .post('/api/v1/files/get_metadata')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
