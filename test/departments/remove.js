@@ -22,11 +22,9 @@ describe(protocol + ' department remove', function() {
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
-        yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
-        yield MiniUserMeta.create(user2.id, 'is_admin', '0')
-
+        
         department1 = yield MiniDepartment.create('/minicloud_inc')
         department2 = yield MiniDepartment.create('/minicloud_inc/minicloud_dev')
         department3 = yield MiniDepartment.create('/minicloud_inc/minicloud_market')
