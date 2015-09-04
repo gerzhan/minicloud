@@ -21,13 +21,13 @@ TESTS = test/devices \
 		test/files-upload \
 		test/groups \
 		test/members \
-		test/members-console \
+		test/console-members \
 		test/tags \
 		test/unit \
 		test/unit/page
 		
 test:
-	@NODE_ENV=test $(BIN)  \
+	@NODE_ENV=test $(BIN)   \
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
