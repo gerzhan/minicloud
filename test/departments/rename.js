@@ -19,7 +19,7 @@ describe(protocol + ' department rename', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
+        user = yield MiniUser.create('admin', 'admin', SUPER_ADMIN)
         yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
@@ -94,7 +94,7 @@ describe(protocol + ' department rename', function() {
         department2.path.should.equal('/minicloud_sale')
         department3.path.should.equal('/minicloud_dev/minicloud_sale_3')
         department4.path.should.equal('/minicloud_dev/minicloud_sale_3/minicloud_sale_4')
-        user  = yield MiniUser.getById(user.id)
+        user = yield MiniUser.getById(user.id)
         user2 = yield MiniUser.getById(user2.id)
         user3 = yield MiniUser.getById(user3.id)
         user4 = yield MiniUser.getById(user4.id)
@@ -112,7 +112,7 @@ describe(protocol + ' department rename', function() {
                 Authorization: 'Bearer ' + accessToken
             },
             data: {
-                id: department1.id,
+                path: department1.path,
                 new_name: 'minicloud_dev'
             }
         }, function(body) {
@@ -146,7 +146,7 @@ describe(protocol + ' department rename', function() {
         department2.path.should.equal('/minicloud_sale')
         department3.path.should.equal('/minicloud_dev/happiness')
         department4.path.should.equal('/minicloud_dev/happiness/minicloud_sale_4')
-        user  = yield MiniUser.getById(user.id)
+        user = yield MiniUser.getById(user.id)
         user2 = yield MiniUser.getById(user2.id)
         user3 = yield MiniUser.getById(user3.id)
         user4 = yield MiniUser.getById(user4.id)
