@@ -104,7 +104,7 @@ describe(protocol + ' members-console', function() {
 
     it(protocol + ' members-console/list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -122,7 +122,7 @@ describe(protocol + ' members-console', function() {
         body.items[0].name.should.equal('admin')
 
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -142,7 +142,7 @@ describe(protocol + ' members-console', function() {
     })
     it(protocol + ' members-console/list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -162,7 +162,7 @@ describe(protocol + ' members-console', function() {
     })
     it(protocol + ' members-console/admin_list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -180,7 +180,7 @@ describe(protocol + ' members-console', function() {
     })
     it(protocol + ' members-console/disabled_list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -198,7 +198,7 @@ describe(protocol + ' members-console', function() {
     })
     it(protocol + ' members-console/list 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json')
             .send({
             }) 
@@ -211,7 +211,7 @@ describe(protocol + ' members-console', function() {
     })
     it(protocol + ' members-console/list 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members-console/list')
+            .post('/api/v1/console/members/list')
             .type('json') 
             .send({
                 department_path: department.path,
