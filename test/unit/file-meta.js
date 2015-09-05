@@ -12,8 +12,8 @@ describe(protocol + ' file-meta.js', function() {
         return done()
     })
     it(protocol + ' create', function*(done) {
-        var file = {
-            id:1
+        var file = { 
+            path_lower:'/home/a.doc'
         }
         var device = {
             id:1
@@ -30,7 +30,7 @@ describe(protocol + ' file-meta.js', function() {
         }
         var meta1 = yield MiniFileMeta.addVersion(file, historyVersion1,device)
         var meta2 = yield MiniFileMeta.addVersion(file, historyVersion2,device) 
-        var meta3 = yield MiniFileMeta.getByKey(1,'versions')
+        var meta3 = yield MiniFileMeta.getByKey('/home/a.doc','versions')
         assert(meta2.versions.length,2)
         assert(meta2.versions[0].hash,'X12344')
         assert(meta2.versions[1].hash,'X12345')

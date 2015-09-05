@@ -107,7 +107,7 @@ describe(protocol + ' file.js', function() {
         file4.id.should.equal(file5.parent_id)
         //asset fileMeta
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var meta = yield MiniFileMeta.getByKey(file5.id, 'versions')
+        var meta = yield MiniFileMeta.getByKey(file5.path_lower, 'versions')
         assert(meta.versions.length, 1)
         assert(meta.versions[0].hash, 'X1234567')
         done()
