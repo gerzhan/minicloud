@@ -47,22 +47,72 @@ describe(protocol + ' file.js', function() {
         var MiniFileMeta = require('../../lib/model/file-meta')
         var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
-        var file = yield MiniFile.createFile(device,filePath,version,null)
+        var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
-        yield MiniFile.copy(device,filePath,toPath)
-        //assert file
-        var toFile = yield MiniFile.getByPath(user.id,toPath)
-        assert(toFile.version_id,version.id)
-        //assert file meta
-        var meta = yield MiniFileMeta.getByKey(file.id,'versions')
+        yield MiniFile.copy(device, filePath, toPath)
+            //assert file
+        var toFile = yield MiniFile.getByPath(user.id, toPath)
+        assert(toFile.version_id, version.id)
+            //assert file meta
+        var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
         var reversions = JSON.parse(meta.value)
-        assert(reversions.length,1)
-        //assert file version meta
-        var version = yield MiniVersion.getByHash('X1234567') 
-        assert(version.ref_count,2)
+        assert(reversions.length, 1)
+            //assert file version meta
+        var version = yield MiniVersion.getByHash('X1234567')
+        assert(version.ref_count, 2)
+        done()
+    })
+    it(protocol + ' copy file autorename (1)', function*(done) {
+        var MiniVersion = require('../../lib/model/version')
+        var MiniFileMeta = require('../../lib/model/file-meta')
+        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
+        var file = yield MiniFile.createFile(device, filePath, version, null)
+        var toPath = '/home/abc/测试B.doc'
+        yield MiniFile.copy(device, filePath, toPath)
+            //assert file
+        toPath = '/home/abc/测试B (1).doc'
+        var toFile = yield MiniFile.getByPath(user.id, toPath)
+        assert(toFile.version_id, version.id)
+            //assert file meta
+        var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
+        var reversions = JSON.parse(meta.value)
+        assert(reversions.length, 1)
+            //assert file version meta
+        var version = yield MiniVersion.getByHash('X1234567')
+        assert(version.ref_count, 3)
         done()
     })
     it(protocol + ' copy folder', function*(done) {
+        var MiniVersion = require('../../lib/model/version')
+        var MiniFileMeta = require('../../lib/model/file-meta')
+        var version = yield MiniVersion.create('X12345678', 1073741825, 'doc')
+        var filePath = '/home/doc/DOCX/201508/测试目录/测试A.doc'
+        var file = yield MiniFile.createFile(device, filePath, version, null)
+        var version = yield MiniVersion.create('X123456789', 1073741825, 'doc')
+        var filePath = '/home/doc/DOCX/201508/测试B.doc'
+        var file = yield MiniFile.createFile(device, filePath, version, null)
+        var toPath = '/home/doc-back'
+        yield MiniFile.copy(device, '/home/doc', toPath)
+            //assert 
+        filePath = '/home/doc-back/DOCX/201508/测试目录/测试A.doc'
+        file = yield MiniFile.getByPath(user.id, filePath)
+        assert(file.name, '测试A.doc')
+        filePath = '/home/doc-back/DOCX/201508/测试B.doc'
+        file = yield MiniFile.getByPath(user.id, filePath)
+        assert(file.name, '测试B.doc')
+        done()
+    })
+    it(protocol + ' copy folder autorename (1)', function*(done) {
+        var toPath = '/home/doc-back'
+        yield MiniFile.copy(device, '/home/doc', toPath)
+            //assert 
+        filePath = '/home/doc-back (1)/DOCX/201508/测试目录/测试A.doc'
+        file = yield MiniFile.getByPath(user.id, filePath)
+        assert(file.name, '测试A.doc')
+        filePath = '/home/doc-back (1)/DOCX/201508/测试B.doc'
+        file = yield MiniFile.getByPath(user.id, filePath)
+        assert(file.name, '测试B.doc')
         done()
     })
 })
