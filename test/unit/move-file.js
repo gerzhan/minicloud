@@ -49,9 +49,8 @@ describe(protocol + ' file.js', function() {
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
-        yield MiniFile.move(device, filePath, toPath)
-            //assert file
-        var toFile = yield MiniFile.getByPath(user.id, toPath)
+        var toFile = yield MiniFile.move(device, filePath, toPath)
+            //assert file 
         assert(toFile.id, file.id)
         done()
     })
@@ -62,10 +61,9 @@ describe(protocol + ' file.js', function() {
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试C.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
-        yield MiniFile.move(device, filePath, toPath)
-            //assert file
-        toPath = '/home/abc/测试B (1).doc'
-        var toFile = yield MiniFile.getByPath(user.id, toPath)
+        var toFile = yield MiniFile.move(device, filePath, toPath)
+            //assert file 
+        assert(toFile.name, '测试B (1).doc')
         assert(toFile.id, file.id)
         done()
     })
@@ -79,7 +77,8 @@ describe(protocol + ' file.js', function() {
         var filePath = '/home/doc/DOCX/201508/测试B.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/doc-back'
-        yield MiniFile.move(device, '/home/doc', toPath)
+        var toFile = yield MiniFile.move(device, '/home/doc', toPath)
+        assert(toFile.name, 'doc-back')
             //assert 
         filePath = '/home/doc-back/DOCX/201508/测试目录/测试A.doc'
         var newFile = yield MiniFile.getByPath(user.id, filePath)
@@ -93,11 +92,10 @@ describe(protocol + ' file.js', function() {
         var folderPath = '/home/xxx'
         var folder = yield MiniFile.createFolder(device, folderPath, null)
         var toPath = '/home/doc-back'
-        yield MiniFile.move(device, folderPath, toPath)
-            //assert 
-        filePath = '/home/doc-back (1)'
-        file = yield MiniFile.getByPath(user.id, filePath)
-        assert(file.id, folder.id)
+        var toFile = yield MiniFile.move(device, folderPath, toPath)
+            //assert  
+        assert(toFile.name, 'doc-back (1)')
+        assert(toFile.id, folder.id)
         done()
     })
 })

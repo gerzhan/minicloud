@@ -49,9 +49,8 @@ describe(protocol + ' file.js', function() {
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
-        yield MiniFile.copy(device, filePath, toPath)
-            //assert file
-        var toFile = yield MiniFile.getByPath(user.id, toPath)
+        var toFile = yield MiniFile.copy(device, filePath, toPath)
+            //assert file 
         assert(toFile.version_id, version.id)
             //assert file meta
         var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
@@ -69,10 +68,9 @@ describe(protocol + ' file.js', function() {
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
-        yield MiniFile.copy(device, filePath, toPath)
-            //assert file
-        toPath = '/home/abc/测试B (1).doc'
-        var toFile = yield MiniFile.getByPath(user.id, toPath)
+        var toFile = yield MiniFile.copy(device, filePath, toPath)
+        assert(toFile.name,'测试B (1).doc')
+            //assert file 
         assert(toFile.version_id, version.id)
             //assert file meta
         var meta = yield MiniFileMeta.getByKey(file.id, 'versions')
@@ -93,7 +91,8 @@ describe(protocol + ' file.js', function() {
         var filePath = '/home/doc/DOCX/201508/测试B.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/doc-back'
-        yield MiniFile.copy(device, '/home/doc', toPath)
+        var toFile = yield MiniFile.copy(device, '/home/doc', toPath)
+        assert(toFile.path_lower,toPath)
             //assert 
         filePath = '/home/doc-back/DOCX/201508/测试目录/测试A.doc'
         file = yield MiniFile.getByPath(user.id, filePath)
@@ -105,7 +104,8 @@ describe(protocol + ' file.js', function() {
     })
     it(protocol + ' copy folder autorename (1)', function*(done) {
         var toPath = '/home/doc-back'
-        yield MiniFile.copy(device, '/home/doc', toPath)
+        var toFile = yield MiniFile.copy(device, '/home/doc', toPath)
+        assert(toFile.name,'doc-back (1)')
             //assert 
         filePath = '/home/doc-back (1)/DOCX/201508/测试目录/测试A.doc'
         file = yield MiniFile.getByPath(user.id, filePath)
