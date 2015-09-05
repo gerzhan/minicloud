@@ -52,6 +52,9 @@ describe(protocol + ' file.js', function() {
         var toFile = yield MiniFile.move(device, filePath, toPath)
             //assert file 
         assert(toFile.id, file.id)
+            //assert file meta
+        var meta = yield MiniFileMeta.getByKey(toFile.path_lower, 'versions')
+        assert(JSON.parse(meta.value).length, 1)
         done()
     })
     it(protocol + ' move file autorename (1)', function*(done) {
