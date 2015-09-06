@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' files/get_all_event', function() {
+describe(protocol + ' files/get_all_events', function() {
     this.timeout(10000)
     var app = null
     var MiniUser = null
@@ -63,9 +63,9 @@ describe(protocol + ' files/get_all_event', function() {
         return done()
     })
 
-    it(protocol + ' events/files/get_all_event 200', function*(done) {
+    it(protocol + ' events/files/get_all_events 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/events/files/get_all_event')
+            .post('/api/v1/events/files/get_all_events')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -78,8 +78,8 @@ describe(protocol + ' files/get_all_event', function() {
         done()
     })
 
-    it(protocol + ' events/files/get_all_event socket.io 200 ', function*(done) {
-        global.socket.emit('/api/v1/events/files/get_all_event', {
+    it(protocol + ' events/files/get_all_events socket.io 200 ', function*(done) {
+        global.socket.emit('/api/v1/events/files/get_all_events', {
             header: {
                 Authorization: 'Bearer ' + accessToken
             }
@@ -90,9 +90,9 @@ describe(protocol + ' files/get_all_event', function() {
             done()
         })
     })
-    it(protocol + ' events/files/get_all_event 400', function*(done) {
+    it(protocol + ' events/files/get_all_events 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/events/files/get_all_event')
+            .post('/api/v1/events/files/get_all_events')
             .type('json')
             .send({
                 limit: 'abc'
@@ -104,9 +104,9 @@ describe(protocol + ' files/get_all_event', function() {
             .end()
         done()
     })
-    it(protocol + ' events/files/get_all_event 401', function*(done) {
+    it(protocol + ' events/files/get_all_events 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/events/files/get_all_event')
+            .post('/api/v1/events/files/get_all_events')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
