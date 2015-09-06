@@ -1,6 +1,6 @@
 var request = require('co-supertest')
 var context = require('../context')
-var protocol = process.env.ORM_PROTOCOL 
+var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 describe(protocol + ' event', function() {
     this.timeout(10000)
@@ -31,55 +31,20 @@ describe(protocol + ' event', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' events/get_login_events 200', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/events/get_login_events')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .expect(200)
-            .end()
-        var userIp = res.body.events[0].ip
-        userIp.should.equal('::ffff:127.0.0.1')
-        done()
-    })
-    it(protocol + ' events/get_login_events socket.io 200 ', function*(done) {
-        global.socket.emit('/api/v1/events/get_login_events', {
-            header: {
-                Authorization: 'Bearer ' + accessToken
-            }
-        }, function(body) {
-            var userIp = body.events[0].ip
-            userIp.should.equal('::ffff:127.0.0.1')
-            done()
-        })
-    })
-    it(protocol + ' events/get_login_events 400', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/events/get_login_events')
-            .type('json')
-            .send({
-                limit: 'abc'
-            })
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .expect(400)
-            .end()
-        done()
-    })
-    it(protocol + ' events/get_login_events 401', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/events/get_login_events')
-            .type('json')
-            .set({
-                Authorization: 'Bearer 12234'
-            })
-            .expect(401)
-            .end()
-        done()
-    })
+    // it(protocol + ' events/list 200', function*(done) {
+    //     var res = yield request(app)
+    //         .post('/api/v1/events/list')
+    //         .type('json')
+    //         .set({
+    //             Authorization: 'Bearer ' + accessToken
+    //         })
+    //         .expect(200)
+    //         .end()
+    //     res.body.events[1].ip.should.equal('::ffff:127.0.0.1')
+    //     res.body.events[0].summary.file_name.should.equal('1.doc')
+    //     res.body.events.length.should.equal(2)
+    //     done()
+    // })
     it(protocol + ' events/clean_login_events 200', function*(done) {
         var res = yield request(app)
             .post('/api/v1/events/clean_login_events')
@@ -107,7 +72,7 @@ describe(protocol + ' event', function() {
                 Authorization: 'Bearer 1234'
             })
             .expect(401)
-            .end() 
+            .end()
         done()
     })
 })

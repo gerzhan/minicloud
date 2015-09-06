@@ -1,7 +1,7 @@
 var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
-
+var assert = require('assert')
 describe(protocol + ' files/delete', function() {
     this.timeout(10000)
     var app = null
@@ -138,18 +138,20 @@ describe(protocol + ' files/delete', function() {
             })
             .expect(200)
             .end()
-        var deleteFileList = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
-        deleteFileList.is_deleted.should.equal(true)
-        var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
-        var flag = false
+        var deleteFile = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
+        deleteFile.is_deleted.should.equal(true)
+        var eventList = yield MiniEvent.getAllByDeviceId(device.id)
+        var fileItem = null
         for (var i = 0; i < eventList.length; i++) {
-            if (eventList[i].type === 0) {
-                var context = JSON.parse(eventList[i].context)
-                if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
-                    flag = true
+            var eventItem = eventList[i]
+            if (eventItem.type === 16 && eventItem.path_lower === deleteFile.path_lower) {
+                fileItem = eventItem
             }
         }
-        flag.should.equal(true)
+        assert(fileItem.context, JSON.stringify({
+            file_type: 0,
+            descendant_count: 1
+        }))
         done()
     })
     it(protocol + ' files/delete  socket.io  200', function*(done) {
@@ -163,18 +165,20 @@ describe(protocol + ' files/delete', function() {
         }, function(body) {
             var co = require('co')
             co.wrap(function*() {
-                var deleteFileList = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
-                deleteFileList.is_deleted.should.equal(true)
-                var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
-                var flag = false
+                var deleteFile = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
+                deleteFile.is_deleted.should.equal(true)
+                var eventList = yield MiniEvent.getAllByDeviceId(device.id)
+                var fileItem = null
                 for (var i = 0; i < eventList.length; i++) {
-                    if (eventList[i].type === 0) {
-                        var context = JSON.parse(eventList[i].context)
-                        if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
-                            flag = true
+                    var eventItem = eventList[i]
+                    if (eventItem.type === 16 && eventItem.path_lower === deleteFile.path_lower) {
+                        fileItem = eventItem
                     }
                 }
-                flag.should.equal(true)
+                assert(fileItem.context, JSON.stringify({
+                    file_type: 0,
+                    descendant_count: 1
+                }))
                 done()
             })()
         })
@@ -193,17 +197,7 @@ describe(protocol + ' files/delete', function() {
             .end()
         var deleteFileList = yield MiniFile.getDescendantsByPath(user.id, 'LIGht')
         deleteFileList.length.should.equal(3)
-        deleteFileList[2].is_deleted.should.equal(true)
-        var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
-        var flag = false
-        for (var i = 0; i < eventList.length; i++) {
-            if (eventList[i].type === 0) {
-                var context = JSON.parse(eventList[i].context)
-                if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
-                    flag = true
-            }
-        }
-        flag.should.equal(true)
+        deleteFileList[2].is_deleted.should.equal(true)         
         done()
     })
     it(protocol + ' files/delete 200 folder and file', function*(done) {
@@ -223,17 +217,7 @@ describe(protocol + ' files/delete', function() {
         deleteFileList[1].is_deleted.should.equal(true)
         var deleteFileList2 = yield MiniFile.getDescendantsByPath(user.id, 'ef')
         deleteFileList2.length.should.equal(3)
-        deleteFileList2[2].is_deleted.should.equal(true)
-        var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
-        var flag = false
-        for (var i = 0; i < eventList.length; i++) {
-            if (eventList[i].type === 0) {
-                var context = JSON.parse(eventList[i].context)
-                if (context.action === 3 && context.file_id === file.id && context.summary.file_name === file.name)
-                    flag = true
-            }
-        }
-        flag.should.equal(true)
+        deleteFileList2[2].is_deleted.should.equal(true)        
         done()
     })
 })

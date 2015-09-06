@@ -64,7 +64,7 @@ describe(protocol + ' devices', function() {
             }
         }
         yield MiniOnlineDevice.create(user.id, device.id, device.client_id)
-        yield MiniEvent.createLoginEvent(user.id, device.id, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
+        yield MiniEvent.createLoginEvent('127.0.0.1', device, 'qn9q83fi9ym6ouiunx38he013xszm6k814')
         done()
     })
     describe(protocol + ' devices/remove', function() {
@@ -125,7 +125,7 @@ describe(protocol + ' devices', function() {
                 .end()
             var deviceList = yield MiniOnlineDevice.getAllDeviceId(device.id)
             deviceList.length.should.equal(0)
-            var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+            var eventList = yield MiniEvent.getAllByDeviceId(device.id)
             eventList.length.should.equal(0)
             var token = yield MiniAccessToken.getToken(accessToken)
             should(token).not.be.ok()
@@ -143,7 +143,7 @@ describe(protocol + ' devices', function() {
                 co.wrap(function*() {
                     var deviceList = yield MiniOnlineDevice.getAllDeviceId(device.id)
                     deviceList.length.should.equal(0)
-                    var eventList = yield MiniEvent.getAllEventsByDeviceId(device.id)
+                    var eventList = yield MiniEvent.getAllByDeviceId(device.id)
                     eventList.length.should.equal(0)
                     var token = yield MiniAccessToken.getToken(accessToken)
                     should(token).not.be.ok()

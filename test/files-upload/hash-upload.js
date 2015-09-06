@@ -312,7 +312,7 @@ describe(protocol + ' files/hash_upload', function() {
             })
             .expect(200)
             .end()
-        res.body.name.should.equal('X4 (conflicted copy)(1).doc') 
+        res.body.name.should.equal('X4 (conflicted copy)(1).doc')
         done()
     })
 })
