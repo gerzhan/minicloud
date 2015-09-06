@@ -54,6 +54,20 @@ describe(protocol + ' event.js', function() {
         assert(hasEvent, 1)
         done()
     })
+    it(protocol + ' create logout event', function*(done) {
+        var MiniEvent = require('../../lib/model/event')
+        yield MiniEvent.createLogoutEvent('127.0.0.1', device)
+        var events = yield MiniEvent.getAllByDeviceId(device.id)
+        var logoutItem = null
+        for (var i = 0; i < events.length; i++) {
+            var item = events[i]
+            if (item.type === 2) {
+                logoutItem = item
+            }
+        }
+        assert(logoutItem.type, 2)
+        done()
+    })
     it(protocol + ' file/folder create event', function*(done) {
         //upload to minicloud
         var MiniFileUploadSession = require('../../lib/model/file-upload-session')
@@ -154,6 +168,14 @@ describe(protocol + ' event.js', function() {
             file_type: 1,
             descendant_count: 6
         }))
+        done()
+    })
+    it(protocol + ' event/list', function*(done) {
+        var MiniEvent = require('../../lib/model/event')
+        var page = yield MiniEvent.getList({
+            user_id: device.user_id
+        })
+        assert(page.count, 17)
         done()
     })
 })
