@@ -89,8 +89,8 @@ describe(protocol + ' files/list_folder', function() {
         var MiniFile = require('../../lib/model/file')
         var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
         for (var i = 0; i < 15; i++) {
-            yield MiniFile.createFolder(device, '/folder' + i)
-            yield MiniFile.createFile(device, '/' + i + '.docx', version)
+            yield MiniFile.createFolder(device, '/home/folder' + i)
+            yield MiniFile.createFile(device, '/home/' + i + '.docx', version)
         }
         //first page
         var res = yield request(app)
@@ -100,6 +100,7 @@ describe(protocol + ' files/list_folder', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
+                path:'/home',
                 limit: 10
             })
             .expect(200)
@@ -115,6 +116,7 @@ describe(protocol + ' files/list_folder', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
+                path:'/home',
                 limit: 10,
                 cursor: cursor1
             })
@@ -131,6 +133,7 @@ describe(protocol + ' files/list_folder', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
+                path:'/home',
                 limit: 10,
                 cursor: cursor2
             })
