@@ -1,0 +1,8 @@
+{
+    "name": "event",
+    "description": "event module",
+    "roles":"3,9",
+    "routes": {
+        "/api/v1/console/event/list": "list"
+    }
+}

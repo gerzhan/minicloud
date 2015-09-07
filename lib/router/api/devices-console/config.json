@@ -1,0 +1,8 @@
+{
+    "name": "device",
+    "description": "device module",
+    "roles":"3,9",
+    "routes": {
+        "/api/v1/console/devices/list": "list"
+    }
+}

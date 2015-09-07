@@ -1,0 +1,8 @@
+{
+    "name": "file",
+    "description": "file module",
+    "roles":"3,9",
+    "routes": {
+        "/api/v1/console/files/list": "list"
+    }
+}

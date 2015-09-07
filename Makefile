@@ -22,6 +22,10 @@ TESTS = test/devices \
 		test/groups \
 		test/members \
 		test/console-members \
+		test/console-devices \
+		test/console-online-devices \
+		test/console-events \
+		test/console-files \
 		test/tags \
 		test/unit \
 		test/unit/page

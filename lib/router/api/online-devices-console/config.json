@@ -1,0 +1,8 @@
+{
+    "name": "online device",
+    "description": "online device module",
+    "roles":"3,9",
+    "routes": {
+        "/api/v1/console/online_devices/list": "list"
+    }
+}
