@@ -102,9 +102,9 @@ describe(protocol + ' files/move', function() {
             .end()
         done()
     })
-    it(protocol + ' files/copy 409', function*(done) {
+    it(protocol + ' files/move 409', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/files/copy')
+            .post('/api/v1/files/move')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
