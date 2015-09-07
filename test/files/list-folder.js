@@ -83,7 +83,16 @@ describe(protocol + ' files/list_folder', function() {
         res.body.error.should.equal('path_not_exist')
         done()
     })
-    it(protocol + ' files/list_folder 200', function*(done) {
+    it(protocol + ' files/list_folder root path 200', function*(done) {
+        //ready data
+        var MiniVersion = require('../../lib/model/version')
+        var MiniFile = require('../../lib/model/file')
+        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        for (var i = 0; i < 15; i++) {
+            yield MiniFile.createFolder(device, '/folder' + i)
+            yield MiniFile.createFile(device, '/' + i + '.docx', version)
+        }
+        //first page
         var res = yield request(app)
             .post('/api/v1/files/list_folder')
             .type('json')
@@ -91,11 +100,49 @@ describe(protocol + ' files/list_folder', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                path: '/zz/'
+                limit: 10
             })
-            .expect(409)
+            .expect(200)
             .end()
-        res.body.error.should.equal('path_not_exist')
+        var body = res.body
+        assert(body.files.length, 10)
+        var cursor1 = res.body.cursor
+            //second page 
+        var res = yield request(app)
+            .post('/api/v1/files/list_folder')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                limit: 10,
+                cursor: cursor1
+            })
+            .expect(200)
+            .end()
+        var body = res.body
+        assert(body.files.length, 10)
+        var cursor2 = res.body.cursor
+            //third page 
+        var res = yield request(app)
+            .post('/api/v1/files/list_folder')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                limit: 10,
+                cursor: cursor2
+            })
+            .expect(200)
+            .end()
+        var body = res.body
+        assert(body.files.length, 10)
+        var isOver = 1
+        if (body.has_more) {
+            isOver = 0
+        }
+        assert(isOver, 1)
         done()
     })
 })
