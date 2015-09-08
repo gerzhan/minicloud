@@ -65,7 +65,7 @@ describe(protocol + ' files/download', function() {
         res.body.error.should.equal('path_not_exist')
         done()
     })
-    it(protocol + ' files/download  302', function*(done) {
+    it(protocol + ' files/download  302 GET', function*(done) {
         var MiniVersion = require('../../lib/model/version')
         var MiniFile = require('../../lib/model/file')
         var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
@@ -74,6 +74,25 @@ describe(protocol + ' files/download', function() {
 
         var res = yield request(app)
             .get('/api/v1/files/download?access_token=' + accessToken + '&path=' + filePath)
+            .expect(302)
+            .end()
+        done()
+    })
+    it(protocol + ' files/download  302 POST', function*(done) {
+        var MiniVersion = require('../../lib/model/version')
+        var MiniFile = require('../../lib/model/file')
+        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var filePath = '/home/doc/DOCX/201508/测试目录/测试B.doc'
+        yield MiniFile.createFile(device, filePath, version)
+
+        var res = yield request(app)
+            .post('/api/v1/files/download')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: filePath
+            })
             .expect(302)
             .end()
         done()
