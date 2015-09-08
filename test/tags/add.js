@@ -42,12 +42,12 @@ describe(protocol + ' tags/add', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                name: 'green'
+                name: 'g,reen'
             })
             .expect(200)
             .end()
         var tagList = yield MiniTag.getAllByUserId(user.id)
-        tagList[0].name.should.equal('green')
+        tagList[0].name.should.equal('g_reen')
         done()
     })
     it(protocol + ' tags/add socket.io  200', function*(done) {
@@ -62,7 +62,7 @@ describe(protocol + ' tags/add', function() {
             var co = require('co')
             co.wrap(function*() {
                 var tagList = yield MiniTag.getAllByUserId(user.id)
-                tagList[0].name.should.equal('green')
+                tagList[1].name.should.equal('green')
                 done()
             })()
         })
