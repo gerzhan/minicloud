@@ -233,8 +233,8 @@ describe(protocol + ' files/upload_session/finish', function() {
             //only one version
         var file = yield MiniFile.getByPath(user1.id, '/home/X3.doc')
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var meta = yield MiniFileMeta.getByKey(file.path_lower, 'versions')
-        meta.versions.length.should.equal(1)
+        var revs = yield MiniFileMeta.getRevs(file.path_lower)
+        revs.length.should.equal(1)
             //second upload
         var session = yield MiniFileUploadSession.create(4)
         var res = yield request(app)
@@ -255,8 +255,8 @@ describe(protocol + ' files/upload_session/finish', function() {
             //two versions
         var file = yield MiniFile.getByPath(user1.id, '/home/X3.doc')
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var meta = yield MiniFileMeta.getByKey(file.path_lower, 'versions')
-        meta.versions.length.should.equal(2)
+        var revs = yield MiniFileMeta.getRevs(file.path_lower)
+        revs.length.should.equal(2)
         done()
     })
     it(protocol + ' files/upload_session/finish mode:update', function*(done) {
@@ -282,8 +282,8 @@ describe(protocol + ' files/upload_session/finish', function() {
         var MiniFile = require('../../lib/model/file')
         var MiniFileMeta = require('../../lib/model/file-meta')
         var file = yield MiniFile.getByPath(user1.id, '/home/X4.doc')
-        var meta = yield MiniFileMeta.getByKey(file.path_lower, 'versions')
-        meta.versions.length.should.equal(1) 
+        var revs = yield MiniFileMeta.getRevs(file.path_lower)
+        revs.length.should.equal(1) 
         //new create version
         var MiniVersion = require('../../lib/model/version')
         yield MiniVersion.create('H32', 1234, 'doc') 

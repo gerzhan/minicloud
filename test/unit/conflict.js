@@ -135,11 +135,11 @@ describe(protocol + ' conflict.js', function() {
             client_modified: new Date().getTime()
         })
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var meta = yield MiniFileMeta.getByKey(file3.path_lower, 'versions')
-        assert(meta.versions.length, 3)
-        assert(meta.versions[0].hash, 'X13')
-        assert(meta.versions[1].hash, 'X12')
-        assert(meta.versions[2].hash, 'X11')
+        var revs = yield MiniFileMeta.getRevs(file3.path_lower)
+        assert(revs.length, 3)
+        assert(revs[0].hash, 'X13')
+        assert(revs[1].hash, 'X12')
+        assert(revs[2].hash, 'X11')
         done()
     })
     it(protocol + ' update mode', function*(done) {
@@ -155,8 +155,8 @@ describe(protocol + ' conflict.js', function() {
             client_modified: new Date().getTime()
         })
         assert.equal(file1.version_id, version1.id)
-        var revs = yield MiniFileMeta.getByKey(file1.path_lower, 'versions')
-        assert.equal(revs.versions.length, 1)
+        var revs = yield MiniFileMeta.getRevs(file1.path_lower)
+        assert.equal(revs.length, 1)
 
         //update mode 
         var file2 = yield MiniFile.createFile(device, filePath, version3, {
@@ -165,8 +165,8 @@ describe(protocol + ' conflict.js', function() {
         })
         assert.equal(file2.version_id, version3.id)
         assert.equal(file2.name, 'Au (conflicted copy).doc')
-        var revs = yield MiniFileMeta.getByKey(file2.path_lower, 'versions')
-        assert.equal(revs.versions.length, 1)
+        var revs = yield MiniFileMeta.getRevs(file2.path_lower)
+        assert.equal(revs.length, 1)
 
         var file4 = yield MiniFile.createFile(device, filePath, version4, {
             mode: 'update',
@@ -174,16 +174,16 @@ describe(protocol + ' conflict.js', function() {
         })
         assert.equal(file4.version_id, version4.id)
         assert.equal(file4.name, 'Au (conflicted copy)(1).doc')
-        var revs = yield MiniFileMeta.getByKey(file4.path_lower, 'versions')
-        assert.equal(revs.versions.length, 1)
+        var revs = yield MiniFileMeta.getRevs(file4.path_lower)
+        assert.equal(revs.length, 1)
         var file5 = yield MiniFile.createFile(device, filePath, version5, {
             mode: 'update',
             parent_hash: 'X71'
         })
         assert.equal(file5.version_id, version5.id)
         assert.equal(file5.name, 'Au.doc')
-        var revs = yield MiniFileMeta.getByKey(file5.path_lower, 'versions')
-        assert.equal(revs.versions.length, 2)
+        var revs = yield MiniFileMeta.getRevs(file5.path_lower)
+        assert.equal(revs.length, 2)
         done()
     })
 })

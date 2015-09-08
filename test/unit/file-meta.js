@@ -12,28 +12,30 @@ describe(protocol + ' file-meta.js', function() {
         return done()
     })
     it(protocol + ' create', function*(done) {
-        var file = { 
-            path_lower:'/home/a.doc'
+        var MiniUser = require('../../lib/model/user')
+        var user = yield MiniUser.create('admin', 'admin')
+        
+        var file = {
+            path_lower: '/1/home/a.doc'
         }
         var device = {
-            id:1
+            id: 1,
+            name: 'jim\'s phone',
+            client_id: 'xxxxx',
+            user_id: user.id
         }
-        var historyVersion1 = {
-            hash: 'X12345',
-            device_id: 'D1',
-            time: new Date().getTime()
+        var version1 = {
+            hash: 'X12345'
         }
-        var historyVersion2 = {
-            hash: 'X12344',
-            device_id: 'D2',
-            time: new Date().getTime()
+        var version2 = {
+            hash: 'X12344'
         }
-        var meta1 = yield MiniFileMeta.addVersion(file, historyVersion1,device)
-        var meta2 = yield MiniFileMeta.addVersion(file, historyVersion2,device) 
-        var meta3 = yield MiniFileMeta.getByKey('/home/a.doc','versions')
-        assert(meta2.versions.length,2)
-        assert(meta2.versions[0].hash,'X12344')
-        assert(meta2.versions[1].hash,'X12345')
+        var meta1 = yield MiniFileMeta.addRev(file, version1, device)
+        var meta2 = yield MiniFileMeta.addRev(file, version2, device)
+        var revs = yield MiniFileMeta.getRevs('/1/home/a.doc')  
+        assert(revs.length, 2)
+        assert(revs[0].hash, 'X12344')
+        assert(revs[1].hash, 'X12345')
         done()
     })
 })

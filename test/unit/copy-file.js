@@ -53,9 +53,8 @@ describe(protocol + ' file.js', function() {
             //assert file 
         assert(toFile.version_id, version.id)
             //assert file meta
-        var meta = yield MiniFileMeta.getByKey(file.path_lower, 'versions')
-        var reversions = JSON.parse(meta.value)
-        assert(reversions.length, 1)
+        var getRevs = yield MiniFileMeta.getRevs(file.path_lower)
+        assert(getRevs.length, 1)
             //assert file version meta
         var version = yield MiniVersion.getByHash('X1234567')
         assert(version.ref_count, 2)
@@ -73,9 +72,8 @@ describe(protocol + ' file.js', function() {
             //assert file 
         assert(toFile.version_id, version.id)
             //assert file meta
-        var meta = yield MiniFileMeta.getByKey(file.path_lower, 'versions')
-        var reversions = JSON.parse(meta.value)
-        assert(reversions.length, 1)
+        var getRevs = yield MiniFileMeta.getRevs(file.path_lower)
+        assert(getRevs.length, 1)
             //assert file version meta
         var version = yield MiniVersion.getByHash('X1234567')
         assert(version.ref_count, 3)
