@@ -2,8 +2,7 @@
     "name": "file",
     "description": "file module",
     "method": "GET,POST",
-    "routes": {
-        "/api/v1/files/download": "download",
+    "routes": { 
         "/api/v1/files/thumbnail": "thumbnail"
     }
 }
