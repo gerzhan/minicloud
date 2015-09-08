@@ -139,7 +139,7 @@ describe(protocol + ' files/list_folder', function() {
             })
             .expect(200)
             .end()
-        var body = res.body
+        var body = res.body 
         assert(body.files.length, 10)
         var isOver = 1
         if (body.has_more) {
