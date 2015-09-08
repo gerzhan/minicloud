@@ -54,7 +54,7 @@ describe(protocol + ' files/create_folder', function() {
             .expect(200)
             .end()
         res.body.name.should.equal('Image')
-        res.body.path_lower.should.equal('/' + user.id + '/image')
+        res.body.path_lower.should.equal('/image')
         done()
     })
     it(protocol + ' files/create_folder socket.io  200', function*(done) {
@@ -67,7 +67,7 @@ describe(protocol + ' files/create_folder', function() {
             }
         }, function(body) {
             body.name.should.equal('Image')
-            body.path_lower.should.equal('/' + user.id + '/image')
+            body.path_lower.should.equal('/image')
             done()
         })
     })
