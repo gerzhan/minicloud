@@ -1,0 +1,9 @@
+{
+    "name": "file",
+    "description": "file module",
+    "method": "GET",
+    "routes": {
+        "/api/v1/files/download": "download",
+        "/api/v1/files/thumbnail": "thumbnail"
+    }
+}

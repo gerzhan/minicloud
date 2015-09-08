@@ -7,8 +7,6 @@
         "/api/v1/files/delete": "delete", 
         "/api/v1/files/copy": "copy",
         "/api/v1/files/move": "move", 
-        "/api/v1/files/list_folder": "listFolder",
-        "/api/v1/files/download": "download",
-        "/api/v1/files/thumbnail": "thumbnail"
+        "/api/v1/files/list_folder": "listFolder"
     }
 }
