@@ -7,6 +7,7 @@ describe(protocol + ' files/thumbnail', function() {
     var app = null
     var user = null
     var device = null
+    var filePath = null
     before(function*(done) {
         app = yield context.getApp()
         var MiniApp = require('../../lib/model/app')
@@ -38,6 +39,22 @@ describe(protocol + ' files/thumbnail', function() {
                 device = item
             }
         }
+        //ready data
+        var MiniStorageNode = require('../../lib/model/store-node')
+        var node1 = yield MiniStorageNode.create('store1', 'http://192.168.0.10', '1234')
+        yield MiniStorageNode.setStatus(node1.name, true)
+        yield MiniStorageNode.setDownloadCount(node1.name, 10)
+        var node2 = yield MiniStorageNode.create('store2', 'http://192.168.0.11', '1234')
+        yield MiniStorageNode.setStatus(node2.name, true)
+        yield MiniStorageNode.setDownloadCount(node2.name, 5)
+
+        var MiniVersion = require('../../lib/model/version')
+        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var MiniVersionMeta = require('../../lib/model/version-meta')
+        yield MiniVersionMeta.create(version.id, 'store_id', node1.id + ',' + node2.id)
+        var MiniFile = require('../../lib/model/file')
+        filePath = '/home/doc/DOCX/201508/测试目录/1.png'
+        yield MiniFile.createFile(device, filePath, version)
         return done()
     })
     it(protocol + ' files/thumbnail 400', function*(done) {
@@ -62,29 +79,20 @@ describe(protocol + ' files/thumbnail', function() {
             .type('json')
             .expect(409)
             .end()
-        res.body.error.should.equal('path_not_exist')
+        res.body.error.should.equal('file_not_exist')
         done()
     })
     it(protocol + ' files/thumbnail  GET 302', function*(done) {
-        var MiniVersion = require('../../lib/model/version')
-        var MiniFile = require('../../lib/model/file')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'png')
-        var filePath = '/home/doc/DOCX/201508/测试目录/测试A.png'
-        yield MiniFile.createFile(device, filePath, version)
-
         var res = yield request(app)
             .get('/api/v1/files/thumbnail?access_token=' + accessToken + '&path=' + filePath + '&size=w64h64')
             .expect(302)
             .end()
-        done()
+        var host = 'http://192.168.0.11'
+        var url = res.header.location.substring(0, host.length) 
+        assert(url, host)
+        done() 
     })
     it(protocol + ' files/thumbnail  POST 302', function*(done) {
-        var MiniVersion = require('../../lib/model/version')
-        var MiniFile = require('../../lib/model/file')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'png')
-        var filePath = '/home/doc/DOCX/201508/测试目录/测试B.png'
-        yield MiniFile.createFile(device, filePath, version)
-
         var res = yield request(app)
             .post('/api/v1/files/thumbnail')
             .set({
@@ -96,6 +104,9 @@ describe(protocol + ' files/thumbnail', function() {
             })
             .expect(302)
             .end()
-        done()
+        var host = 'http://192.168.0.11'
+        var url = res.header.location.substring(0, host.length) 
+        assert(url, host)
+        done() 
     })
 })
