@@ -73,7 +73,7 @@ describe(protocol + ' files/download', function() {
             .end()
         done()
     })
-    it(protocol + ' files/download 409', function*(done) {
+    it(protocol + ' files/download 409 file_not_existed', function*(done) {
         var res = yield request(app)
             .get('/api/v1/files/download?access_token=' + accessToken + '&path=/zz/1.doc')
             .type('json')
@@ -82,9 +82,28 @@ describe(protocol + ' files/download', function() {
         res.body.error.should.equal('file_not_exist')
         done()
     })
+    it(protocol + ' files/download 409 rev_hash_not_exist', function*(done) {
+        var res = yield request(app)
+            .get('/api/v1/files/download?access_token=' + accessToken + '&path=' + filePath + '&rev_hash=xxxxx')
+            .type('json')
+            .expect(409)
+            .end()
+        res.body.error.should.equal('rev_hash_not_exist')
+        done()
+    })
     it(protocol + ' files/download  302 GET', function*(done) {
         var res = yield request(app)
             .get('/api/v1/files/download?access_token=' + accessToken + '&path=' + filePath)
+            .expect(302)
+            .end() 
+        var host = 'http://192.168.0.11'
+        var url = res.header.location.substring(0, host.length)
+        assert(url, host)
+        done()
+    })
+    it(protocol + ' files/download  302 rev_hash GET', function*(done) {
+        var res = yield request(app)
+            .get('/api/v1/files/download?access_token=' + accessToken + '&path=' + filePath + '&rev_hash=X1234567')
             .expect(302)
             .end()
         var host = 'http://192.168.0.11'
