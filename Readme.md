@@ -6,6 +6,7 @@
   minicloud v3.0-beta.1
 
   minicloud based on node.js, providing efficient file storage server for enterprises.
+
   minicloud is hybrid cloud model.Files are stored on own servers, while [minicloud.io](http://minicloud.io) management PC client / mobile client / web client
 
 ## Installation
@@ -22,9 +23,12 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 ## API
 
-[minicloud api](https://minicloud.readme.io)has provided 60 API
+[minicloud api](https://minicloud.readme.io) has provided 60 API.
+
 Covering groups, users, devices, files, tags, events related to API
+
 Support file hash upload and block upload
+
 Support [socket.io](https://socket.io)
 
 ## Todo list
