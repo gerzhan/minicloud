@@ -25,9 +25,15 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 [minicloud api](https://minicloud.readme.io/docs) has provided 60 API.
 
-- covering groups, users, devices, files, tags, events related to API
+- cover groups, users, devices, files, tags, events
 
-- support file hash upload and block upload
+- support file hash upload and large file block upload/simple file upload
+
+- support return thumbnail for an image.include ai,bmp,eps,gif,jpg,jpeg,png,psd,tif,tiff
+
+- support docx/doc/pptx/ppt/xlsx/xls/pdf online browse(todo list)
+
+- support txt/docx/doc/pptx/ppt/xlsx/xls/pdf full text search(todo list)
 
 - support [socket.io](https://socket.io),http api can conver to websocket.[demo>>](https://minicloud.readme.io/docs/how-to-use-websocket)
 
