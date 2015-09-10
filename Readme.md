@@ -23,13 +23,13 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 ## API
 
-[minicloud api](https://minicloud.readme.io) has provided 60 API.
+[minicloud api](https://minicloud.readme.io/docs) has provided 60 API.
 
-Covering groups, users, devices, files, tags, events related to API
+- covering groups, users, devices, files, tags, events related to API
 
-Support file hash upload and block upload
+- support file hash upload and block upload
 
-Support [socket.io](https://socket.io)
+- support [socket.io](https://socket.io),http api can conver to websocket.[demo>>](https://minicloud.readme.io/docs/how-to-use-websocket)
 
 ## Todo list
  
