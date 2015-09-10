@@ -3,7 +3,7 @@
   [![Test coverage][coveralls-image]][coveralls-url]
   [![devDependency Status](https://david-dm.org/atom/electron/dev-status.svg)](https://david-dm.org/minicloud/minicloud#info=devDependencies)
   
-  minicloud v3.0-beta.1
+  minicloud v3.0 beta1
 
   minicloud based on node.js, providing efficient file storage server for enterprises.
 
@@ -32,7 +32,7 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 - support return thumbnail for an image.include ai,bmp,eps,gif,jpg,jpeg,png,psd,tif,tiff
 
-- support docx/doc/pptx/ppt/xlsx/xls/pdf/ai/psd/tiff online browse(todo list)
+- support docx/doc/pptx/ppt/xlsx/xls/pdf online browse(todo list)
 
 - support txt/docx/doc/pptx/ppt/xlsx/xls/pdf full text search(todo list)
 
