@@ -3,6 +3,6 @@
     "description": "user module",
     "valid_access_token": false,
     "routes": {
-        "/api/v1/members/registe": "registe"
+        "/api/v1/members/register": "register"
     }
 }
