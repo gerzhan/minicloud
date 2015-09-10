@@ -7,7 +7,7 @@
 
   minicloud based on node.js, providing efficient file storage server for enterprises.
 
-  minicloud is hybrid cloud model.Files are stored on own servers, while [minicloud.io](http://minicloud.io) management PC client / mobile client / web client
+  minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management PC client/mobile client/web client.
 
 ## Installation
 ```
@@ -15,6 +15,7 @@ $ git clone http://github.com/minicloud/minicloud
 $ cd minicloud
 $ npm install
 $ npm test
+
 ```
 
 minicloud is supported in all versions of [iojs](https://iojs.org) without any flags.
