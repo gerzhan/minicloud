@@ -4,9 +4,11 @@
     "routes": {
         "/api/v1/files/create_folder": "createFolder",
         "/api/v1/files/get_metadata": "getMetadata",
-        "/api/v1/files/delete": "delete", 
+        "/api/v1/files/delete": "delete",
         "/api/v1/files/copy": "copy",
-        "/api/v1/files/move": "move", 
-        "/api/v1/files/list_folder": "listFolder"
+        "/api/v1/files/move": "move",
+        "/api/v1/files/list_folder": "listFolder",
+        "/api/v1/files/list_revision": "listRevision",
+        "/api/v1/files/restore": "restore"
     }
 }
