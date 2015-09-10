@@ -268,7 +268,7 @@ describe(protocol + ' files/upload_session/finish', function() {
             .type('json')
             .send({
                 'mode': 'update',
-                'session_id': session.session_id, 
+                'session_id': session.session_id,
                 'hash': 'H31',
                 'size': 1234,
                 'path': '/home/X4.doc',
@@ -283,20 +283,20 @@ describe(protocol + ' files/upload_session/finish', function() {
         var MiniFileMeta = require('../../lib/model/file-meta')
         var file = yield MiniFile.getByPath(user1.id, '/home/X4.doc')
         var revs = yield MiniFileMeta.getRevs(file.path_lower)
-        revs.length.should.equal(1) 
-        //new create version
+        revs.length.should.equal(1)
+            //new create version
         var MiniVersion = require('../../lib/model/version')
-        yield MiniVersion.create('H32', 1234, 'doc') 
-        //second
+        yield MiniVersion.create('H32', 1234, 'doc')
+            //second
         var session = yield MiniFileUploadSession.create(4)
         var res = yield request(app)
             .post('/api/v1/files/upload_session/finish')
             .type('json')
             .send({
                 'mode': 'update',
-                'session_id':session.session_id,
+                'session_id': session.session_id,
                 'hash': 'H33',
-                'size':1234,
+                'size': 1234,
                 'path': '/home/X4.doc',
                 'parent_hash': 'H32'
             })
@@ -306,16 +306,16 @@ describe(protocol + ' files/upload_session/finish', function() {
             .expect(200)
             .end()
         res.body.name.should.equal('X4 (conflicted copy).doc')
-        //third
+            //third
         var session = yield MiniFileUploadSession.create(4)
         var res = yield request(app)
             .post('/api/v1/files/upload_session/finish')
             .type('json')
             .send({
                 'mode': 'update',
-                'session_id':session.session_id,
+                'session_id': session.session_id,
                 'hash': 'H33',
-                'size':1234,
+                'size': 1234,
                 'path': '/home/X4.doc',
                 'parent_hash': 'H32'
             })
