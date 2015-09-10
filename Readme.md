@@ -26,7 +26,7 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 [minicloud api](https://minicloud.readme.io/docs) has provided 60 API.
 
-- cover groups, users, devices, files, tags, events
+- cover departments, groups, users, devices, files, tags, events
 
 - support file hash upload and large file block upload/simple file upload
 
