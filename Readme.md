@@ -31,11 +31,11 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 - support return thumbnail for an image.include ai,bmp,eps,gif,jpg,jpeg,png,psd,tif,tiff
 
-- support docx/doc/pptx/ppt/xlsx/xls/pdf online browse(todo list)
+- support docx/doc/pptx/ppt/xlsx/xls/pdf/ai/psd/tiff online browse(todo list)
 
 - support txt/docx/doc/pptx/ppt/xlsx/xls/pdf full text search(todo list)
 
-- support [socket.io](https://socket.io),http api can conver to websocket.[demo>>](https://minicloud.readme.io/docs/how-to-use-websocket)
+- support [socket.io](https://socket.io),http api can seamless convert to websocket.[demo>>](https://minicloud.readme.io/docs/how-to-use-websocket)
 
 ## Todo list
  
