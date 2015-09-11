@@ -55,7 +55,42 @@ describe(protocol + ' set profile', function() {
         metaList[1].value.should.equal('/images/123.png')
         metaList[2].value.should.equal('water@minicloud.io')
         done()
-
+    })
+    it(protocol + ' members/set_profile 200 normalize name', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/set_profile')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                nick: 'small:water',
+                avatar: '/images/123.png',
+                email: 'water@minicloud.io'
+            })
+            .expect(200)
+            .end()
+        var metaList = yield MiniUserMeta.getAll(user.id)
+        metaList[0].value.should.equal('small-water')
+        metaList[1].value.should.equal('/images/123.png')
+        metaList[2].value.should.equal('water@minicloud.io')
+        done()
+    })
+    it(protocol + ' members/set_profile 400', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/set_profile')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                nick: 'smallwater',
+                avatar: '/images/123.png',
+                email: 'waterminicloud.io'
+            })
+            .expect(400)
+            .end()
+        done()
     })
     it(protocol + ' members/set_profile 401', function*(done) {
         var res = yield request(app)

@@ -25,8 +25,7 @@ describe(protocol + ' members/register', function() {
                 name: 'Allen',
                 password: '8k9v6n',
                 nick: 'littleAllen',
-                email: 'Allen@minicloud.io',
-                role: 1
+                email: 'Allen@minicloud.io'
             })
             .expect(200)
             .end()
@@ -36,6 +35,22 @@ describe(protocol + ' members/register', function() {
         var metaList = yield MiniUserMeta.getAll(id)
         metaList[0].value.should.equal('littleAllen')
         metaList[1].value.should.equal('Allen@minicloud.io')
+        done()
+    })
+    it(protocol + ' members/register 200 normalize name', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/register')
+            .type('json')
+            .send({
+                name: 'Allen,1',
+                password: '8k9v6n',
+                nick: 'little:Allen'
+            })
+            .expect(200)
+            .end()
+        var member = yield MiniUser.getByName('Allen-1')
+        member.name.should.equal('Allen-1')
+        member.metas.nick.should.equal('little-Allen')
         done()
     })
     it(protocol + ' members/register 400', function*(done) {
