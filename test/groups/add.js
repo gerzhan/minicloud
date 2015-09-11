@@ -1,7 +1,7 @@
 var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
-
+var assert = require('assert')
 describe(protocol + ' groups/add', function() {
     this.timeout(10000)
     var app = null
@@ -50,6 +50,29 @@ describe(protocol + ' groups/add', function() {
             .end()
         var groupList = yield MiniGroup.getAllByUserId(user.id)
         groupList[0].name.should.equal('development')
+        done()
+    })
+    it(protocol + ' groups/add 200 normalize name', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/groups/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                name: 'devel/opment'
+            })
+            .expect(200)
+            .end()
+        var existed = 0
+        var groupList = yield MiniGroup.getAllByUserId(user.id)
+        for (var i = 0; i < groupList.length; i++) {
+            var group = groupList[i] 
+            if (group.name === 'devel-opment') {
+                existed = 1
+            }
+        }
+        assert(existed, 1)
         done()
     })
     it(protocol + ' groups/add socket.io  200', function*(done) {
