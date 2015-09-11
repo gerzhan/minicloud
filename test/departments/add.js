@@ -1,7 +1,7 @@
 var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
-
+var assert = require('assert')
 describe(protocol + ' department add', function() {
     this.timeout(10000)
     var app = null
@@ -18,7 +18,7 @@ describe(protocol + ' department add', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
+        user = yield MiniUser.create('admin', 'admin', SUPER_ADMIN)
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
 
         user2 = yield MiniUser.create('peter', 'peter')
@@ -90,6 +90,30 @@ describe(protocol + ' department add', function() {
             .end()
         var departmentList = yield MiniDepartment.getChildren('')
         departmentList[0].name.should.equal('minicloud_inc')
+        done()
+    })
+    it(protocol + ' departments/add 200 normalize name', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/add')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: '/minicloud_inc/minicl,oud_dev'
+            })
+            .expect(200)
+            .end()
+        var departmentList = yield MiniDepartment.getChildren('/minicloud_inc')
+        var existed = 0
+        for (var i = 0; i < departmentList.length; i++) {
+            var department = departmentList[i]
+            var name = department.name 
+            if (name === 'minicl-oud_dev') {
+                existed = 1
+            }
+        }
+        assert(existed, 1)
         done()
     })
     it(protocol + ' departments/add socket.io  200', function*(done) {
