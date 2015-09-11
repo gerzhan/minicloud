@@ -106,6 +106,23 @@ describe(protocol + ' department rename', function() {
         user5.department_path.should.equal('/minicloud_dev/minicloud_sale_3/minicloud_sale_4')
         done()
     })
+    it(protocol + ' departments/rename 200 normalize name', function*(done) {
+        var tempDepartment = yield MiniDepartment.create('/chengdu/office')
+        var res = yield request(app)
+            .post('/api/v1/departments/rename')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                path: tempDepartment.path,
+                new_name: 'mini/cloud_dev'
+            })
+            .expect(200)
+            .end()
+        var subDepartment = yield MiniDepartment.getByPath('/chengdu/mini-cloud_dev')  
+        done()
+    })
     it(protocol + ' departments/rename  socket.io  200', function*(done) {
         global.socket.emit('/api/v1/departments/rename', {
             header: {
