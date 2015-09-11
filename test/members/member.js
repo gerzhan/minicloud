@@ -146,6 +146,25 @@ describe(protocol + ' members', function() {
         body.members[0].name.should.equal('good')
         done()
     })
+    it(protocol + ' members/search 200 normalize name', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/members/search')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                key: 'z,'
+            })
+            .expect(200)
+            .end()
+        var body = res.body
+        body.has_more.should.equal(false)
+        body.cursor.should.equal('')
+        body.members.length.should.equal(1)
+        body.members[0].name.should.equal('good')
+        done()
+    })
     it(protocol + ' members/search 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/members/search')
