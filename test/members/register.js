@@ -44,13 +44,12 @@ describe(protocol + ' members/register', function() {
             .send({
                 name: 'Allen,1',
                 password: '8k9v6n',
-                nick: 'little:Allen'
+                nick: 'littleAllen'
             })
             .expect(200)
             .end()
         var member = yield MiniUser.getByName('Allen-1')
-        member.name.should.equal('Allen-1')
-        member.metas.nick.should.equal('little-Allen')
+        member.name.should.equal('Allen-1') 
         done()
     })
     it(protocol + ' members/register 400', function*(done) {
