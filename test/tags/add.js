@@ -47,9 +47,9 @@ describe(protocol + ' tags/add', function() {
             .expect(200)
             .end()
         var tagList = yield MiniTag.getAllByUserId(user.id)
-        tagList[0].name.should.equal('g_reen')
+        tagList[0].name.should.equal('g-reen')
         done()
-    })
+    }) 
     it(protocol + ' tags/add socket.io  200', function*(done) {
         global.socket.emit('/api/v1/tags/add', {
             header: {
