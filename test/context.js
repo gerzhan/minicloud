@@ -3,8 +3,9 @@ var config = require('../config-test.json')
 if (isTravis) {
     config = require('../config-travis-ci.json')
 }
+global.timeout = 30000
 var client = require('./socket-io-client')
-process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'mysql'
+process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'sqlite'
 process.setMaxListeners(0)
 var initSocketClient = function(app) {
         return function(done) {
@@ -24,7 +25,7 @@ exports.getApp = function*() {
         if (!global.app) {
             var app = yield require('../lib/loader/app-loader')(config)
             global.app = app.listen()
-            global.socket = yield initSocketClient(app)
+            global.socket = yield initSocketClient(app) 
         }
         return global.app
 

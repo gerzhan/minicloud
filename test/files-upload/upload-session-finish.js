@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 describe(protocol + ' files/upload_session/finish', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var accessToken = null
     var accessToken1 = null

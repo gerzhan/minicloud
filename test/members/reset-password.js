@@ -3,7 +3,7 @@ var context = require('../context')
 var helpers = require('../../lib/helpers')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' reset password', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var accessToken = null
     var MiniUser = null

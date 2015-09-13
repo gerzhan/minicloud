@@ -4,7 +4,7 @@ var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 var Sequelize = require('sequelize')
 describe(protocol + ' user-meta.js', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var MiniUser = null
     var MiniUserMeta = null

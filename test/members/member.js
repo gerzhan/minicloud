@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' members', function() {
-    this.timeout(15000)
+    this.timeout(global.timeout)
     var app = null
     var accessToken = null
     var user1 = null

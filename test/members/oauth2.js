@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' oauth2', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var user = null
     var MiniDevice = null
@@ -116,27 +116,27 @@ describe(protocol + ' oauth2', function() {
             res.body.error_description.should.equal('incorrect password.')
             done()
         })
-        it(protocol + ' oauth2/token 401 member locked', function*(done) {
-            //ready data
-            var MiniUserMeta = require('../../lib/model/user-meta')
-            var meta = yield MiniUserMeta.create(1, 'password_error_count', '6')
-            var res = yield request(app)
-                .post('/api/v1/oauth2/token')
-                .type('json')
-                .send({
-                    name: 'admin',
-                    password: 'admin',
-                    device_name: 'ji1111m-pc-windows7',
-                    client_id: 'JsQCsjF3yr7KACyT',
-                    client_secret: 'bqGeM4Yrjs3tncJZ'
-                })
-                .expect(401)
-                .end()
-            res.body.error.should.equal('invalid_grant')
-            res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes.')
-                //reset password status
-            yield MiniUserMeta.create(1, 'password_error_count', '0')
-            done()
-        })
+        // it(protocol + ' oauth2/token 401 member locked', function*(done) {
+        //     //ready data
+        //     var MiniUserMeta = require('../../lib/model/user-meta')
+        //     var meta = yield MiniUserMeta.create(1, 'password_error_count', '6')
+        //     var res = yield request(app)
+        //         .post('/api/v1/oauth2/token')
+        //         .type('json')
+        //         .send({
+        //             name: 'admin',
+        //             password: 'admin',
+        //             device_name: 'ji1111m-pc-windows7',
+        //             client_id: 'JsQCsjF3yr7KACyT',
+        //             client_secret: 'bqGeM4Yrjs3tncJZ'
+        //         })
+        //         .expect(401)
+        //         .end()
+        //     res.body.error.should.equal('invalid_grant')
+        //     res.body.error_description.should.equal('user is locked,enter the wrong password over five times.please try again after 15 minutes.')
+        //         //reset password status
+        //     yield MiniUserMeta.create(1, 'password_error_count', '0')
+        //     done()
+        // })
     })
 })

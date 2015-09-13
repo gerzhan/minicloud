@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
 describe(protocol + ' files/get_metadata', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var MiniUser = null
     var user = null

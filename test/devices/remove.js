@@ -31,7 +31,7 @@ function* getMyDeviceUuid(app, accessToken) {
     return res.body[0].uuid
 }
 describe(protocol + ' devices', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var accessToken = null
     var uuid = null

@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 describe(protocol + ' app.js', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout) 
     var app = null 
     var MiniApp = null 
     before(function*(done) {

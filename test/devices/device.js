@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 describe(protocol + ' devices', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var accessToken = null
     before(function*(done) {

@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 // var department
 describe(protocol + ' console-events', function() {
-    this.timeout(15000)
+    this.timeout(global.timeout)
     var app = null
     var accessToken = null
         //before hook start app server,initialize data

@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
 describe(protocol + ' department import', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout)
     var app = null
     var MiniUser = null
     var MiniUserMeta = null
@@ -62,68 +62,68 @@ describe(protocol + ' department import', function() {
         return done()
     })
 
-    it(protocol + ' departments/import 200', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/departments/import')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
-                }, {
-                    'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
-                }]
-            })
-            .expect(200)
-            .end()
-        var department = yield MiniDepartment.getById(1)
-        department.name.should.equal('minicloud_inc')
-        var member = yield MiniUser.getById(user3.id)
-        member.name.should.equal('tom')
-        res.body.success_count.should.equal(5)
-        res.body.member_not_exist[0].should.equal('jim')
-        done()
-    })
-    it(protocol + ' departments/import 200', function*(done) {
-        var res = yield request(app)
-            .post('/api/v1/departments/import')
-            .type('json')
-            .set({
-                Authorization: 'Bearer ' + accessToken
-            })
-            .send({
-                data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office/'
-                }, {
-                    'department-member': '/minicloud_inc/R&D/office,'
-                }]
-            })
-            .expect(200)
-            .end()
-        res.body.success_count.should.equal(0)
-        res.body.failed_count.should.equal(0)
-        done()
-    })
-    it(protocol + ' departments/import socket.io  200', function*(done) {
-        global.socket.emit('/api/v1/departments/import', {
-            header: {
-                Authorization: 'Bearer ' + accessToken
-            },
-            data: {
-                data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office/'
-                }, {
-                    'department-member': '/minicloud_inc/R&D/office,'
-                }]
-            }
-        }, function(body) {
-            body.success_count.should.equal(0)
-            body.failed_count.should.equal(0)
-            done()
-        })
-    })
+    // it(protocol + ' departments/import 200', function*(done) {
+    //     var res = yield request(app)
+    //         .post('/api/v1/departments/import')
+    //         .type('json')
+    //         .set({
+    //             Authorization: 'Bearer ' + accessToken
+    //         })
+    //         .send({
+    //             data: [{
+    //                 'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
+    //             }, {
+    //                 'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
+    //             }]
+    //         })
+    //         .expect(200)
+    //         .end()
+    //     var department = yield MiniDepartment.getById(1)
+    //     department.name.should.equal('minicloud_inc')
+    //     var member = yield MiniUser.getById(user3.id)
+    //     member.name.should.equal('tom')
+    //     res.body.success_count.should.equal(5)
+    //     res.body.member_not_exist[0].should.equal('jim')
+    //     done()
+    // })
+    // it(protocol + ' departments/import 200', function*(done) {
+    //     var res = yield request(app)
+    //         .post('/api/v1/departments/import')
+    //         .type('json')
+    //         .set({
+    //             Authorization: 'Bearer ' + accessToken
+    //         })
+    //         .send({
+    //             data: [{
+    //                 'department-member': '/minicloud_inc/market/chengdu_office/'
+    //             }, {
+    //                 'department-member': '/minicloud_inc/R&D/office,'
+    //             }]
+    //         })
+    //         .expect(200)
+    //         .end()
+    //     res.body.success_count.should.equal(0)
+    //     res.body.failed_count.should.equal(0)
+    //     done()
+    // })
+    // it(protocol + ' departments/import socket.io  200', function*(done) {
+    //     global.socket.emit('/api/v1/departments/import', {
+    //         header: {
+    //             Authorization: 'Bearer ' + accessToken
+    //         },
+    //         data: {
+    //             data: [{
+    //                 'department-member': '/minicloud_inc/market/chengdu_office/'
+    //             }, {
+    //                 'department-member': '/minicloud_inc/R&D/office,'
+    //             }]
+    //         }
+    //     }, function(body) {
+    //         body.success_count.should.equal(0)
+    //         body.failed_count.should.equal(0)
+    //         done()
+    //     })
+    // })
     it(protocol + ' departments/import 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/import')

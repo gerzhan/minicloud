@@ -5,7 +5,7 @@ var assert = require('assert')
 var sequelize = require('sequelize')
 
 describe(protocol + ' simplePage', function() {
-    this.timeout(10000) 
+    this.timeout(global.timeout) 
     var MiniUser=null
     var MiniUserMeta = null
     before(function*(done) {

@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 describe(protocol + ' conflict.js', function() {
-    this.timeout(10000)
+    this.timeout(global.timeout) 
     var app = null
     var MiniFile = null
     var user = null
