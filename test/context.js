@@ -1,11 +1,12 @@
+var config = require('./config')
 var isTravis = Boolean(process.env.CI) 
-var config = require('../config-test.json')
-if (isTravis) {
-    config = require('../config-travis-ci.json')
-}
 global.timeout = 30000
 var client = require('./socket-io-client')
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'sqlite'
+if(!isTravis){
+    var dbConfig = config[process.env.ORM_PROTOCOL]
+    dbConfig.password = dbConfig.password || '123456'
+}
 process.setMaxListeners(0)
 var initSocketClient = function(app) {
         return function(done) {

@@ -1,4 +1,4 @@
 /node_modules
 ._*
 /npm-debug.log
-/minicloud.db
+/minicloud_test.db
