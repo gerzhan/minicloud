@@ -19,7 +19,7 @@ describe(protocol + ' department import', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniDepartment = require('../../lib/model/department')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
-        user = yield MiniUser.create('admin', 'admin',SUPER_ADMIN)
+        user = yield MiniUser.create('admin', 'admin', SUPER_ADMIN)
         yield MiniUserMeta.create(user.id, 'is_admin', '1')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         user2 = yield MiniUser.create('peter', 'peter')
@@ -62,68 +62,68 @@ describe(protocol + ' department import', function() {
         return done()
     })
 
-    // it(protocol + ' departments/import 200', function*(done) {
-    //     var res = yield request(app)
-    //         .post('/api/v1/departments/import')
-    //         .type('json')
-    //         .set({
-    //             Authorization: 'Bearer ' + accessToken
-    //         })
-    //         .send({
-    //             data: [{
-    //                 'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
-    //             }, {
-    //                 'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
-    //             }]
-    //         })
-    //         .expect(200)
-    //         .end()
-    //     var department = yield MiniDepartment.getById(1)
-    //     department.name.should.equal('minicloud_inc')
-    //     var member = yield MiniUser.getById(user3.id)
-    //     member.name.should.equal('tom')
-    //     res.body.success_count.should.equal(5)
-    //     res.body.member_not_exist[0].should.equal('jim')
-    //     done()
-    // })
-    // it(protocol + ' departments/import 200', function*(done) {
-    //     var res = yield request(app)
-    //         .post('/api/v1/departments/import')
-    //         .type('json')
-    //         .set({
-    //             Authorization: 'Bearer ' + accessToken
-    //         })
-    //         .send({
-    //             data: [{
-    //                 'department-member': '/minicloud_inc/market/chengdu_office/'
-    //             }, {
-    //                 'department-member': '/minicloud_inc/R&D/office,'
-    //             }]
-    //         })
-    //         .expect(200)
-    //         .end()
-    //     res.body.success_count.should.equal(0)
-    //     res.body.failed_count.should.equal(0)
-    //     done()
-    // })
-    // it(protocol + ' departments/import socket.io  200', function*(done) {
-    //     global.socket.emit('/api/v1/departments/import', {
-    //         header: {
-    //             Authorization: 'Bearer ' + accessToken
-    //         },
-    //         data: {
-    //             data: [{
-    //                 'department-member': '/minicloud_inc/market/chengdu_office/'
-    //             }, {
-    //                 'department-member': '/minicloud_inc/R&D/office,'
-    //             }]
-    //         }
-    //     }, function(body) {
-    //         body.success_count.should.equal(0)
-    //         body.failed_count.should.equal(0)
-    //         done()
-    //     })
-    // })
+    it(protocol + ' departments/import 200', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/import')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                data: [{
+                    'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
+                }, {
+                    'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
+                }]
+            })
+            .expect(200)
+            .end()
+        var department = yield MiniDepartment.getByPath('/minicloud_inc')
+        department.name.should.equal('minicloud_inc')
+        var member = yield MiniUser.getById(user3.id)
+        member.name.should.equal('tom')
+        res.body.success_count.should.equal(5)
+        res.body.member_not_exist[0].should.equal('jim')
+        done()
+    })
+    it(protocol + ' departments/import 200', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/departments/import')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                data: [{
+                    'department-member': '/minicloud_inc/market/chengdu_office/'
+                }, {
+                    'department-member': '/minicloud_inc/R&D/office,'
+                }]
+            })
+            .expect(200)
+            .end()
+        res.body.success_count.should.equal(0)
+        res.body.failed_count.should.equal(0)
+        done()
+    })
+    it(protocol + ' departments/import socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/departments/import', {
+            header: {
+                Authorization: 'Bearer ' + accessToken
+            },
+            data: {
+                data: [{
+                    'department-member': '/minicloud_inc/market/chengdu_office/'
+                }, {
+                    'department-member': '/minicloud_inc/R&D/office,'
+                }]
+            }
+        }, function(body) {
+            body.success_count.should.equal(0)
+            body.failed_count.should.equal(0)
+            done()
+        })
+    })
     it(protocol + ' departments/import 400', function*(done) {
         var res = yield request(app)
             .post('/api/v1/departments/import')
