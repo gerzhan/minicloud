@@ -1,0 +1,9 @@
+{
+  "name": "dash",
+  "description": "dash", 
+  "valid_cookie":true,
+  "routes": {
+    "/dashboard": "dash",
+    "/box": "dash"
+  }
+}
