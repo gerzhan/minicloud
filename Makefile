@@ -31,7 +31,7 @@ TESTS = test/devices \
 		test/unit/page
 		
 test:
-	@NODE_ENV=test ORM_PROTOCOL=sqlite $(BIN) $(FLAGS)  \
+	@NODE_ENV=test ORM_PROTOCOL=sqlite $(BIN) \
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
