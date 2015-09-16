@@ -21,14 +21,15 @@ function* getAdminAccessToken(app) {
 
 function* getMyDeviceUuid(app, accessToken) {
     var res = yield request(app)
-        .post('/api/v1/devices/get_my_devices')
+        .post('/api/v1/devices/list')
         .type('json')
         .set({
             Authorization: 'Bearer ' + accessToken
         })
         .expect(200)
         .end()
-    return res.body[0].uuid
+    var devices = res.body.devices 
+    return devices[0].uuid
 }
 describe(protocol + ' devices', function() {
     this.timeout(global.timeout)

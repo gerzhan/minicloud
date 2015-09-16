@@ -109,7 +109,7 @@ describe(protocol + ' console-devices', function() {
         var body = res.body
         cursor = body.cursor
         body.has_more.should.equal(true)
-        body.items[0].name.should.equal('chrome')
+        body.devices[0].device_name.should.equal('chrome')
 
         var res = yield request(app)
             .post('/api/v1/console/devices/list')
@@ -126,8 +126,8 @@ describe(protocol + ' console-devices', function() {
             .end()
         var body = res.body
         body.has_more.should.equal(true)
-        body.items[0].name.should.equal('firefox')
-        body.items[1].name.should.equal('safari')
+        body.devices[0].device_name.should.equal('firefox')
+        body.devices[1].device_name.should.equal('safari')
         done()
     })
     it(protocol + ' devices-console/list 401', function*(done) {
