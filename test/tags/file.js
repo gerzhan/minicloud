@@ -20,6 +20,7 @@ describe(protocol + ' tags/files', function() {
         var MiniDevice = require('../../lib/model/device')
         MiniTag = require('../../lib/model/tag')
         MiniFile = require('../../lib/model/file')
+        MiniVersion = require('../../lib/model/version')
         MiniFileTagRelation = require('../../lib/model/file-tag-relation')
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
@@ -51,6 +52,9 @@ describe(protocol + ' tags/files', function() {
         }
         file = yield MiniFile.createFolder(device, '/abc/test')
         yield MiniFileTagRelation.create(tag.id, file.id)
+        version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        file2 = yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
+        yield MiniFileTagRelation.create(tag.id, file2.id)
         return done()
     })
 
@@ -67,6 +71,7 @@ describe(protocol + ' tags/files', function() {
             .expect(200)
             .end()
         res.body[0].name.should.equal('test')
+        res.body[1].name.should.equal('1.doc')
         done()
     })
     it(protocol + 'tags/files socket.io  200', function*(done) {
@@ -79,6 +84,7 @@ describe(protocol + ' tags/files', function() {
             }
         }, function(body) {
             body[0].name.should.equal('test')
+            body[1].name.should.equal('1.doc')
             done()
         })
     })

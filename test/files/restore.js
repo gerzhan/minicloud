@@ -51,8 +51,20 @@ describe(protocol + ' files/restore', function() {
         }
         version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
         version2 = yield MiniVersion.create('X12', 10737418, 'doc')
-        file = yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
         yield MiniVersion.create('H21', 1234, 'doc')
+        var res = yield request(app)
+            .post('/api/v1/files/hash_upload')
+            .type('json')
+            .send({
+                'mode': 'overwrite',
+                'hash': 'X1234567',
+                'path': '/Image/123/1.doc'
+            })
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .expect(200)
+            .end()
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')
             .type('json')

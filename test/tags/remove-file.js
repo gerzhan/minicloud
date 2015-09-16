@@ -67,7 +67,7 @@ describe(protocol + ' tags/files/remove', function() {
             })
             .send({
                 name: 'green',
-                file_id: file.id
+                file_path: '/abc/test'
             })
             .expect(200)
             .end()
@@ -82,7 +82,7 @@ describe(protocol + ' tags/files/remove', function() {
             },
             data: {
                 name: 'green',
-                file_id: file.id
+                file_path: '/abc/test'
             }
         }, function(body) {
             var co = require('co')
@@ -103,7 +103,7 @@ describe(protocol + ' tags/files/remove', function() {
             })
             .send({
                 name: 'green',
-                file_id: file.id
+                file_path: '/abc/test'
             })
             .expect(401)
             .end()
@@ -118,7 +118,7 @@ describe(protocol + ' tags/files/remove', function() {
             })
             .send({
                 name: 'greennnnnn',
-                file_id: file.id
+                file_path: '/abc/test'
             })
             .expect(409)
             .end()
@@ -134,7 +134,7 @@ describe(protocol + ' tags/files/remove', function() {
             })
             .send({
                 name: 'green',
-                file_id: 3000
+                file_path: '/abc/testttt'
             })
             .expect(409)
             .end()

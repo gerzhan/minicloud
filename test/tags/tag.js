@@ -25,7 +25,7 @@ describe(protocol + ' tags/files/tags', function() {
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
         tag = yield MiniTag.create(user.id, 'green')
-        
+
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
@@ -40,18 +40,18 @@ describe(protocol + ' tags/files/tags', function() {
             .end()
             //set access_token
         accessToken = res.body.access_token
-        //get current device
+            //get current device
         var devices = yield MiniDevice.getAllByUserId(user.id)
         device = devices[0]
-        for(var i=0;i<devices.length;i++){
+        for (var i = 0; i < devices.length; i++) {
             var item = devices[i]
-            if(item.client_id==='JsQCsjF3yr7KACyT'){
+            if (item.client_id === 'JsQCsjF3yr7KACyT') {
                 device = item
             }
         }
-        file = yield MiniFile.createFolder(device,'/abc/test')
+        file = yield MiniFile.createFolder(device, '/abc/test')
         yield MiniFileTagRelation.create(tag.id, file.id)
-        
+
         return done()
     })
     it(protocol + ' tags/files/tags 200', function*(done) {
@@ -62,20 +62,20 @@ describe(protocol + ' tags/files/tags', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                file_id: file.id
+                file_path: '/abc/test'
             })
             .expect(200)
             .end()
-            res.body[0].name.should.equal('green')
+        res.body[0].name.should.equal('green')
         done()
     })
-     it(protocol + 'tags/files/tags socket.io  200', function*(done) {
+    it(protocol + 'tags/files/tags socket.io  200', function*(done) {
         global.socket.emit('/api/v1/tags/files/tags', {
             header: {
                 Authorization: 'Bearer ' + accessToken
             },
             data: {
-                 file_id: file.id
+                file_path: '/abc/test'
             }
         }, function(body) {
             body[0].name.should.equal('green')
@@ -90,7 +90,7 @@ describe(protocol + ' tags/files/tags', function() {
                 Authorization: 'Bearer 12234'
             })
             .send({
-                file_id: file.id
+                file_path: '/abc/test'
             })
             .expect(401)
             .end()
@@ -104,7 +104,7 @@ describe(protocol + ' tags/files/tags', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                file_id: 3000
+                file_path: '/abc/testttt'
             })
             .expect(409)
             .end()
