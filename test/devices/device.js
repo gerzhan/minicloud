@@ -31,9 +31,9 @@ describe(protocol + ' devices', function() {
         return done()
     })
 
-    it(protocol + ' devices/get_my_devices 200', function*(done) {
+    it(protocol + ' devices/list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/devices/get_my_devices')
+            .post('/api/v1/devices/list')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -41,24 +41,26 @@ describe(protocol + ' devices', function() {
             .expect(200)
             .end()
             //Determine Each element is in line with expectations
-        res.body.length.should.equal(2)
-        res.body[0].name.should.equal('web client')
-        res.body[1].name.should.equal('ji1111m-pc-windows7')
+        var devices = res.body.devices
+        devices.length.should.equal(2)
+        devices[0].device_name.should.equal('web client')
+        devices[1].device_name.should.equal('ji1111m-pc-windows7')
         done()
     })
-    it(protocol + ' devices/get_my_devices socket.io 200', function*(done) {
-        global.socket.emit('/api/v1/devices/get_my_devices', {
+    it(protocol + ' devices/list socket.io 200', function*(done) {
+        global.socket.emit('/api/v1/devices/list', {
             header: {
                 Authorization: 'Bearer ' + accessToken
             }
         }, function(body) {
-            body.length.should.equal(2)
+            var devices = body.devices
+            devices.length.should.equal(2)
             done()
         })
     })
-    it(protocol + ' devices/get_my_devices 401', function*(done) {
+    it(protocol + ' devices/list 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/devices/get_my_devices')
+            .post('/api/v1/devices/list')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'

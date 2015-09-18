@@ -119,7 +119,7 @@ describe(protocol + ' console-members', function() {
         var body = res.body
         cursor = body.cursor
         body.has_more.should.equal(true)
-        body.items[0].name.should.equal('admin')
+        body.members[0].name.should.equal('admin')
 
         var res = yield request(app)
             .post('/api/v1/console/members/list')
@@ -137,7 +137,7 @@ describe(protocol + ' console-members', function() {
             .end()
         var body = res.body
         body.has_more.should.equal(false)
-        body.items[0].name.should.equal('good')
+        body.members[0].name.should.equal('good')
         done()
     })
     it(protocol + ' members-console/list 200', function*(done) {
@@ -157,7 +157,7 @@ describe(protocol + ' console-members', function() {
         var body = res.body
         cursor = body.cursor
         body.has_more.should.equal(false)
-        body.items[0].name.should.equal('good')
+        body.members[0].name.should.equal('good')
         done()
     })
     it(protocol + ' members-console/admin_list 200', function*(done) {
@@ -175,7 +175,7 @@ describe(protocol + ' console-members', function() {
             .expect(200)
             .end()
         var body = res.body
-        body.items[0].name.should.equal('admin')
+        body.members[0].name.should.equal('admin')
         done()
     })
     it(protocol + ' members-console/disabled_list 200', function*(done) {

@@ -2,7 +2,7 @@
   "name": "device",
   "description": "device module",
   "routes": {
-    "/api/v1/devices/get_my_devices": "getMyDevices",
+    "/api/v1/devices/list": "list",
     "/api/v1/devices/remove" : "remove"
   }
 }
