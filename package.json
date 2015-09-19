@@ -42,6 +42,7 @@
     "md5": "^2.0.0",
     "mime": "^1.3.4",
     "minicloud-koa-json-filter": "0.0.1",
+    "minicloud-koa-oauth-server": "^1.0.2",
     "minicloud-koa.io": "0.0.3",
     "parseurl": "^1.3.0",
     "pinyin": "^2.6.2",
