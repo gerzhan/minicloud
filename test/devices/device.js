@@ -58,6 +58,20 @@ describe(protocol + ' devices', function() {
             done()
         })
     })
+    it(protocol + ' devices/list 400', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/devices/list')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                limit: 'abc'
+            })
+            .expect(400)
+            .end()
+        done()
+    })
     it(protocol + ' devices/list 401', function*(done) {
         var res = yield request(app)
             .post('/api/v1/devices/list')

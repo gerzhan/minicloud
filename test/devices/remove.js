@@ -26,12 +26,15 @@ function* getMyDeviceUuid(app, accessToken) {
         .set({
             Authorization: 'Bearer ' + accessToken
         })
+        .send({
+            limit:100
+        })
         .expect(200)
         .end()
     var devices = res.body.devices 
     return devices[0].uuid
 }
-describe(protocol + ' devices', function() {
+describe(protocol + ' devices remove', function() {
     this.timeout(global.timeout)
     var app = null
     var accessToken = null
