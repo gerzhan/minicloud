@@ -37,9 +37,9 @@ minicloud is supported in all versions of [iojs](https://iojs.org) without any f
 To use minicloud with node, you must be running __node 0.12.0__ or higher for generator and promise support, and must run node(1)
   with the `--harmony-generators` or `--harmony` flag.
 
-## API
+## HTTP API And Websocket API
 
-[minicloud api](https://minicloud.readme.io/docs) has provided 60 API.
+[minicloud api documents](https://minicloud.readme.io/docs) has provided 60 API.it's compatible websocket.
 
 - cover departments, groups, users, devices, files, tags, events
 
@@ -52,6 +52,17 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 - support txt/docx/doc/pptx/ppt/xlsx/xls/pdf full text search(todo list)
 
 - support [socket.io](https://socket.io),http api can seamless convert to websocket.[demo>>](https://minicloud.readme.io/docs/how-to-use-websocket)
+
+## SDK
+[js sdk](https://github.com/minicloud/minicloud-js-sdk),call websocket api, don't use http api.compatible [browserify](https://www.npmjs.com/package/browserify),support:ie9+,chrome,firefox,safari.
+
+## Examples
+[nodejs web app integrate with minicloud+sqlite](https://github.com/minicloud/nodejs-example)
+[nodejs web app integrate with minicloud+mysql](https://github.com/minicloud/nodejs-mysql-example)
+[express app integrate with minicloud+sqlite](https://github.com/minicloud/express-example)
+[express app integrate with minicloud+mysql](https://github.com/minicloud/express-mysql-example)
+[koa app integrate with minicloud+sqlite](https://github.com/minicloud/koa-example)
+[koa app integrate with minicloud+mysql](https://github.com/minicloud/koa-mysql-example)
 
 ## Todo list
  
