@@ -13,12 +13,7 @@
 
   minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management desktop client&mobile client&web client.
 
-## Download Test sqlite database
-```
-$ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
-
-```
-## create file index.js
+## Create file index.js
 ```
 require('co').wrap(function*(){
 	var app = yield require('minicloud')()
@@ -30,13 +25,19 @@ require('co').wrap(function*(){
 ```
 $ npm install minicloud co
 ```
+
+## Download sqlite database file
+```
+$ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
+
+```
 ## Run(node>0.12.0)
 ```
 $ node --harmony index.js
 or
 $ iojs index.js
 ```
-## Test
+## Test case
 ```
 //register member
 curl -X POST http://127.0.0.1:8030/api/v1/members/register \
