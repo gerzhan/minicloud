@@ -18,7 +18,7 @@
 $ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
 
 ```
-## test index.js
+## create file index.js
 ```
 require('co').wrap(function*(){
 	var app = yield require('minicloud')()
@@ -51,7 +51,7 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 - support return thumbnail for an image.include ai,bmp,eps,gif,jpg,jpeg,png,psd,tif,tiff
 
-- support docx/doc/pptx/ppt/xlsx/xls/pdf online browse(todo list)
+- support docx/doc/pptx/ppt/xlsx/xls/pdf online browse view(todo list)
 
 - support txt/docx/doc/pptx/ppt/xlsx/xls/pdf full text search(todo list)
 
