@@ -9,13 +9,28 @@
 
   minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management PC client/mobile client/web client.
 
+## Download Test sqlite database
+```
+$ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
+
+```
+## index.js
+```
+require('co').wrap(function*(){
+	var app = yield require('minicloud')()
+	app.listen(8030)
+})()
+
+```
 ## Installation
 ```
-$ git clone http://github.com/minicloud/minicloud
-$ cd minicloud
-$ npm install
-$ npm test
-
+$ npm install minicloud co
+```
+## Run(node>0.12.0)
+```
+$ node --harmony index.js
+or
+$ ios index.js
 ```
 
 minicloud is supported in all versions of [iojs](https://iojs.org) without any flags.
