@@ -1,6 +1,6 @@
 {
   "name": "minicloud",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "minicloud mix/private cloud",
   "main": "index.js",
   "scripts": {
@@ -53,5 +53,15 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minicloud/minicloud.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minicloud/minicloud/issues"
+  },
+  "homepage": "https://github.com/minicloud/minicloud#readme"
 }
