@@ -54,14 +54,21 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 - support [socket.io](https://socket.io),http api can seamless convert to websocket.[demo>>](https://minicloud.readme.io/docs/how-to-use-websocket)
 
 ## SDK
-[js sdk](https://github.com/minicloud/minicloud-js-sdk),call websocket api, don't use http api.compatible [browserify](https://www.npmjs.com/package/browserify),support:ie9+,chrome,firefox,safari.
+[minicloud-js-sdk](https://github.com/minicloud/minicloud-js-sdk),websocket api sdk.
+
+compatible [browserify](https://www.npmjs.com/package/browserify),support:ie9+,chrome,firefox,safari.
 
 ## Examples
 [nodejs web app integrate with minicloud+sqlite](https://github.com/minicloud/nodejs-example)
+
 [nodejs web app integrate with minicloud+mysql](https://github.com/minicloud/nodejs-mysql-example)
+
 [express app integrate with minicloud+sqlite](https://github.com/minicloud/express-example)
+
 [express app integrate with minicloud+mysql](https://github.com/minicloud/express-mysql-example)
+
 [koa app integrate with minicloud+sqlite](https://github.com/minicloud/koa-example)
+
 [koa app integrate with minicloud+mysql](https://github.com/minicloud/koa-mysql-example)
 
 ## Todo list
