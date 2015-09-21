@@ -3,7 +3,7 @@
   [![Test coverage][coveralls-image]][coveralls-url]
   [![devDependency Status](https://david-dm.org/atom/electron/dev-status.svg)](https://david-dm.org/minicloud/minicloud#info=devDependencies)
   
-  minicloud v3.0 beta1
+  minicloud v0.5.6
 
   minicloud based on node.js, providing efficient file storage server for enterprises.
 
@@ -36,6 +36,14 @@ $ node --harmony index.js
 or
 $ iojs index.js
 ```
+## Test
+```
+
+curl -X POST http://127.0.0.1:8030/api/v1/oauth2/token \
+    --header "Content-Type: application/json" \
+    --data "{\"name\":\"admin\",\"password\":\"admin\",\"device_name\":\"minicloud-pc\"
+
+```
 
 minicloud is supported in all versions of [iojs](https://iojs.org) without any flags.
 To use minicloud with node, you must be running __node 0.12.0__ or higher for generator and promise support, and must run node(1)
@@ -44,7 +52,7 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 ## HTTP API And Websocket API
 
 [minicloud api documents](https://minicloud.readme.io/docs) has provided 60 API.it's compatible websocket.
-
+- 300+ test case departments, groups, users, devices, files, tags, events
 - cover departments, groups, users, devices, files, tags, events
 
 - support file hash upload and large file block upload/simple file upload
