@@ -48,7 +48,7 @@ var _deleteFolder = function(filePath) {
 exports.getApp = function*() {
         yield initDBTables()
         if (!global.app) {
-            var app = yield require('../lib/loader/app-loader')(config)
+            var app = yield require('../')(null,config)
             global.app = app.listen()
             global.socket = yield initSocketClient(app)
             _deleteFolder('./cache')
