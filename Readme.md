@@ -14,7 +14,7 @@
 $ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
 
 ```
-## index.js
+## test index.js
 ```
 require('co').wrap(function*(){
 	var app = yield require('minicloud')()
@@ -30,7 +30,7 @@ $ npm install minicloud co
 ```
 $ node --harmony index.js
 or
-$ ios index.js
+$ iojs index.js
 ```
 
 minicloud is supported in all versions of [iojs](https://iojs.org) without any flags.
