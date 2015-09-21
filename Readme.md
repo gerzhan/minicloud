@@ -41,8 +41,7 @@ $ iojs index.js
 
 curl -X POST http://demo.minicloud.io/api/v1/oauth2/token \
     --header "Content-Type: application/json" \
-    --data "{\"name\":\"admin\",\"password\":\"admin\",\"device_name\":\"minicloud-test-device\"}"
-
+    --data "{\"name\":\"admin\",\"password\":\"admin\",\"device_name\":\"test-pc\"}"
 
 ```
 
