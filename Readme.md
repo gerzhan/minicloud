@@ -39,9 +39,10 @@ $ iojs index.js
 ## Test
 ```
 
-curl -X POST http://127.0.0.1:8030/api/v1/oauth2/token \
+curl -X POST http://demo.minicloud.io/api/v1/oauth2/token \
     --header "Content-Type: application/json" \
-    --data "{\"name\":\"admin\",\"password\":\"admin\",\"device_name\":\"minicloud-pc\"
+    --data "{\"name\":\"admin\",\"password\":\"admin\",\"device_name\":\"minicloud-test-device\"}"
+
 
 ```
 
