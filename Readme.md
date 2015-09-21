@@ -31,7 +31,7 @@ $ npm install minicloud co
 $ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
 
 ```
-## Run(node>0.12.0)
+## Run Server(node>0.12.0)
 ```
 $ node --harmony index.js
 or
