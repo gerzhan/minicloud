@@ -7,7 +7,11 @@
 
   minicloud based on node.js, providing efficient file storage server for enterprises.
 
-  minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management PC client/mobile client/web client.
+  you can easily integrate existing app nodejs with minicloud.
+
+## About client(include web/desktop/mobile client)
+
+  minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management desktop client&mobile client&web client.
 
 ## Download Test sqlite database
 ```
@@ -55,6 +59,10 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 
 ## SDK
 [minicloud-js-sdk](https://github.com/minicloud/minicloud-js-sdk) websocket api sdk.compatible [browserify](https://www.npmjs.com/package/browserify),support:ie9+,chrome,firefox,safari.
+
+## Supported database type
+
+ minicloud base on [sequelize](https://github.com/sequelize/sequelize).It currently supports MySQL, MariaDB, SQLite, PostgreSQL and MSSQL. minicloud already tested sqlite and mysql.
 
 ## Examples
 [nodejs web app integrate with minicloud+sqlite](https://github.com/minicloud/nodejs-example)
