@@ -1,6 +1,6 @@
 {
   "name": "minicloud",
-  "version": "0.5.1",
+  "version": "0.5.6",
   "description": "minicloud mix/private cloud",
   "main": "index.js",
   "scripts": {
