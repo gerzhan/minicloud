@@ -35,7 +35,7 @@
     "minicloud-koa-json-filter": "0.0.1",
     "minicloud-koa-oauth-server": "^1.0.3",
     "minicloud-storage": "^0.5.7",
-    "mysql": "^2.9.0",
+    "mysql": "^2.9.0", 
     "pinyin": "^2.6.2",
     "sequelize": "^3.9.0",
     "sequelize-cli": "^1.9.1",
