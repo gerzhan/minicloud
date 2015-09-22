@@ -1,5 +1,5 @@
 /node_modules
 ._*
 /npm-debug.log
-/minicloud_test.db
+/minicloud.db
 /bin/config.json

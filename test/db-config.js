@@ -44,7 +44,7 @@ module.exports = {
     },
 
     sqlite: {
-        storage: './example/minicloud.db'
+        storage: './minicloud.db'
     },
 
     postgres: {
