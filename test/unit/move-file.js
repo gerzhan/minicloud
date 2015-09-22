@@ -51,10 +51,10 @@ describe(protocol + ' file.js', function() {
         var toPath = '/home/abc/测试B.doc'
         var toFile = yield MiniFile.move(device, filePath, toPath)
             //assert file 
-        assert(toFile.id, file.id)
+        assert.equal(toFile.id, file.id)
             //assert file meta
         var revs = yield MiniFileMeta.getRevs(toFile.path_lower)
-        assert(revs.length, 1)
+        assert.equal(revs.length, 1)
         done()
     })
     it(protocol + ' move file autorename (1)', function*(done) {
@@ -66,8 +66,8 @@ describe(protocol + ' file.js', function() {
         var toPath = '/home/abc/测试B.doc'
         var toFile = yield MiniFile.move(device, filePath, toPath)
             //assert file 
-        assert(toFile.name, '测试B (1).doc')
-        assert(toFile.id, file.id)
+        assert.equal(toFile.name, '测试B (1).doc')
+        assert.equal(toFile.id, file.id)
         done()
     })
     it(protocol + ' move folder', function*(done) {
@@ -81,14 +81,14 @@ describe(protocol + ' file.js', function() {
         var file1 = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/doc-back'
         var toFile = yield MiniFile.move(device, '/home/doc', toPath)
-        assert(toFile.name, 'doc-back')
+        assert.equal(toFile.name, 'doc-back')
             //assert 
         filePath = '/home/doc-back/DOCX/201508/测试目录/测试A.doc'
         var newFile = yield MiniFile.getByPath(user.id, filePath)
-        assert(file.id, newFile.id)
+        assert.equal(file.id, newFile.id)
         filePath = '/home/doc-back/DOCX/201508/测试B.doc'
         file = yield MiniFile.getByPath(user.id, filePath)
-        assert(file.id, file1.id)
+        assert.equal(file.id, file1.id)
         done()
     })
     it(protocol + ' move folder autorename (1)', function*(done) {
@@ -97,8 +97,8 @@ describe(protocol + ' file.js', function() {
         var toPath = '/home/doc-back'
         var toFile = yield MiniFile.move(device, folderPath, toPath)
             //assert  
-        assert(toFile.name, 'doc-back (1)')
-        assert(toFile.id, folder.id)
+        assert.equal(toFile.name, 'doc-back (1)')
+        assert.equal(toFile.id, folder.id)
         done()
     })
 })

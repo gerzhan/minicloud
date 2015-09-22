@@ -124,8 +124,8 @@ describe(protocol + ' conflict.js', function() {
             device_id: 1,
             client_modified: new Date().getTime()
         })
-        assert(file2.name, '测试a.doc')
-        assert(file2.id, file2.id)
+        assert.equal(file2.name, '测试a.doc')
+        assert.equal(file2.id, file2.id)
             //overwrite mode
             //need set device_id
         var version3 = yield MiniVersion.create('X13', 1024, 'doc')
@@ -136,10 +136,10 @@ describe(protocol + ' conflict.js', function() {
         })
         var MiniFileMeta = require('../../lib/model/file-meta')
         var revs = yield MiniFileMeta.getRevs(file3.path_lower)
-        assert(revs.length, 3)
-        assert(revs[0].hash, 'X13')
-        assert(revs[1].hash, 'X12')
-        assert(revs[2].hash, 'X11')
+        assert.equal(revs.length, 3)
+        assert.equal(revs[0].hash, 'X13')
+        assert.equal(revs[1].hash, 'X12')
+        assert.equal(revs[2].hash, 'X11')
         done()
     })
     it(protocol + ' update mode', function*(done) {

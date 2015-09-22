@@ -98,7 +98,7 @@ describe(protocol + ' files/download', function() {
             .end() 
         var host = 'http://192.168.0.11'
         var url = res.header.location.substring(0, host.length)
-        assert(url, host)
+        assert.equal(url, host)
         done()
     })
     it(protocol + ' files/download  302 rev_hash GET', function*(done) {
@@ -108,7 +108,7 @@ describe(protocol + ' files/download', function() {
             .end()
         var host = 'http://192.168.0.11'
         var url = res.header.location.substring(0, host.length)
-        assert(url, host)
+        assert.equal(url, host)
         done()
     })
     it(protocol + ' files/download  302 POST', function*(done) {
@@ -124,7 +124,7 @@ describe(protocol + ' files/download', function() {
             .end()
         var host = 'http://192.168.0.11'
         var url = res.header.location.substring(0, host.length)
-        assert(url, host)
+        assert.equal(url, host)
         done()
     })
 })

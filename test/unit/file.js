@@ -108,8 +108,8 @@ describe(protocol + ' file.js', function() {
         //asset fileMeta
         var MiniFileMeta = require('../../lib/model/file-meta')
         var revs = yield MiniFileMeta.getRevs(file5.path_lower)
-        assert(revs.length, 1)
-        assert(revs[0].hash, 'X1234567')
+        assert.equal(revs.length, 1)
+        assert.equal(revs[0].hash, 'X1234567')
         done()
     }) 
     it(protocol + ' update File name', function*(done) {

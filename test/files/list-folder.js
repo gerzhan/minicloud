@@ -106,7 +106,7 @@ describe(protocol + ' files/list_folder', function() {
             .expect(200)
             .end()
         var body = res.body
-        assert(body.files.length, 10)
+        assert.equal(body.files.length, 10)
         var cursor1 = res.body.cursor
             //second page 
         var res = yield request(app)
@@ -123,7 +123,7 @@ describe(protocol + ' files/list_folder', function() {
             .expect(200)
             .end()
         var body = res.body
-        assert(body.files.length, 10)
+        assert.equal(body.files.length, 10)
         var cursor2 = res.body.cursor
             //third page 
         var res = yield request(app)
@@ -140,12 +140,12 @@ describe(protocol + ' files/list_folder', function() {
             .expect(200)
             .end()
         var body = res.body 
-        assert(body.files.length, 10)
+        assert.equal(body.files.length, 10)
         var isOver = 1
         if (body.has_more) {
             isOver = 0
         }
-        assert(isOver, 1)
+        assert.equal(isOver, 1)
         done()
     })
 })

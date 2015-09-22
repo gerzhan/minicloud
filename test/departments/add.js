@@ -113,7 +113,7 @@ describe(protocol + ' department add', function() {
                 existed = 1
             }
         }
-        assert(existed, 1)
+        assert.equal(existed, 1)
         done()
     })
     it(protocol + ' departments/add socket.io  200', function*(done) {

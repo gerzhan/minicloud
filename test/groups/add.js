@@ -72,7 +72,7 @@ describe(protocol + ' groups/add', function() {
                 existed = 1
             }
         }
-        assert(existed, 1)
+        assert.equal(existed, 1)
         done()
     })
     it(protocol + ' groups/add socket.io  200', function*(done) {

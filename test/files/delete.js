@@ -148,7 +148,7 @@ describe(protocol + ' files/delete', function() {
                 fileItem = eventItem
             }
         }
-        assert(fileItem.context, JSON.stringify({
+        assert.equal(fileItem.context, JSON.stringify({
             file_type: 0,
             descendant_count: 1
         }))
@@ -175,7 +175,7 @@ describe(protocol + ' files/delete', function() {
                         fileItem = eventItem
                     }
                 }
-                assert(fileItem.context, JSON.stringify({
+                assert.equal(fileItem.context, JSON.stringify({
                     file_type: 0,
                     descendant_count: 1
                 }))

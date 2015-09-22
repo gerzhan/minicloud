@@ -3,7 +3,7 @@ var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 var assert = require('assert')
 describe(protocol + ' event.js', function() {
-    this.timeout(global.timeout) 
+    this.timeout(global.timeout)
     var app = null
     var MiniFile = null
     var user = null
@@ -51,7 +51,7 @@ describe(protocol + ' event.js', function() {
                 break
             }
         }
-        assert(hasEvent, 1)
+        assert.equal(hasEvent, 1)
         done()
     })
     it(protocol + ' create logout event', function*(done) {
@@ -65,7 +65,7 @@ describe(protocol + ' event.js', function() {
                 logoutItem = item
             }
         }
-        assert(logoutItem.type, 2)
+        assert.equal(logoutItem.type, 2)
         done()
     })
     it(protocol + ' file/folder create event', function*(done) {
@@ -101,11 +101,12 @@ describe(protocol + ' event.js', function() {
                 }
             }
         }
-        assert(folderItem.context, JSON.stringify({
+
+        assert.equal(folderItem.context, JSON.stringify({
             file_type: 1,
             name: 'home'
         }))
-        assert(fileItem.context, JSON.stringify({
+        assert.equal(fileItem.context, JSON.stringify({
             file_type: 0,
             name: 'X1.doc'
         }))
@@ -135,10 +136,7 @@ describe(protocol + ' event.js', function() {
                 }
             }
         }
-        assert(fileItem.context, JSON.stringify({
-            file_type: 0,
-            name: '测试B.doc'
-        }))
+        assert.equal(JSON.parse(fileItem.context).name, '测试B.doc')
         done()
     })
     it(protocol + ' file/folder delete event', function*(done) {
@@ -164,7 +162,7 @@ describe(protocol + ' event.js', function() {
                 }
             }
         }
-        assert(fileItem.context, JSON.stringify({
+        assert.equal(fileItem.context, JSON.stringify({
             file_type: 1,
             descendant_count: 6
         }))
@@ -175,7 +173,7 @@ describe(protocol + ' event.js', function() {
         var page = yield MiniEvent.getList({
             user_id: device.user_id
         })
-        assert(page.count, 17)
+        assert.equal(page.count, 17)
         done()
     })
 })

@@ -13,7 +13,7 @@ describe(protocol + ' plugin.js', function() {
     })
     it(protocol + ' getPluginEnabledList', function*(done) {
         var plugins = yield BizOption.getPluginEnabledList()
-        assert(plugins, {})
+        assert.equal(JSON.stringify(plugins), "{}")
         done()
     })
     it(protocol + ' getPluginEnabledList', function*(done) {
@@ -37,12 +37,12 @@ describe(protocol + ' plugin.js', function() {
             }
         }
         yield MiniOption.create('active_plugins', JSON.stringify(plugins))
-        var plugins = yield BizOption.getPluginEnabledList()
+        var plugins = yield BizOption.getPluginEnabledList() 
         var len = 0
         for (var key in plugins) {
             len++
         }
-        assert(len, 6)
+        assert.equal(len, 4)
         done()
     })
 })

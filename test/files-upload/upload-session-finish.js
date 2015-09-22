@@ -144,9 +144,9 @@ describe(protocol + ' files/upload_session/finish', function() {
         var MiniFileVersionMeta = require('../../lib/model/version-meta')
         var meta = yield MiniFileVersionMeta.getByKey(version.id, 'store_id')
         if (!meta) {
-            assert(1, 1)
+            assert.equal(1, 1)
         } else {
-            assert(0, 1)
+            assert.equal(0, 1)
         }
         //upload to minicloud storage
         var MiniFileUploadSession = require('../../lib/model/file-upload-session')

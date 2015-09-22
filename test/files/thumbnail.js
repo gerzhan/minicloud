@@ -89,7 +89,7 @@ describe(protocol + ' files/thumbnail', function() {
             .end()
         var host = 'http://192.168.0.11'
         var url = res.header.location.substring(0, host.length) 
-        assert(url, host)
+        assert.equal(url, host)
         done() 
     })
     it(protocol + ' files/thumbnail  POST 302', function*(done) {
@@ -106,7 +106,7 @@ describe(protocol + ' files/thumbnail', function() {
             .end()
         var host = 'http://192.168.0.11'
         var url = res.header.location.substring(0, host.length) 
-        assert(url, host)
+        assert.equal(url, host)
         done() 
     })
 })
