@@ -34,7 +34,7 @@ module.exports = {
     mysql: {
         database: process.env.SEQ_MYSQL_DB || process.env.SEQ_DB || 'minicloud_test',
         username: process.env.SEQ_MYSQL_USER || process.env.SEQ_USER || 'root',
-        password: process.env.SEQ_MYSQL_PW || process.env.SEQ_PW || null,
+        password: process.env.SEQ_MYSQL_PW || process.env.SEQ_PW || '123456',
         host: process.env.MYSQL_PORT_3306_TCP_ADDR || process.env.SEQ_MYSQL_HOST || process.env.SEQ_HOST || '127.0.0.1',
         port: process.env.MYSQL_PORT_3306_TCP_PORT || process.env.SEQ_MYSQL_PORT || process.env.SEQ_PORT || 3306,
         pool: {

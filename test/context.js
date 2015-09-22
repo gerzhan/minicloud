@@ -1,11 +1,12 @@
-var config = require('./config')
+var config = require('./db-config')
 var isTravis = Boolean(process.env.CI)
-global.timeout = 30000
 var client = require('./socket-io-client')
+global.timeout = 30000
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'sqlite'
-if (!isTravis) {
-    var dbConfig = config[process.env.ORM_PROTOCOL]
-    dbConfig.password = dbConfig.password || '123456'
+var dbConfig = config[process.env.ORM_PROTOCOL]
+dbConfig.dialect = process.env.ORM_PROTOCOL
+if (isTravis) {
+    dbConfig.password = null
 }
 process.setMaxListeners(0)
 var initSocketClient = function(app) {
@@ -48,7 +49,9 @@ var _deleteFolder = function(filePath) {
 exports.getApp = function*() {
         yield initDBTables()
         if (!global.app) {
-            var app = yield require('../')(null,config)
+            var app = yield require('../')(null, {
+                database: dbConfig
+            })
             global.app = app.listen()
             global.socket = yield initSocketClient(app)
             _deleteFolder('./cache')
@@ -62,7 +65,7 @@ exports.getApp = function*() {
      */
 function* initDBTables() {
     if (!global.sequelizePool) {
-        var sequelizePool = yield require('../lib/loader/sequelize-loader')(config)
+        var sequelizePool = yield require('../lib/loader/sequelize-loader')(dbConfig)
         var models = sequelizePool.models
         for (var i = 0; i < models.length; i++) {
             var model = models[i]
