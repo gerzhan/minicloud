@@ -28,15 +28,11 @@ $ npm install minicloud co
 
 ## Initialize sqlite database file,Just one time
 ```
-$ node --harmony ./node_modules/minicloud/install.js
-or
-$ iojs ./node_modules/minicloud/install.js
+$ node ./node_modules/minicloud/install.js 
 ```
 ## Run Server
 ```
-$ node --harmony index.js
-or
-$ iojs index.js
+$ node index.js 
 ```
 ## Test case
 ```
