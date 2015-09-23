@@ -1,6 +1,6 @@
 {
   "name": "minicloud",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "Enterprise document hybrid cloud management software,support docx/doc/pptx/ppt/xlsx/xls/pdf online browse view and full text search",
   "main": "index.js",
   "scripts": {
@@ -61,7 +61,8 @@
     "iojs": ">= 1.0.0"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin"
   ],
   "author": "",
   "bugs": {
