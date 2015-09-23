@@ -60,13 +60,6 @@ exports.getApp = function*() {
     return global.app
 }
 
-function _databaseMigration() {
-    return function(done) {
-        //migration database
-        var helpers = require('../lib/migration-helpers')
-        helpers.migration(dbConfig,done)
-    }
-}
 /**
  * Create tables from models 
  * @api public
@@ -74,8 +67,9 @@ function _databaseMigration() {
 
 function* initDBTables() {
     if (!global.sequelizePool) {
-        //migration database
-        yield _databaseMigration()
+        //migration database 
+        var migration = require('../lib/migration')
+        yield migration.run(dbConfig)
         var sequelizePool = yield require('../lib/loader/sequelize-loader')(dbConfig)
         global.sequelizePool = sequelizePool
     }

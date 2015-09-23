@@ -26,10 +26,11 @@ require('co').wrap(function*(){
 $ npm install minicloud co
 ```
 
-## Download sqlite database file
+## Initialize sqlite database file
 ```
-$ wget https://raw.githubusercontent.com/minicloud/koa-example/master/minicloud.db
-
+$ node --harmony install.js
+or
+$ iojs install.js
 ```
 ## Run Server(node>0.12.0)
 ```

@@ -1,3 +1,0 @@
-#!/usr/bin/env node
-var helpers = require('../lib/migration-helpers')
-helpers.migration()
