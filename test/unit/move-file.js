@@ -45,7 +45,7 @@ describe(protocol + ' file.js', function() {
     it(protocol + ' move file', function*(done) {
         var MiniVersion = require('../../lib/model/version')
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
@@ -60,7 +60,7 @@ describe(protocol + ' file.js', function() {
     it(protocol + ' move file autorename (1)', function*(done) {
         var MiniVersion = require('../../lib/model/version')
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试C.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/abc/测试B.doc'
@@ -73,10 +73,10 @@ describe(protocol + ' file.js', function() {
     it(protocol + ' move folder', function*(done) {
         var MiniVersion = require('../../lib/model/version')
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var version = yield MiniVersion.create('X12345678', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X12345678', 1073741825)
         var filePath = '/home/doc/DOCX/201508/测试目录/测试A.doc'
         var file = yield MiniFile.createFile(device, filePath, version, null)
-        var version = yield MiniVersion.create('X123456789', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X123456789', 1073741825)
         var filePath = '/home/doc/DOCX/201508/测试B.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version, null)
         var toPath = '/home/doc-back'

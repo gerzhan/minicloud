@@ -87,7 +87,7 @@ describe(protocol + ' files/list_folder', function() {
         //ready data
         var MiniVersion = require('../../lib/model/version')
         var MiniFile = require('../../lib/model/file')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         for (var i = 0; i < 15; i++) {
             yield MiniFile.createFolder(device, '/home/folder' + i)
             yield MiniFile.createFile(device, '/home/' + i + '.docx', version)

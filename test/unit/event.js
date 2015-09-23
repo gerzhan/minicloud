@@ -118,10 +118,10 @@ describe(protocol + ' event.js', function() {
         var MiniVersion = require('../../lib/model/version')
         var MiniFileMeta = require('../../lib/model/file-meta')
         var MiniEvent = require('../../lib/model/event')
-        var version = yield MiniVersion.create('X12345678', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X12345678', 1073741825)
         var filePath = '/home/doc/DOCX/201508/测试目录/测试A.doc'
         var file = yield MiniFile.createFile(device, filePath, version)
-        var version = yield MiniVersion.create('X123456789', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X123456789', 1073741825)
         var filePath = '/home/doc/DOCX/201508/测试B.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version)
         var toPath = '/home/doc-back'

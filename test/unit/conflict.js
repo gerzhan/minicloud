@@ -44,14 +44,14 @@ describe(protocol + ' conflict.js', function() {
     })
     it(protocol + ' add mode not root path', function*(done) {
         var MiniVersion = require('../../lib/model/version')
-        var version1 = yield MiniVersion.create('X51', 1024, 'doc')
+        var version1 = yield MiniVersion.create('X51', 1024)
         var filePath = '/home/A.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version1, {
                 client_modified: new Date().getTime()
             })
             //add mode 
         var filePath = '/home/a.doc'
-        var version2 = yield MiniVersion.create('X52', 1024, 'doc')
+        var version2 = yield MiniVersion.create('X52', 1024)
         var file2 = yield MiniFile.createFile(device, filePath, version2, {
             mode: 'add',
             client_modified: new Date().getTime()
@@ -59,7 +59,7 @@ describe(protocol + ' conflict.js', function() {
         assert.equal(file2.name, 'a (1).doc')
             //add mode 
         var filePath = '/home/A.doc'
-        var version3 = yield MiniVersion.create('X53', 1024, 'doc')
+        var version3 = yield MiniVersion.create('X53', 1024)
         var file3 = yield MiniFile.createFile(device, filePath, version3, {
             mode: 'add',
             client_modified: new Date().getTime()
@@ -67,7 +67,7 @@ describe(protocol + ' conflict.js', function() {
         assert.equal(file3.name, 'A (2).doc')
             //add mode 
         var filePath = '/home/A.doc'
-        var version4 = yield MiniVersion.create('X54', 1024, 'doc')
+        var version4 = yield MiniVersion.create('X54', 1024)
         var file4 = yield MiniFile.createFile(device, filePath, version4, {
             mode: 'add',
             client_modified: new Date().getTime()
@@ -77,14 +77,14 @@ describe(protocol + ' conflict.js', function() {
     })
     it(protocol + ' add mode root path', function*(done) {
         var MiniVersion = require('../../lib/model/version')
-        var version1 = yield MiniVersion.create('X51', 1024, 'doc')
+        var version1 = yield MiniVersion.create('X51', 1024)
         var filePath = '/A.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version1, {
                 client_modified: new Date().getTime()
             })
             //add mode 
         var filePath = '/a.doc'
-        var version2 = yield MiniVersion.create('X52', 1024, 'doc')
+        var version2 = yield MiniVersion.create('X52', 1024)
         var file2 = yield MiniFile.createFile(device, filePath, version2, {
             mode: 'add',
             client_modified: new Date().getTime()
@@ -92,7 +92,7 @@ describe(protocol + ' conflict.js', function() {
         assert.equal(file2.name, 'a (1).doc')
             //add mode 
         var filePath = '/A.doc'
-        var version3 = yield MiniVersion.create('X53', 1024, 'doc')
+        var version3 = yield MiniVersion.create('X53', 1024)
         var file3 = yield MiniFile.createFile(device, filePath, version3, {
             mode: 'add',
             client_modified: new Date().getTime()
@@ -100,7 +100,7 @@ describe(protocol + ' conflict.js', function() {
         assert.equal(file3.name, 'A (2).doc')
             //add mode 
         var filePath = '/A.doc'
-        var version4 = yield MiniVersion.create('X54', 1024, 'doc')
+        var version4 = yield MiniVersion.create('X54', 1024)
         var file4 = yield MiniFile.createFile(device, filePath, version4, {
             mode: 'add',
             client_modified: new Date().getTime()
@@ -110,7 +110,7 @@ describe(protocol + ' conflict.js', function() {
     })
     it(protocol + ' overwrite mode', function*(done) {
         var MiniVersion = require('../../lib/model/version')
-        var version1 = yield MiniVersion.create('X11', 1024, 'doc')
+        var version1 = yield MiniVersion.create('X11', 1024)
         var filePath = '/home/测试A.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version1, {
                 client_modified: new Date().getTime()
@@ -118,7 +118,7 @@ describe(protocol + ' conflict.js', function() {
             //overwrite mode
             //need set device_id
         var filePath = '/home/测试a.doc'
-        var version2 = yield MiniVersion.create('X12', 1024, 'doc')
+        var version2 = yield MiniVersion.create('X12', 1024)
         var file2 = yield MiniFile.createFile(device, filePath, version2, {
             mode: 'overwrite',
             device_id: 1,
@@ -128,7 +128,7 @@ describe(protocol + ' conflict.js', function() {
         assert.equal(file2.id, file2.id)
             //overwrite mode
             //need set device_id
-        var version3 = yield MiniVersion.create('X13', 1024, 'doc')
+        var version3 = yield MiniVersion.create('X13', 1024)
         var file3 = yield MiniFile.createFile(device, filePath, version3, {
             mode: 'overwrite',
             device_id: 1,
@@ -145,11 +145,11 @@ describe(protocol + ' conflict.js', function() {
     it(protocol + ' update mode', function*(done) {
         var MiniVersion = require('../../lib/model/version')
         var MiniFileMeta = require('../../lib/model/file-meta')
-        var version1 = yield MiniVersion.create('X71', 1024, 'doc')
-        var version2 = yield MiniVersion.create('X72', 1024, 'doc')
-        var version3 = yield MiniVersion.create('X73', 1024, 'doc')
-        var version4 = yield MiniVersion.create('X74', 1024, 'doc')
-        var version5 = yield MiniVersion.create('X75', 1024, 'doc')
+        var version1 = yield MiniVersion.create('X71', 1024)
+        var version2 = yield MiniVersion.create('X72', 1024)
+        var version3 = yield MiniVersion.create('X73', 1024)
+        var version4 = yield MiniVersion.create('X74', 1024)
+        var version5 = yield MiniVersion.create('X75', 1024)
         var filePath = '/home/Au.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version1, {
             client_modified: new Date().getTime()

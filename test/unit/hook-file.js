@@ -55,7 +55,7 @@ describe(protocol + ' hook-file.js', function() {
     })
     it(protocol + ' beforeUpdate set version.refCount ', function*(done) {
         var MiniVersion = require('../../lib/model/version')
-        var version1 = yield MiniVersion.create('1X11', 1024, 'doc')
+        var version1 = yield MiniVersion.create('1X11', 1024)
         var filePath = '/home/测试A1.doc'
         var file1 = yield MiniFile.createFile(device, filePath, version1, {
                 client_modified: new Date().getTime()
@@ -63,7 +63,7 @@ describe(protocol + ' hook-file.js', function() {
             //overwrite mode
             //need set device_id
         var filePath = '/home/测试a1.doc'
-        var version2 = yield MiniVersion.create('1X12', 1024, 'doc') 
+        var version2 = yield MiniVersion.create('1X12', 1024) 
         assert.equal(version2.ref_count,0) 
         var file2 = yield MiniFile.createFile(device, filePath, version2, {
             mode: 'overwrite', 

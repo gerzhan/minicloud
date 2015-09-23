@@ -57,7 +57,7 @@ describe(protocol + ' files/move', function() {
                 device = item
             }
         }
-        version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        version = yield MiniVersion.create('X1234567', 1073741825)
         file = yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
         var fileTag2 = yield MiniTag.getByName(user.id, 'green')
         var fileTag3 = yield MiniTag.getByName(user.id, 'white')
@@ -67,12 +67,12 @@ describe(protocol + ' files/move', function() {
         yield MiniFileTagRelation.create(fileTag2.id, file2.id)
         var file3 = yield MiniFile.createFolder(device, '/LIGht/好/123/456')
         var file7 = yield MiniFile.createFolder(device, '/LIGht/好/123/789')
-        var version2 = yield MiniVersion.create('X2234567', 1107374182, 'doc')
+        var version2 = yield MiniVersion.create('X2234567', 1107374182)
         var file4 = yield MiniFile.createFile(device, '/Image/123/hello.doc', version2, null)
 
         var file5 = yield MiniFile.createFolder(device, '/ab/cd/')
         var file5 = yield MiniFile.createFolder(device, '/aaa/好/ide')
-        version3 = yield MiniVersion.create('X8888888', 1107374181, 'doc')
+        version3 = yield MiniVersion.create('X8888888', 1107374181)
         var file6 = yield MiniFile.createFile(device, '/ef/gh/1.doc', version3, null)
         return done()
     })

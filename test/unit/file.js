@@ -96,7 +96,7 @@ describe(protocol + ' file.js', function() {
     })
     it(protocol + ' create File', function*(done) {
         var MiniVersion = require('../../lib/model/version')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试A.doc'
         var file5 = yield MiniFile.createFile(device,filePath,version,null)
         file5.name.should.equal('测试A.doc')
@@ -114,7 +114,7 @@ describe(protocol + ' file.js', function() {
     }) 
     it(protocol + ' update File name', function*(done) {
         var MiniVersion = require('../../lib/model/version')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         var filePath = '//ho\\me//d:o*c////DO"CX//201?508/测<>试*:目|录//测试B.doc'
         var file1 = yield MiniFile.createFile(device,filePath,version,null)
         file1.name.should.equal('测试B.doc') 

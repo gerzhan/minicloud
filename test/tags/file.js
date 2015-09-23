@@ -52,7 +52,7 @@ describe(protocol + ' tags/files', function() {
         }
         file = yield MiniFile.createFolder(device, '/abc/test')
         yield MiniFileTagRelation.create(tag.id, file.id)
-        version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        version = yield MiniVersion.create('X1234567', 1073741825)
         file2 = yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
         yield MiniFileTagRelation.create(tag.id, file2.id)
         return done()

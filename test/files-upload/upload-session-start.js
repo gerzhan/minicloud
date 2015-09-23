@@ -177,7 +177,7 @@ describe(protocol + ' files/upload_session/start', function() {
         var MiniOption = require('../../lib/model/option')
         yield MiniOption.create('site_default_space', '1024')
         var MiniVersion = require('../../lib/model/version')
-        var version = yield MiniVersion.create('X123456', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X123456', 1073741825)
         var MiniFile = require('../../lib/model/file')
         yield MiniFile.createFile(device, '/home/d.doc', version, null)
         var res = yield request(app)

@@ -286,7 +286,7 @@ describe(protocol + ' files/upload_session/finish', function() {
         revs.length.should.equal(1)
             //new create version
         var MiniVersion = require('../../lib/model/version')
-        yield MiniVersion.create('H32', 1234, 'doc')
+        yield MiniVersion.create('H32', 1234)
             //second
         var session = yield MiniFileUploadSession.create(4)
         var res = yield request(app)

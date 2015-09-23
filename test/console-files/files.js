@@ -67,7 +67,7 @@ describe(protocol + ' console-files', function() {
 
         var MiniFile = require('../../lib/model/file')
         var MiniVersion = require('../../lib/model/version')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         for (var i = 0; i < 15; i++) {
             yield MiniFile.createFolder(device, '/home/folder' + i)
             yield MiniFile.createFile(device, '/home/' + i + '.docx', version)

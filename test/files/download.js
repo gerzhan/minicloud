@@ -49,7 +49,7 @@ describe(protocol + ' files/download', function() {
         yield MiniStorageNode.setDownloadCount(node2.name, 5)
 
         var MiniVersion = require('../../lib/model/version')
-        var version = yield MiniVersion.create('X1234567', 1073741825, 'doc')
+        var version = yield MiniVersion.create('X1234567', 1073741825)
         var MiniVersionMeta = require('../../lib/model/version-meta')
         yield MiniVersionMeta.create(version.id, 'store_id', node1.id + ',' + node2.id)
         var MiniFile = require('../../lib/model/file')
