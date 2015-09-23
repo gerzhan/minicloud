@@ -47,31 +47,36 @@ var _deleteFolder = function(filePath) {
      * @api public
      */
 exports.getApp = function*() {
-        yield initDBTables()
-        if (!global.app) {
-            var app = yield require('../')(null, {
-                database: dbConfig
-            })
-            global.app = app.listen()
-            global.socket = yield initSocketClient(app)
-            _deleteFolder('./cache')
-            _deleteFolder('./data')
-        }
-        return global.app
+    yield initDBTables()
+    if (!global.app) {
+        var app = yield require('../')(null, {
+            database: dbConfig
+        })
+        global.app = app.listen()
+        global.socket = yield initSocketClient(app)
+        _deleteFolder('./cache')
+        _deleteFolder('./data')
     }
-    /**
-     * Create tables from models 
-     * @api public
-     */
+    return global.app
+}
+
+function _databaseMigration() {
+    return function(done) {
+        //migration database
+        var helpers = require('../lib/migration-helpers')
+        helpers.migration(dbConfig,done)
+    }
+}
+/**
+ * Create tables from models 
+ * @api public
+ */
+
 function* initDBTables() {
     if (!global.sequelizePool) {
+        //migration database
+        yield _databaseMigration()
         var sequelizePool = yield require('../lib/loader/sequelize-loader')(dbConfig)
-        var models = sequelizePool.models
-        for (var i = 0; i < models.length; i++) {
-            var model = models[i]
-            yield model.drop()
-            yield model.sync()
-        }
         global.sequelizePool = sequelizePool
     }
     //clean table

@@ -50,10 +50,21 @@ describe(protocol + ' set profile', function() {
             })
             .expect(200)
             .end()
-        var metaList = yield MiniUserMeta.getAll(user.id)
-        metaList[0].value.should.equal('smallwater')
-        metaList[1].value.should.equal('/images/123.png')
-        metaList[2].value.should.equal('water@minicloud.io')
+        var metaList = yield MiniUserMeta.getAll(user.id) 
+        var metaCount = 0
+        for(var i=0;i<metaList.length;i++){
+            var meta = metaList[i]
+            if(meta.value==='smallwater'){
+                metaCount++
+            }
+            if(meta.value==='/images/123.png'){
+                metaCount++
+            }
+            if(meta.value==='water@minicloud.io'){
+                metaCount++
+            }
+        }  
+        metaCount.should.equal(3)  
         done()
     }) 
     it(protocol + ' members/set_profile 400', function*(done) {

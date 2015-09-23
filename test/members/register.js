@@ -33,8 +33,17 @@ describe(protocol + ' members/register', function() {
         userObj.name.should.equal('Allen')
         var id = userObj.id
         var metaList = yield MiniUserMeta.getAll(id)
-        metaList[0].value.should.equal('littleAllen')
-        metaList[1].value.should.equal('Allen@minicloud.io')
+        var metaCount = 0
+        for(var i=0;i<metaList.length;i++){
+            var meta = metaList[i]
+            if(meta.value==='littleAllen'){
+                metaCount++
+            }
+            if(meta.value==='Allen@minicloud.io'){
+                metaCount++
+            }
+        }  
+        metaCount.should.equal(2) 
         done()
     })
     it(protocol + ' members/register 200 normalize name', function*(done) {
