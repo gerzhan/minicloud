@@ -26,13 +26,13 @@ require('co').wrap(function*(){
 $ npm install minicloud co
 ```
 
-## Initialize sqlite database file
+## Initialize sqlite database file,Just one time
 ```
-$ node --harmony install.js
+$ node --harmony ./node_modules/minicloud/install.js
 or
-$ iojs install.js
+$ iojs ./node_modules/minicloud/install.js
 ```
-## Run Server(node>0.12.0)
+## Run Server
 ```
 $ node --harmony index.js
 or
