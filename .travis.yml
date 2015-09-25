@@ -12,6 +12,7 @@ addons:
   postgresql: "9.4"
 
 before_script:
+  - apt-get install libpq-dev
   - mysql -e 'create database minicloud_test;'
   - psql -c 'create database minicloud_test;' -U postgres
   - "psql minicloud_test -c 'create extension postgis;' -U postgres"
