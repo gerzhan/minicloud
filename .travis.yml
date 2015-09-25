@@ -5,14 +5,14 @@ node_js:
   - "2"
   - "3"
   - "4"
-sudo: true
+sudo: false
 
-
+before_install:
+  - sudo apt-get install libpq-dev
 addons:
   postgresql: "9.4"
 
-before_script:
-  - apt-get install libpq-dev
+before_script: 
   - mysql -e 'create database minicloud_test;'
   - psql -c 'create database minicloud_test;' -U postgres
   - "psql minicloud_test -c 'create extension postgis;' -U postgres"
