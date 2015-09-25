@@ -17,8 +17,8 @@ describe(protocol + ' app.js', function() {
         done()
     })
     it(protocol + ' create', function*(done) {
-        var app = yield MiniApp.create(-1,'test app','client_id','client_secret','',true,'')
-        var app1 = yield MiniApp.create(-1,'test12 app','client_id','client_secret','',false,'')
+        var app = yield MiniApp.create(-1,'test app','client_id','client_secret','',1,'')
+        var app1 = yield MiniApp.create(-1,'test12 app','client_id','client_secret','',0,'')
         app1.id.should.equal(app.id)
         done()
     })

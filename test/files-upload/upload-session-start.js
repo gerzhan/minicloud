@@ -86,10 +86,10 @@ describe(protocol + ' files/upload_session/start', function() {
     it(protocol + ' files/upload_session/start 200', function*(done) {
         var MiniStorageNode = require('../../lib/model/store-node')
         var node1 = yield MiniStorageNode.create('store1', 'http://192.168.0.10', '1234')
-        yield MiniStorageNode.setStatus(node1.name, true)
+        yield MiniStorageNode.setStatus(node1.name, 1)
         yield MiniStorageNode.setSaveCount(node1.name, 10)
         var node2 = yield MiniStorageNode.create('store2', 'http://192.168.0.11', '1234')
-        yield MiniStorageNode.setStatus(node2.name, true)
+        yield MiniStorageNode.setStatus(node2.name, 1)
         yield MiniStorageNode.setSaveCount(node2.name, 5)
         var MiniOption = require('../../lib/model/option')
         var plugins = {
@@ -137,10 +137,10 @@ describe(protocol + ' files/upload_session/start', function() {
         var MiniStorageNode = require('../../lib/model/store-node')
         var node1 = yield MiniStorageNode.create('store1', 'http://192.168.0.10', '1234')
         yield MiniStorageNode.setSaveCount(node1.name, 10)
-        yield MiniStorageNode.setStatus(node1.name, false)
+        yield MiniStorageNode.setStatus(node1.name, 0)
         var node2 = yield MiniStorageNode.create('store2', 'http://192.168.0.11', '1234')
         yield MiniStorageNode.setSaveCount(node2.name, 5)
-        yield MiniStorageNode.setStatus(node2.name, false)
+        yield MiniStorageNode.setStatus(node2.name, 0)
         var MiniOption = require('../../lib/model/option')
         var plugins = {
             cqdx: {
@@ -177,7 +177,7 @@ describe(protocol + ' files/upload_session/start', function() {
         var MiniOption = require('../../lib/model/option')
         yield MiniOption.create('site_default_space', '1024')
         var MiniVersion = require('../../lib/model/version')
-        var version = yield MiniVersion.create('X123456', 1073741825)
+        var version = yield MiniVersion.create('X123456', 1024*1024*1024)
         var MiniFile = require('../../lib/model/file')
         yield MiniFile.createFile(device, '/home/d.doc', version, null)
         var res = yield request(app)
@@ -187,7 +187,7 @@ describe(protocol + ' files/upload_session/start', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .expect(409)
-            .end()
+            .end() 
         res.body.error.should.equal('over_space')
         done()
     })

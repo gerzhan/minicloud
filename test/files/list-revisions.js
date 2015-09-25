@@ -44,7 +44,7 @@ describe(protocol + ' files/list_revision', function() {
                 device = item
             }
         }
-        version = yield MiniVersion.create('X1234567', 1073741825)
+        version = yield MiniVersion.create('X1234567', 10)
         file = yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
         yield MiniVersion.create('H21', 1234)
         var res = yield request(app)

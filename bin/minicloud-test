@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 require('co').wrap(function*(){
-	var app = yield require('../')()
+	var config = require('../config.json')
+	var app = yield require('../')(null,config)
 	app.listen(8030)
 	console.log('minicloud core stated!')
 })()

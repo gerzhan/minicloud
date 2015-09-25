@@ -139,7 +139,7 @@ describe(protocol + ' files/delete', function() {
             .expect(200)
             .end()
         var deleteFile = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
-        deleteFile.is_deleted.should.equal(true)
+        deleteFile.is_deleted.should.equal(1)
         var eventList = yield MiniEvent.getAllByDeviceId(device.id)
         var fileItem = null
         for (var i = 0; i < eventList.length; i++) {
@@ -166,7 +166,7 @@ describe(protocol + ' files/delete', function() {
             var co = require('co')
             co.wrap(function*() {
                 var deleteFile = yield MiniFile.getByPath(user.id, '/Image/123/1.doc')
-                deleteFile.is_deleted.should.equal(true)
+                deleteFile.is_deleted.should.equal(1)
                 var eventList = yield MiniEvent.getAllByDeviceId(device.id)
                 var fileItem = null
                 for (var i = 0; i < eventList.length; i++) {
@@ -197,7 +197,7 @@ describe(protocol + ' files/delete', function() {
             .end()
         var deleteFileList = yield MiniFile.getDescendantsByPath(user.id, 'LIGht')
         deleteFileList.length.should.equal(3)
-        deleteFileList[2].is_deleted.should.equal(true)         
+        deleteFileList[2].is_deleted.should.equal(1)
         done()
     })
     it(protocol + ' files/delete 200 folder and file', function*(done) {
@@ -214,10 +214,10 @@ describe(protocol + ' files/delete', function() {
             .end()
         var deleteFileList = yield MiniFile.getDescendantsByPath(user.id, 'ab')
         deleteFileList.length.should.equal(2)
-        deleteFileList[1].is_deleted.should.equal(true)
+        deleteFileList[1].is_deleted.should.equal(1)
         var deleteFileList2 = yield MiniFile.getDescendantsByPath(user.id, 'ef')
         deleteFileList2.length.should.equal(3)
-        deleteFileList2[2].is_deleted.should.equal(true)        
+        deleteFileList2[2].is_deleted.should.equal(1)
         done()
     })
 })

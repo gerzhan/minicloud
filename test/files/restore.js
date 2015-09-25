@@ -49,8 +49,8 @@ describe(protocol + ' files/restore', function() {
                 device = item
             }
         }
-        version = yield MiniVersion.create('X1234567', 1073741825)
-        version2 = yield MiniVersion.create('X12', 10737418)
+        version = yield MiniVersion.create('X1234567', 1024)
+        version2 = yield MiniVersion.create('X12', 2048)
         yield MiniVersion.create('H21', 1234)
         var res = yield request(app)
             .post('/api/v1/files/hash_upload')

@@ -46,7 +46,7 @@ describe(protocol + ' user-meta.js', function() {
         var afterDate = new Date()
         afterDate.setTime(afterTime) 
         var userMetaModel = sequelizePool.userMetaModel
-        var sql = 'update `' + userMetaModel.tableName + '` set updated_at=:updated_at where id=:id'
+        var sql = 'update ' + userMetaModel.tableName + ' set updated_at=:updated_at where id=:id'
         yield sequelizePool.db.query(sql, {
             replacements: {updated_at: afterDate,id: meta.id},
             type: Sequelize.QueryTypes.UPDATE

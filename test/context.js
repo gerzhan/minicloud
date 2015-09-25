@@ -5,8 +5,8 @@ global.timeout = 30000
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'sqlite'
 var dbConfig = config[process.env.ORM_PROTOCOL]
 dbConfig.dialect = process.env.ORM_PROTOCOL
-if (isTravis) {
-    dbConfig.password = null
+if (!isTravis) {
+    dbConfig.password = '123456'
 }
 process.setMaxListeners(0)
 var initSocketClient = function(app) {
@@ -47,7 +47,7 @@ var _deleteFolder = function(filePath) {
      * @api public
      */
 exports.getApp = function*() {
-    yield initDBTables()
+    yield _initDBTables()
     if (!global.app) {
         var app = yield require('../')(null, {
             database: dbConfig
@@ -62,14 +62,15 @@ exports.getApp = function*() {
 
 /**
  * Create tables from models 
- * @api public
+ * @api private
  */
 
-function* initDBTables() {
+function* _initDBTables() {
     if (!global.sequelizePool) {
         //migration database 
         var migration = require('../lib/migration')
         yield migration.run(dbConfig)
+        //init database connect  
         var sequelizePool = yield require('../lib/loader/sequelize-loader')(dbConfig)
         global.sequelizePool = sequelizePool
     }

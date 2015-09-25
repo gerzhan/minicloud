@@ -42,10 +42,10 @@ describe(protocol + ' files/thumbnail', function() {
         //ready data
         var MiniStorageNode = require('../../lib/model/store-node')
         var node1 = yield MiniStorageNode.create('store1', 'http://192.168.0.10', '1234')
-        yield MiniStorageNode.setStatus(node1.name, true)
+        yield MiniStorageNode.setStatus(node1.name, 1)
         yield MiniStorageNode.setDownloadCount(node1.name, 10)
         var node2 = yield MiniStorageNode.create('store2', 'http://192.168.0.11', '1234')
-        yield MiniStorageNode.setStatus(node2.name, true)
+        yield MiniStorageNode.setStatus(node2.name, 1)
         yield MiniStorageNode.setDownloadCount(node2.name, 5)
 
         var MiniVersion = require('../../lib/model/version')
