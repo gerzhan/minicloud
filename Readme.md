@@ -79,16 +79,18 @@ To use minicloud with node, you must be running __node 0.12.0__ or higher for ge
 ## Supported database type
 
  minicloud base on [sequelize](https://github.com/sequelize/sequelize).It currently supports MySQL, MariaDB, SQLite, PostgreSQL and MSSQL. 
- 
- node 0.12.0+ SQLite3,MySQL,MSSQL,PostgreSQL
 
- iojs 1.x SQLite3,MySQL,MSSQL,PostgreSQL
+ we recommend node version and database types
 
- iojs 2.x SQLite3,MySQL,MSSQL,PostgreSQL
+ 1.node 0.12.0+ SQLite3,MySQL,MSSQL,PostgreSQL
 
- iojs 3.x SQLite3,MySQL,MSSQL
+ 2.iojs 1.x SQLite3,MySQL,MSSQL,PostgreSQL
 
- node 4.x SQLite3,MySQL,MSSQL
+ 3.iojs 2.x SQLite3,MySQL,MSSQL,PostgreSQL
+
+ 4.iojs 3.x SQLite3,MySQL,MSSQL
+
+ 5.node 4.x SQLite3,MySQL,MSSQL
 
 ## Examples
 [nodejs web app integrate with minicloud+sqlite](https://github.com/minicloud/nodejs-example)
