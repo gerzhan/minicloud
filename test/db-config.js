@@ -16,13 +16,13 @@ module.exports = {
 
     mssql: {
         database: process.env.SEQ_MSSQL_DB || process.env.SEQ_DB || (function() {
-            var db = 'minicloud_test'
+            var db = 'sequelize-test-' + ~~(Math.random() * 100);
             console.log('Using database: ', db)
             return db
         }()),
-        username: process.env.SEQ_MSSQL_USER || process.env.SEQ_USER || 'minicloud',
-        password: process.env.SEQ_MSSQL_PW || process.env.SEQ_PW || '123qweasdzxc',
-        host: process.env.SEQ_MSSQL_HOST || process.env.SEQ_HOST || 'm2.miniyun.cn',
+        username: process.env.SEQ_MSSQL_USER || process.env.SEQ_USER || 'sequelize',
+        password: process.env.SEQ_MSSQL_PW || process.env.SEQ_PW || 'nEGkLma26gXVHFUAHJxcmsrK',
+        host: process.env.SEQ_MSSQL_HOST || process.env.SEQ_HOST || 'mssql.sequelizejs.com',
         port: process.env.SEQ_MSSQL_PORT || process.env.SEQ_PORT || 11433,
         pool: {
             maxConnections: process.env.SEQ_MSSQL_POOL_MAX || process.env.SEQ_POOL_MAX || 5,

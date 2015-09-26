@@ -14,21 +14,7 @@ endif
 
 REQUIRED = --require should --require should-http --require co-mocha
 
-TESTS = test/devices \
-		test/files \
-        test/departments \
-		test/events \
-		test/files-upload \
-		test/groups \
-		test/members \
-		test/console-members \
-		test/console-devices \
-		test/console-online-devices \
-		test/console-events \
-		test/console-files \
-		test/tags \
-		test/unit \
-		test/unit/page
+TESTS = test/files/restore
 		
 test:
 	@NODE_ENV=test ORM_PROTOCOL=mssql $(BIN) \
