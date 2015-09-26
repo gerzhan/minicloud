@@ -3,6 +3,7 @@ node_js:
   - "0.12"   
   - "1"
   - "2"
+  - "4"
 sudo: true
 cache:
   directories:
