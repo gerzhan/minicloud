@@ -16,7 +16,7 @@ module.exports = {
 
     mssql: {
         database: process.env.SEQ_MSSQL_DB || process.env.SEQ_DB || (function() {
-            var db = 'sequelize-test-' + ~~(Math.random() * 100);
+            var db = 'minicloud_test';
             console.log('Using database: ', db)
             return db
         }()),
