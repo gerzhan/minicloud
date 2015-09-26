@@ -1,11 +1,11 @@
 var config = require('./db-config')
 var isTravis = Boolean(process.env.CI)
 var client = require('./socket-io-client')
-global.timeout = 30000
+global.timeout = 300000
 process.env.ORM_PROTOCOL = process.env.ORM_PROTOCOL || 'sqlite'
 var dbConfig = config[process.env.ORM_PROTOCOL]
 dbConfig.dialect = process.env.ORM_PROTOCOL
-if (!isTravis) {
+if (!isTravis&&process.env.ORM_PROTOCOL!=='mssql') {
     dbConfig.password = '123456'
 }
 process.setMaxListeners(0)

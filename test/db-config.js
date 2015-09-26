@@ -16,13 +16,13 @@ module.exports = {
 
     mssql: {
         database: process.env.SEQ_MSSQL_DB || process.env.SEQ_DB || (function() {
-            var db = 'minicloud-test-' + ~~(Math.random() * 100)
+            var db = 'minicloud_test'
             console.log('Using database: ', db)
             return db
         }()),
         username: process.env.SEQ_MSSQL_USER || process.env.SEQ_USER || 'minicloud',
-        password: process.env.SEQ_MSSQL_PW || process.env.SEQ_PW || 'nEGkLma26gXVHFUAHJxcmsrK',
-        host: process.env.SEQ_MSSQL_HOST || process.env.SEQ_HOST || 'mssql.minicloud.io',
+        password: process.env.SEQ_MSSQL_PW || process.env.SEQ_PW || '123qweasdzxc',
+        host: process.env.SEQ_MSSQL_HOST || process.env.SEQ_HOST || 'm2.miniyun.cn',
         port: process.env.SEQ_MSSQL_PORT || process.env.SEQ_PORT || 11433,
         pool: {
             maxConnections: process.env.SEQ_MSSQL_POOL_MAX || process.env.SEQ_POOL_MAX || 5,

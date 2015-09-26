@@ -31,7 +31,7 @@ TESTS = test/devices \
 		test/unit/page
 		
 test:
-	@NODE_ENV=test ORM_PROTOCOL=postgres $(BIN) \
+	@NODE_ENV=test ORM_PROTOCOL=mssql $(BIN) \
 		./node_modules/.bin/_mocha \
 		$(REQUIRED) \
 		$(TESTS) \
@@ -62,6 +62,14 @@ test-travis:
 		$(TESTS) \
 		--bail 
 	@NODE_ENV=test ORM_PROTOCOL=postgres $(BIN) $(FLAGS) \
+		./node_modules/.bin/istanbul cover \
+		./node_modules/.bin/_mocha \
+		--report lcovonly \
+		-- -u exports \
+		$(REQUIRED) \
+		$(TESTS) \
+		--bail
+	@NODE_ENV=test ORM_PROTOCOL=mssql $(BIN) $(FLAGS) \
 		./node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		--report lcovonly \
