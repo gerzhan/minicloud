@@ -60,22 +60,6 @@ test-travis:
 		-- -u exports \
 		$(REQUIRED) \
 		$(TESTS) \
-		--bail 
-	@NODE_ENV=test ORM_PROTOCOL=postgres $(BIN) $(FLAGS) \
-		./node_modules/.bin/istanbul cover \
-		./node_modules/.bin/_mocha \
-		--report lcovonly \
-		-- -u exports \
-		$(REQUIRED) \
-		$(TESTS) \
-		--bail
-	@NODE_ENV=test ORM_PROTOCOL=mssql $(BIN) $(FLAGS) \
-		./node_modules/.bin/istanbul cover \
-		./node_modules/.bin/_mocha \
-		--report lcovonly \
-		-- -u exports \
-		$(REQUIRED) \
-		$(TESTS) \
 		--bail 	
 bench:
 	@$(MAKE) -C benchmarks
