@@ -1,6 +1,7 @@
 /node_modules
 ._*
 /npm-debug.log
+/example.db
 /minicloud.db
 /upload_files
 /test.js

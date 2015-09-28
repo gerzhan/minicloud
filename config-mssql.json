@@ -2,8 +2,17 @@
     "port": 8030,
     "logs": "./logs",
     "database": {
-        "storage": "./example.db",
-        "dialect": "sqlite"
+        "username": "minicloud",
+        "password": "123qweasdzxc",
+        "database": "minicloud_test",
+        "table_prefix": "minicloud_",
+        "pool": {
+            "max_connections": 5,
+            "max_idle_time": 3000
+        },
+        "host": "m2.miniyun.cn",
+        "port":11433,
+        "dialect": "mssql"
     },
     "storage": {
         "safe_code": "uBEEAcKM2D7sxpJD7QQEapsxiCmzPCyS",
