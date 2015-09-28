@@ -100,10 +100,6 @@ node 4.x   MySQL MariaDB SQLite MSSQL
 
 ## Examples
 
-[nodejs web app integrate with minicloud](https://github.com/minicloud/nodejs-example)
-
-[express app integrate with minicloud](https://github.com/minicloud/express-example)
-
 [koa app integrate with minicloud](https://github.com/minicloud/koa-example)
 
 
