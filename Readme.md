@@ -11,7 +11,7 @@
 
 ## About client(include web/desktop/mobile client)
 
-  minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management desktop client&mobile client&web client.
+  minicloud is hybrid cloud model.files are stored on own servers, while [minicloudjs.com](http://minicloudjs.com) management desktop client&mobile client&web client.
 
 ## Example
 
@@ -43,7 +43,7 @@ $ node index.js
 //register member
 curl -X POST http://127.0.0.1:8030/api/v1/members/register \
     --header "Content-Type: application/json" \
-    --data "{\"name\":\"zhangsan\",\"nick\":\"xiaozhang\",\"password\":\"8k9v6n\",\"email\":\"zhangsan@minicloud.io\"}"
+    --data "{\"name\":\"zhangsan\",\"nick\":\"xiaozhang\",\"password\":\"8k9v6n\",\"email\":\"zhangsan@minicloudjs.com\"}"
 
 //login 
 curl -X POST http://127.0.0.1:8030/api/v1/oauth2/token \
