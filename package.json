@@ -1,6 +1,6 @@
 {
   "name": "minicloud",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Enterprise document hybrid cloud management software,support docx/doc/pptx/ppt/xlsx/xls/pdf online browse view and full text search",
   "main": "index.js",
   "scripts": {
