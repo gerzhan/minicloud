@@ -26,6 +26,8 @@ require('co').wrap(function*(){
 ### Installation package
 ```
 $ npm install minicloud co
+中国大陆用户建议下面方式安装依赖(cnpm 详情见:http://npm.taobao.org/)
+$ cnpm install minicloud co
 ```
 
 ### Initialize sqlite database file(Just one time)
@@ -64,7 +66,7 @@ curl -X POST http://127.0.0.1:8030/api/v1/oauth2/token \
 
 - support return thumbnail for an image.support ai,bmp,eps,gif,jpg,jpeg,png,psd,tif,tiff
 
-- [330+ test case](https://travis-ci.org/minicloud/minicloud)
+- [330+ test case](https://travis-ci.org/minicloud/minicloud)(大陆用户需翻墙)
 
 - support docx/doc/pptx/ppt/xlsx/xls/pdf online browse view(todo list)
 
