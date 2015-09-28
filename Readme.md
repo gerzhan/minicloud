@@ -13,7 +13,7 @@
 
   minicloud is hybrid cloud model.files are stored on own servers, while [minicloud.io](http://minicloud.io) management desktop client&mobile client&web client.
 
-## Quick experience
+## Example
 
 ### Create file index.js
 ```
@@ -36,7 +36,7 @@ $ node ./node_modules/minicloud/install.js
 ```
 $ node index.js 
 ```
-### Test case
+### Run Test
 ```
 //register member
 curl -X POST http://127.0.0.1:8030/api/v1/members/register \
@@ -54,17 +54,17 @@ curl -X POST http://127.0.0.1:8030/api/v1/oauth2/token \
 ```
 
 
-## HTTP API And Websocket API
+## API documentation
 
 [minicloud api documents](https://minicloud.readme.io/docs) has provided 60 API.it's compatible websocket.
 
-- cover edepartments, groups, users, devices, files, tags, events
+- cover departments, groups, users, user devices, files, file tags,login/logout events,file operate events
 
-- support file hash upload & large file block upload & simple file upload
+- support file hash upload,large file block upload,simple file upload
 
 - support return thumbnail for an image.support ai,bmp,eps,gif,jpg,jpeg,png,psd,tif,tiff
 
-- [350+ test case](https://travis-ci.org/minicloud/minicloud)
+- [330+ test case](https://travis-ci.org/minicloud/minicloud)
 
 - support docx/doc/pptx/ppt/xlsx/xls/pdf online browse view(todo list)
 
@@ -92,22 +92,18 @@ iojs 1.x   MySQL MariaDB SQLite PostgreSQL MSSQL
 
 iojs 2.x   MySQL MariaDB SQLite PostgreSQL MSSQL
 
-iojs 3.x   MySQL MariaDB SQLite  MSSQL
+iojs 3.x   MySQL MariaDB SQLite MSSQL
 
-node 4.x   MySQL MariaDB SQLite PostgreSQL MSSQL
+node 4.x   MySQL MariaDB SQLite MSSQL
 
 ## Examples
-[nodejs web app integrate with minicloud+sqlite](https://github.com/minicloud/nodejs-example)
 
-[nodejs web app integrate with minicloud+mysql](https://github.com/minicloud/nodejs-mysql-example)
+[nodejs web app integrate with minicloud](https://github.com/minicloud/nodejs-example)
 
-[express app integrate with minicloud+sqlite](https://github.com/minicloud/express-example)
+[express app integrate with minicloud](https://github.com/minicloud/express-example)
 
-[express app integrate with minicloud+mysql](https://github.com/minicloud/express-mysql-example)
+[koa app integrate with minicloud](https://github.com/minicloud/koa-example)
 
-[koa app integrate with minicloud+sqlite](https://github.com/minicloud/koa-example)
-
-[koa app integrate with minicloud+mysql](https://github.com/minicloud/koa-mysql-example)
 
 ## Todo list
  
