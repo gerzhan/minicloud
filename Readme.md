@@ -16,7 +16,7 @@
 ## Example
 
 ### Create file index.js
-```
+```js
 require('co').wrap(function*(){
 	var app = yield require('minicloud')()
 	app.listen(8030)
