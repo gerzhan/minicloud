@@ -100,7 +100,7 @@ node 4.x   MySQL MariaDB SQLite MSSQL
 
 ## Examples
 
-[koa app integrate with minicloud](https://github.com/minicloud/koa-example)
+[koa app integrate with minicloud+sqlite/mysql/postgres/mssql](https://github.com/minicloud/minicloud-example)
 
 
 ## Todo list
