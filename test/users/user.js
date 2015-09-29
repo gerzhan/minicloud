@@ -1,7 +1,7 @@
 var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
-describe(protocol + ' members', function() {
+describe(protocol + ' users', function() {
     this.timeout(global.timeout)
     var app = null
     var accessToken = null
@@ -60,9 +60,9 @@ describe(protocol + ' members', function() {
         return done()
     })
 
-    it(protocol + ' members/get_my_account 200', function*(done) {
+    it(protocol + ' users/get_my_account 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/get_my_account')
+            .post('/api/v1/users/get_my_account')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -72,9 +72,9 @@ describe(protocol + ' members', function() {
         res.body.name.should.equal('admin')
         done()
     })
-    it(protocol + ' members/get_my_account 401', function*(done) {
+    it(protocol + ' users/get_my_account 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/get_my_account')
+            .post('/api/v1/users/get_my_account')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
@@ -83,9 +83,9 @@ describe(protocol + ' members', function() {
             .end()
         done()
     })
-    it(protocol + ' members/list 200', function*(done) {
+    it(protocol + ' users/list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/list')
+            .post('/api/v1/users/list')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -95,16 +95,16 @@ describe(protocol + ' members', function() {
         var body = res.body
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
-        body.members.length.should.equal(4)
-        body.members[0].name.should.equal('admin')
-        body.members[1].name.should.equal('jim')
-        body.members[2].name.should.equal('tom')
-        body.members[3].name.should.equal('good')
+        body.users.length.should.equal(4)
+        body.users[0].name.should.equal('admin')
+        body.users[1].name.should.equal('jim')
+        body.users[2].name.should.equal('tom')
+        body.users[3].name.should.equal('good')
         done()
     })
-    it(protocol + ' members/list 400', function*(done) {
+    it(protocol + ' users/list 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/list')
+            .post('/api/v1/users/list')
             .type('json')
             .send({
                 limit: 'abc'
@@ -116,9 +116,9 @@ describe(protocol + ' members', function() {
             .end()
         done()
     })
-    it(protocol + ' members/list 401', function*(done) {
+    it(protocol + ' users/list 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/list')
+            .post('/api/v1/users/list')
             .type('json')
             .set({
                 Authorization: 'Bearer 1111'
@@ -127,9 +127,9 @@ describe(protocol + ' members', function() {
             .end()
         done()
     })
-    it(protocol + ' members/search 200', function*(done) {
+    it(protocol + ' users/search 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/search')
+            .post('/api/v1/users/search')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -142,13 +142,13 @@ describe(protocol + ' members', function() {
         var body = res.body
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
-        body.members.length.should.equal(1)
-        body.members[0].name.should.equal('good')
+        body.users.length.should.equal(1)
+        body.users[0].name.should.equal('good')
         done()
     })
-    it(protocol + ' members/search 200 normalize name', function*(done) {
+    it(protocol + ' users/search 200 normalize name', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/search')
+            .post('/api/v1/users/search')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -161,13 +161,13 @@ describe(protocol + ' members', function() {
         var body = res.body
         body.has_more.should.equal(false)
         body.cursor.should.equal('')
-        body.members.length.should.equal(1)
-        body.members[0].name.should.equal('good')
+        body.users.length.should.equal(1)
+        body.users[0].name.should.equal('good')
         done()
     })
-    it(protocol + ' members/search 400', function*(done) {
+    it(protocol + ' users/search 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/search')
+            .post('/api/v1/users/search')
             .type('json')
             .send({
                 limit: 'abc'
@@ -179,9 +179,9 @@ describe(protocol + ' members', function() {
             .end()
         done()
     })
-    it(protocol + ' members/search 401', function*(done) {
+    it(protocol + ' users/search 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/search')
+            .post('/api/v1/users/search')
             .type('json')
             .set({
                 Authorization: 'Bearer 1111'
@@ -193,13 +193,13 @@ describe(protocol + ' members', function() {
             .end()
         done()
     })
-    it(protocol + ' members/search 401', function*(done) {
+    it(protocol + ' users/search 401', function*(done) {
         var MiniDevice = require('../../lib/model/device')
         var devices = yield MiniDevice.getAllByUserId(user1.id)
         var device = devices[0]
         yield device.destroy()
         var res = yield request(app)
-            .post('/api/v1/members/search')
+            .post('/api/v1/users/search')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken

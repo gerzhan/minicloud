@@ -36,9 +36,9 @@ describe(protocol + ' set profile', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' members/set_profile 200', function*(done) {
+    it(protocol + ' users/set_profile 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/set_profile')
+            .post('/api/v1/users/set_profile')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -67,9 +67,9 @@ describe(protocol + ' set profile', function() {
         metaCount.should.equal(3)  
         done()
     }) 
-    it(protocol + ' members/set_profile 400', function*(done) {
+    it(protocol + ' users/set_profile 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/set_profile')
+            .post('/api/v1/users/set_profile')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -83,9 +83,9 @@ describe(protocol + ' set profile', function() {
             .end()
         done()
     })
-    it(protocol + ' members/set_profile 401', function*(done) {
+    it(protocol + ' users/set_profile 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/set_profile')
+            .post('/api/v1/users/set_profile')
             .type('json')
             .set({
                 Authorization: 'Bearer 123'

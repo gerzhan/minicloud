@@ -82,7 +82,7 @@ describe(protocol + ' oauth2', function() {
                 .end()
             done()
         })
-        it(protocol + ' oauth2/token 401 member not exist or disable', function*(done) {
+        it(protocol + ' oauth2/token 401 user not exist or disable', function*(done) {
             var res = yield request(app)
                 .post('/api/v1/oauth2/token')
                 .type('json')
@@ -116,7 +116,7 @@ describe(protocol + ' oauth2', function() {
             res.body.error_description.should.equal('incorrect password.')
             done()
         })
-        it(protocol + ' oauth2/token 401 member locked', function*(done) {
+        it(protocol + ' oauth2/token 401 user locked', function*(done) {
             //ready data
             var MiniUserMeta = require('../../lib/model/user-meta')
             var meta = yield MiniUserMeta.create(user.id, 'password_error_count', '6')

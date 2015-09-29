@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' members/register', function() {
+describe(protocol + ' users/register', function() {
     this.timeout(global.timeout)
     var app = null
     var MiniUser = null
@@ -17,9 +17,9 @@ describe(protocol + ' members/register', function() {
         var metaEmail = yield MiniUserMeta.create(user.id, 'email', 'Jerry@minicloud.io')
         return done()
     })
-    it(protocol + ' members/register 200', function*(done) {
+    it(protocol + ' users/register 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/register')
+            .post('/api/v1/users/register')
             .type('json')
             .send({
                 name: 'Allen',
@@ -46,9 +46,9 @@ describe(protocol + ' members/register', function() {
         metaCount.should.equal(2) 
         done()
     })
-    it(protocol + ' members/register 200 normalize name', function*(done) {
+    it(protocol + ' users/register 200 normalize name', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/register')
+            .post('/api/v1/users/register')
             .type('json')
             .send({
                 name: 'Allen,1',
@@ -57,24 +57,24 @@ describe(protocol + ' members/register', function() {
             })
             .expect(200)
             .end()
-        var member = yield MiniUser.getByName('Allen-1')
-        member.name.should.equal('Allen-1') 
+        var user = yield MiniUser.getByName('Allen-1')
+        user.name.should.equal('Allen-1') 
         done()
     })
-    it(protocol + ' members/register 400', function*(done) {
+    it(protocol + ' users/register 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/register')
+            .post('/api/v1/users/register')
             .type('json') 
             .expect(400)
             .end() 
         done()
     })
-    it(protocol + ' members/register 409 member_existed', function*(done) {
+    it(protocol + ' users/register 409 user_existed', function*(done) {
         var userObj = yield MiniUser.getByName('Jerry')
         userObj.name.should.equal('Jerry')
 
         var res = yield request(app)
-            .post('/api/v1/members/register')
+            .post('/api/v1/users/register')
             .type('json')
             .send({
                 name: 'Jerry',
@@ -84,15 +84,15 @@ describe(protocol + ' members/register', function() {
             })
             .expect(409)
             .end()
-        res.body.error.should.equal('member_existed')
+        res.body.error.should.equal('user_existed')
         done()
     })
-    it(protocol + ' members/register 409 prohibit_registration', function*(done) {
+    it(protocol + ' users/register 409 prohibit_registration', function*(done) {
         var Minioption = require('../../lib/model/option')
         var option = yield Minioption.create('user_register_enabled', '0')
 
         var res = yield request(app)
-            .post('/api/v1/members/register')
+            .post('/api/v1/users/register')
             .type('json')
             .send({
                 name: 'Diana',

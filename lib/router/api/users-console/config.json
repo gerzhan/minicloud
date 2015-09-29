@@ -3,6 +3,6 @@
     "description": "user module",
     "roles":"3,9",
     "routes": {
-        "/api/v1/console/members/list": "list"
+        "/api/v1/console/users/list": "list"
     }
 }

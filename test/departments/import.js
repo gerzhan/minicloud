@@ -71,19 +71,19 @@ describe(protocol + ' department import', function() {
             })
             .send({
                 data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
+                    'department-user': '/minicloud_inc/market/chengdu_office,tom,jony'
                 }, {
-                    'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
+                    'department-user': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
                 }]
             })
             .expect(200)
             .end()
         var department = yield MiniDepartment.getByPath('/minicloud_inc')
         department.name.should.equal('minicloud_inc')
-        var member = yield MiniUser.getById(user3.id)
-        member.name.should.equal('tom')
+        var user = yield MiniUser.getById(user3.id)
+        user.name.should.equal('tom')
         res.body.success_count.should.equal(5)
-        res.body.member_not_exist[0].should.equal('jim')
+        res.body.user_not_exist[0].should.equal('jim')
         done()
     })
     it(protocol + ' departments/import 200', function*(done) {
@@ -95,9 +95,9 @@ describe(protocol + ' department import', function() {
             })
             .send({
                 data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office/'
+                    'department-user': '/minicloud_inc/market/chengdu_office/'
                 }, {
-                    'department-member': '/minicloud_inc/R&D/office,'
+                    'department-user': '/minicloud_inc/R&D/office,'
                 }]
             })
             .expect(200)
@@ -113,9 +113,9 @@ describe(protocol + ' department import', function() {
             },
             data: {
                 data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office/'
+                    'department-user': '/minicloud_inc/market/chengdu_office/'
                 }, {
-                    'department-member': '/minicloud_inc/R&D/office,'
+                    'department-user': '/minicloud_inc/R&D/office,'
                 }]
             }
         }, function(body) {
@@ -158,9 +158,9 @@ describe(protocol + ' department import', function() {
             })
             .send({
                 data: [{
-                    'department-member': '/minicloud_inc/market/chengdu_office,tom,jony'
+                    'department-user': '/minicloud_inc/market/chengdu_office,tom,jony'
                 }, {
-                    'department-member': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
+                    'department-user': '/minicloud_inc/R&D/office,ryan,yili,tjx,jim'
                 }]
             })
             .expect(401)

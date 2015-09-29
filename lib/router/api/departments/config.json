@@ -7,8 +7,8 @@
         "/api/v1/departments/remove": "remove",
         "/api/v1/departments/rename": "rename",
         "/api/v1/departments/import": "import",
-        "/api/v1/departments/members": "members",
-        "/api/v1/departments/members/add": "membersAdd",
-        "/api/v1/departments/members/remove": "membersRemove"
+        "/api/v1/departments/users": "users",
+        "/api/v1/departments/users/add": "usersAdd",
+        "/api/v1/departments/users/remove": "usersRemove"
     }
 }

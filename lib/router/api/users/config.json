@@ -1,0 +1,11 @@
+{
+  "name": "user",
+  "description": "user module", 
+  "routes": {
+    "/api/v1/users/get_my_account": "getMyAccount",
+    "/api/v1/users/list": "list",
+    "/api/v1/users/search": "search",
+    "/api/v1/users/reset_password": "resetPassword",
+    "/api/v1/users/set_profile" : "setProfile"
+  }
+}

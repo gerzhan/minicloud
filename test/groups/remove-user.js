@@ -2,12 +2,13 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 
-describe(protocol + ' groups/members', function() {
+describe(protocol + ' groups/users/remove', function() {
     this.timeout(global.timeout)
     var app = null
     var MiniUser = null
     var MiniUserMeta = null
     var user = null
+    var group = null
     var addUser = null
     var MiniGroup = null
     var MiniUserGroupRelation = null
@@ -22,7 +23,7 @@ describe(protocol + ' groups/members', function() {
         yield MiniApp.create(-1, 'web client', 'JsQCsjF3yr7KACyT', 'bqGeM4Yrjs3tncJZ', '', 1, 'web client')
         user = yield MiniUser.create('admin', 'admin')
         yield MiniDevice.create(user, 'web client', 'JsQCsjF3yr7KACyT')
-        var group = yield MiniGroup.create(user.id, 'source')
+        group = yield MiniGroup.create(user.id, 'source')
         addUser = yield MiniUser.create('James', 'james')
         yield MiniUserMeta.create(addUser.id, 'nick', 'smallwa')
         yield MiniUserMeta.create(addUser.id, 'avatar', '/images/default_avatar.png')
@@ -48,66 +49,96 @@ describe(protocol + ' groups/members', function() {
         return done()
     })
 
-    it(protocol + ' groups/members 200', function*(done) {
+    it(protocol + ' groups/memebers/remove 200', function*(done) {
+        var existed = yield MiniUserGroupRelation.exist(group.id, addUser.id)
+        existed.should.equal(true)
+
         var res = yield request(app)
-            .post('/api/v1/groups/members')
+            .post('/api/v1/groups/users/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                name: 'source'
+                name: 'source',
+                uuid: addUser.uuid
             })
             .expect(200)
             .end()
-        res.body[0].name.should.equal('James')
+        var existed2 = yield MiniUserGroupRelation.exist(group.id, addUser.id)
+        existed2.should.equal(false)
         done()
     })
-    it(protocol + ' groups/members socket.io  200', function*(done) {
-        global.socket.emit('/api/v1/groups/members', {
+    it(protocol + ' groups/memebers/remove socket.io  200', function*(done) {
+        global.socket.emit('/api/v1/groups/users/remove', {
             header: {
                 Authorization: 'Bearer ' + accessToken
             },
             data: {
-                name: 'source'
+                name: 'source',
+                uuid: addUser.uuid
             }
         }, function(body) {
-            body[0].name.should.equal('James')
-            done()
+            var co = require('co')
+            co.wrap(function*() {
+                var existed2 = yield MiniUserGroupRelation.exist(group.id, addUser.id)
+                existed2.should.equal(false)
+                done()
+            })()
         })
     })
-    it(protocol + ' groups/members 401', function*(done) {
+    it(protocol + ' groups/memebers/remove 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/groups/members')
+            .post('/api/v1/groups/users/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
             })
             .send({
-                name: 'source'
+                name: 'source',
+                uuid: addUser.uuid
             })
             .expect(401)
             .end()
         done()
     })
-    it(protocol + ' groups/members 409 ', function*(done) {
+
+    it(protocol + ' groups/memebers/remove 409 group_not_exist', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/groups/members')
+            .post('/api/v1/groups/users/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                name: 'sourcesssss'
+                name: 'sourcesssss',
+                uuid: addUser.uuid
             })
             .expect(409)
             .end()
         res.body.error.should.equal('group_not_exist')
         done()
     })
-    it(protocol + ' groups/members 400 ', function*(done) {
+    it(protocol + ' groups/memebers/remove 409 user_not_exist', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/groups/members')
+            .post('/api/v1/groups/users/remove')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                name: 'source',
+                uuid: 'addUser.uuid'
+            })
+            .expect(409)
+            .end()
+        res.body.error.should.equal('user_not_exist')
+        done()
+    })
+
+    it(protocol + ' groups/memebers/remove 400 ', function*(done) {
+        var res = yield request(app)
+            .post('/api/v1/groups/users/remove')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -116,5 +147,4 @@ describe(protocol + ' groups/members', function() {
             .end()
         done()
     })
-
 })

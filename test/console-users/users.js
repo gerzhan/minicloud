@@ -2,7 +2,7 @@ var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
 // var department
-describe(protocol + ' console-members', function() {
+describe(protocol + ' console-users', function() {
     this.timeout(global.timeout)
     var app = null
     var accessToken = null
@@ -102,9 +102,9 @@ describe(protocol + ' console-members', function() {
         return done()
     })
 
-    it(protocol + ' members-console/list 200', function*(done) {
+    it(protocol + ' users-console/list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -119,10 +119,10 @@ describe(protocol + ' console-members', function() {
         var body = res.body
         cursor = body.cursor
         body.has_more.should.equal(true)
-        body.members[0].name.should.equal('admin')
+        body.users[0].name.should.equal('admin')
 
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -137,12 +137,12 @@ describe(protocol + ' console-members', function() {
             .end()
         var body = res.body
         body.has_more.should.equal(false)
-        body.members[0].name.should.equal('good')
+        body.users[0].name.should.equal('good')
         done()
     })
-    it(protocol + ' members-console/list 200', function*(done) {
+    it(protocol + ' users-console/list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -157,12 +157,12 @@ describe(protocol + ' console-members', function() {
         var body = res.body
         cursor = body.cursor
         body.has_more.should.equal(false)
-        body.members[0].name.should.equal('good')
+        body.users[0].name.should.equal('good')
         done()
     })
-    it(protocol + ' members-console/admin_list 200', function*(done) {
+    it(protocol + ' users-console/admin_list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -175,12 +175,12 @@ describe(protocol + ' console-members', function() {
             .expect(200)
             .end()
         var body = res.body
-        body.members[0].name.should.equal('admin')
+        body.users[0].name.should.equal('admin')
         done()
     })
-    it(protocol + ' members-console/disabled_list 200', function*(done) {
+    it(protocol + ' users-console/disabled_list 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json') 
             .send({
                 department_path: department.path,
@@ -196,9 +196,9 @@ describe(protocol + ' console-members', function() {
         body.has_more.should.equal(false)
         done()
     })
-    it(protocol + ' members-console/list 400', function*(done) {
+    it(protocol + ' users-console/list 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json')
             .send({
             }) 
@@ -209,9 +209,9 @@ describe(protocol + ' console-members', function() {
             .end()  
         done()
     })
-    it(protocol + ' members-console/list 401', function*(done) {
+    it(protocol + ' users-console/list 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/console/members/list')
+            .post('/api/v1/console/users/list')
             .type('json') 
             .send({
                 department_path: department.path,

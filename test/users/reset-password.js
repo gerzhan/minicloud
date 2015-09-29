@@ -29,9 +29,9 @@ describe(protocol + ' reset password', function() {
         accessToken = res.body.access_token
         return done()
     })
-    it(protocol + ' members/reset_password 200', function*(done) {
+    it(protocol + ' users/reset_password 200', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/reset_password')
+            .post('/api/v1/users/reset_password')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -49,9 +49,9 @@ describe(protocol + ' reset password', function() {
         ciphertext.should.equal(password)
         done()
     })
-    it(protocol + ' members/reset_password 400', function*(done) {
+    it(protocol + ' users/reset_password 400', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/reset_password')
+            .post('/api/v1/users/reset_password')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -60,12 +60,12 @@ describe(protocol + ' reset password', function() {
             .end() 
         done()
     })
-    it(protocol + ' members/reset_password 409 member_locked', function*(done) {
+    it(protocol + ' users/reset_password 409 user_locked', function*(done) {
         //ready data
         var MiniUserMeta = require("../../lib/model/user-meta")
         yield MiniUserMeta.create(user.id, "password_error_count", "6")
         var res = yield request(app)
-            .post('/api/v1/members/reset_password')
+            .post('/api/v1/users/reset_password')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken
@@ -76,15 +76,15 @@ describe(protocol + ' reset password', function() {
             })
             .expect(409)
             .end()
-        res.body.error.should.equal('member_locked')
+        res.body.error.should.equal('user_locked')
             //reset password status
         yield MiniUserMeta.create(user.id, "password_error_count", "0")
 
         done()
     })
-    it(protocol + ' members/reset_password 401', function*(done) {
+    it(protocol + ' users/reset_password 401', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/reset_password')
+            .post('/api/v1/users/reset_password')
             .type('json')
             .set({
                 Authorization: 'Bearer 12234'
@@ -97,9 +97,9 @@ describe(protocol + ' reset password', function() {
             .end()
         done()
     })
-    it(protocol + ' members/reset_password 409 old_password_invalid', function*(done) {
+    it(protocol + ' users/reset_password 409 old_password_invalid', function*(done) {
         var res = yield request(app)
-            .post('/api/v1/members/reset_password')
+            .post('/api/v1/users/reset_password')
             .type('json')
             .set({
                 Authorization: 'Bearer ' + accessToken

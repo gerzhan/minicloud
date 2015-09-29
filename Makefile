@@ -20,8 +20,8 @@ TESTS = test/devices \
 		test/events \
 		test/files-upload \
 		test/groups \
-		test/members \
-		test/console-members \
+		test/users \
+		test/console-users \
 		test/console-devices \
 		test/console-online-devices \
 		test/console-events \
