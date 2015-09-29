@@ -40,8 +40,8 @@ $ node index.js
 ```
 ### Run Test
 ```
-//register member
-curl -X POST http://127.0.0.1:8030/api/v1/members/register \
+//register user
+curl -X POST http://127.0.0.1:8030/api/v1/users/register \
     --header "Content-Type: application/json" \
     --data "{\"name\":\"zhangsan\",\"nick\":\"xiaozhang\",\"password\":\"8k9v6n\",\"email\":\"zhangsan@minicloudjs.com\"}"
 
