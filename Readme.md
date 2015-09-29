@@ -24,14 +24,14 @@ require('co').wrap(function*(){
 
 ```
 ### Installation package
-```
+```js
 $ npm install minicloud co
 中国大陆用户建议下面方式安装依赖(cnpm 详情见:http://npm.taobao.org/)
 $ cnpm install minicloud co
 ```
 
 ### Initialize sqlite database file(Just one time)
-```
+```js
 $ node ./node_modules/minicloud/install.js 
 ```
 ### Run Server
@@ -39,7 +39,7 @@ $ node ./node_modules/minicloud/install.js
 $ node index.js 
 ```
 ### Run Test
-```
+```js
 //register user
 curl -X POST http://127.0.0.1:8030/api/v1/users/register \
     --header "Content-Type: application/json" \
