@@ -5,7 +5,7 @@
   
   minicloud
 
-  minicloud based on node.js, providing efficient file storage server for enterprises.
+  minicloud based on node.js, providing efficient file storage server.
 
   you can easily integrate existing app nodejs with minicloud.
 
