@@ -11,7 +11,7 @@
 
 ## About client(include web/desktop/mobile client)
 
-  minicloud is hybrid cloud model.files are stored on own servers, while [minicloudjs.com](http://minicloudjs.com) management desktop client&mobile client&web client.
+  minicloud is hybrid cloud model.files are stored on own servers, while [miniyun.cn](http://miniyun.cn) management desktop client&mobile client&web client.
 
 ## Example
 
