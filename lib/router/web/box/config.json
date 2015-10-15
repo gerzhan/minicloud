@@ -1,0 +1,8 @@
+{
+  "name": "box",
+  "description": "box", 
+  "valid_cookie":true,
+  "routes": { 
+    "/box*": "box"
+  }
+}
