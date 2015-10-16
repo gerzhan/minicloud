@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -38,40 +39,125 @@
     </div>
     <script type="text/javascript">
     var isSupport = function() {
-        var agent = navigator.userAgent
-        var isIE = agent.indexOf('MSIE') > 0
-        if (isIE) {
-            //need ie version>10
-            var version = parseInt(agent.split('MSIE')[1])
-            if (version < 10) {
-                return false
+            var agent = navigator.userAgent
+            var isIE = agent.indexOf('MSIE') > 0
+            if (isIE) {
+                //need ie version>10
+                var version = parseInt(agent.split('MSIE')[1])
+                if (version < 10) {
+                    return false
+                }
+            }
+            return true
+        }()
+        /**
+         * load single script
+         */
+    var loadSingleScript = function(src, callback) {
+            var body = document.getElementsByTagName('body')[0]
+            var scriptNewNode = document.createElement('script')
+            scriptNewNode.src = src
+            if (callback) {
+                scriptNewNode.onload = callback
+            }
+            body.appendChild(scriptNewNode)
+        }
+        /**
+         * load multi script
+         */
+    var loadScripts = function(srcs, callback) {
+            if (!srcs || srcs.length === 0) {
+                if (callback) {
+                    callback()
+                }
+            } else {
+                var index = 0
+                for (var i = 0; i < srcs.length; i++) {
+                    var src = srcs[i]
+                    loadSingleScript(src, function() {
+                        index += 1
+                        if (index === srcs.length) {
+                            if (callback) {
+                                callback()
+                            }
+                        }
+                    })
+                }
             }
         }
-        return true
-    }()
+        /**
+         * load multi array script
+         */
+    var asyncLoadScripts = function(arrays, callback) {
+            if (!arrays || arrays.length === 0) {
+                return callback()
+            } else {
+                var scripts = arrays[0]
+                loadScripts(scripts, function() {
+                    var nextArrays = arrays.slice(1)
+                    asyncLoadScripts(nextArrays, callback)
+                })
+            }
+        }
+        /**
+         * parse remote html scripts by order attribute
+         */
+    var parseDocumentScripts = function() {
+        var scriptElements = document.getElementsByTagName('script')
+        var orders = []
+        var orderArrays = {}
+        var lastArray = []
+        for (var i = 0; i < scriptElements.length; i++) {
+            var item = scriptElements[i]
+            var order = item.getAttribute('order')
+            if (order) {
+                var currentArray = orderArrays[order]
+                if (!currentArray) {
+                    currentArray = []
+                    orders.push(order)
+                }
+                currentArray.push(item.src)
+                orderArrays[order] = currentArray
+            } else {
+                if (item.src) {
+                    lastArray.push(item.src)
+                }
+            }
+        }
+        var data = []
+        for (var i = 0; i < orders.length; i++) {
+            var order = orders[i]
+            var scriptArray = orderArrays[order]
+            data.push(scriptArray)
+        }
+        data.push(lastArray)
+        return data
+    }
     if (!isSupport) {
         alert('your browser version too lower,please upgrade!')
     } else {
         var url = @url
-        var bodyElement = document.getElementsByTagName('html')[0]
+        var htmlElement = document.getElementsByTagName('html')[0]
         var xmlHttp = new XMLHttpRequest()
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState === 4) {
-                if (xmlHttp.status === 200) {  
+                if (xmlHttp.status === 200) {
                     //clean timer
                     clearInterval(loadingInterval)
-                        //show static.minicloudjs.com html content
+                        //show static.minicloudjs.com html/css content
                     var content = xmlHttp.responseText
-                    bodyElement.innerHTML = content
-                        //show static.minicloudjs.com javascript content
-                    var scriptNode = document.getElementById('minicloud-script')
-                    if (scriptNode) {
-                        var scriptNewNode = document.createElement("script")
-                        scriptNewNode.type = "text/javascript"
-                        scriptNewNode.charset = "utf-8"
-                        scriptNewNode.text = scriptNode.innerHTML
-                        bodyElement.appendChild(scriptNewNode)
-                    }
+                    htmlElement.innerHTML = content
+                        //show static.minicloudjs.com javascript content                    
+                    var scripts = parseDocumentScripts()
+                    asyncLoadScripts(scripts, function() {
+                        var scriptNode = document.getElementById('minicloud-script')
+                        if (scriptNode) {
+                            var scriptNewNode = document.createElement("script")
+                            scriptNewNode.text = scriptNode.innerHTML
+                            var bodyElement = document.getElementsByTagName('body')[0]
+                            bodyElement.appendChild(scriptNewNode)
+                        }
+                    })
                 } else {
                     //hide loadding
                     var loadingElement = document.getElementById('loading-div')
