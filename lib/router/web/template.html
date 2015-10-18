@@ -137,10 +137,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    var isFirefox = function() {
-        return navigator.userAgent.indexOf('Firefox') > -1
-    }
+    <script type="text/javascript"> 
     var isSupport = function() {
             var agent = navigator.userAgent
             var isIE = agent.indexOf('MSIE') > 0
@@ -260,13 +257,7 @@
                             var scriptNewNode = document.createElement("script")
                             scriptNewNode.text = scriptNode.innerHTML
                             bodyElement.appendChild(scriptNewNode) 
-                        }
-                        //hidden loading div
-                        loadingNode = document.getElementById('minicloud-loading')
-                        loadingNode.style.display = 'none'
-                        //show content div
-                        var contentNode = document.getElementById('minicloud-content')
-                        contentNode.style.display = 'block'                        
+                        }                                              
                     })
                 } else {
                     //hide loadding 
@@ -277,7 +268,7 @@
         }
         xmlHttp.open("GET", url, true)
         xmlHttp.send(null)
-    }
+    } 
     </script>
 </body>
 
