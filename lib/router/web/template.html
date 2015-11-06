@@ -14,6 +14,7 @@
     <link href="//@static_host/static/assets/global/css/ui.css" rel="stylesheet">
     <link rel="stylesheet" href="//@static_host/static/@sub_app_name/@version/styles/vendor.css">
     <link rel="stylesheet" href="//@static_host/static/@sub_app_name/@version/styles/app.css">
+    <link rel="stylesheet" type="text/css" href="../styles/sweetalert.css">
 </head>
 
 <body class="{{bodylayout}}">
@@ -145,11 +146,11 @@
                 <div class="bounce3"></div>
             </div>
         </div>
-    </div>
-    <!--[if lt IE 10]>
- <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
- <![endif]-->
+    </div> 
     <div ui-view=""></div>
+    <!--browser status checker-->
+    <script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../scripts/sweetalert.min.js"></script>
     <script type="text/javascript">
     //check browser
     var isSupport = function() {
@@ -164,8 +165,58 @@
         }
         return true
     }()
+    var getMessage = function(id) {
+        var adapterLang = function(language) {
+            if (language === 'zh') {
+                language = 'zh-TW'
+            }
+            if (language === 'zh-CN' || language === 'zh-TW') {
+                return language
+            }
+            return 'en'
+        }
+        var currentLang = function() {
+            if (navigator.languages) {
+                //support for HTML 5.1 "navigator.languages"
+                for (var i = 0; i < navigator.languages.length; i++) {
+                    var language = navigator.languages[i]
+                    if (language && language.length) {
+                        return adapterLang(language)
+                    }
+                }
+            } else {
+                //support for other well known properties in browsers
+                var browserLanguagePropertyKeys = ['language', 'browserLanguage', 'systemLanguage', 'userLanguage']
+                for (var i = 0; i < browserLanguagePropertyKeys.length; i++) {
+                    var language = navigator[browserLanguagePropertyKeys[i]]
+                    if (language && language.length) {
+                        return adapterLang(language)
+                    }
+                }
+            }
+            return 'en'
+        }()
+        var i18n = {
+            'en': {
+                'BROWSER_LOW_VERSION_TIP': 'You are using an outdated browser,Please access http://browsehappy.com/ upgrade your browser to improve your experience.',
+                'NETWORK_ERROR_TITLE': 'Please check the network',
+                'NETWORK_ERROR_TIP': 'Browser unable to connect @static_host'
+            },
+            'zh-CN': {
+                'BROWSER_LOW_VERSION_TIP': '您的浏览器版本过低，推荐安装最新版 IE浏览器 或 360安全浏览器',
+                'NETWORK_ERROR_TITLE': '请检查网络设置',
+                'NETWORK_ERROR_TIP': '浏览器无法访问网站 @static_host'
+            },
+            'zh-TW': {
+                'BROWSER_LOW_VERSION_TIP': '您的瀏覽器版本過低，推薦安裝最新版 Chrome 或 Firefox 瀏覽器',
+                'NETWORK_ERROR_TITLE': '請檢查網路設置',
+                'NETWORK_ERROR_TIP': '瀏覽器無法訪問網站 @static_host'
+            }
+        }
+        return i18n[currentLang][id]
+    }
     if (!isSupport) {
-        alert('your browser version too lower,please upgrade!')
+        alert(getMessage('BROWSER_LOW_VERSION_TIP'))
     } else {
         //check network
         var url = '//@static_host'
@@ -176,12 +227,13 @@
                     //hide loadding 
                     var loadingNode = document.getElementById('minicloud-loading')
                     loadingNode.style.display = 'none'
-                    alert('Cannot access url,please check\n' + url)
+                    sweetAlert(getMessage('NETWORK_ERROR_TITLE'), getMessage('NETWORK_ERROR_TIP'), "error")
                 }
             }
         }
         xmlHttp.open("GET", url, true)
         xmlHttp.send(null)
+
     }
     </script>
     <script src="//@static_host/static/@sub_app_name/@version/scripts/vendor.js"></script>
