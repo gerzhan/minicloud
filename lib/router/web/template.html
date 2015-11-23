@@ -1,13 +1,21 @@
-<html>
+<!doctype html>
+<html ng-app="minicloudWebApp@sub_app_bname">
 
 <head>
     <!--ie edge-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <!--360 browser defaut webkit-->
     <meta content="webkit" name="renderer">
+    <meta charset="utf-8">
+    <title>{{ 'APP_NAME' | translate }}</title>
+    <meta name="description" content="{{'APP_DESCRIPTION' | translate }}">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="//@static_host/static/@sub_app_name/@version/styles/vendor.css">
+    <link rel="stylesheet" href="//@static_host/static/@sub_app_name/@version/styles/app.css">
+    <link rel="stylesheet" type="text/css" href="../styles/sweetalert.css">
 </head>
 
-<body>
+<body class="{{bodylayout}}">
     <div id='minicloud-loading'>
         <!--loading-->
         <style type="text/css">
@@ -136,139 +144,103 @@
                 <div class="bounce3"></div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript"> 
+    </div> 
+    <div ui-view=""></div>
+    <!--browser status checker-->
+    <script type="text/javascript" src="../scripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../scripts/sweetalert.min.js"></script>
+    <script type="text/javascript">
+    //check browser
     var isSupport = function() {
-            var agent = navigator.userAgent
-            var isIE = agent.indexOf('MSIE') > 0
-            if (isIE) {
-                //need ie version>10
-                var version = parseInt(agent.split('MSIE')[1])
-                if (version < 10) {
-                    return false
+        var agent = navigator.userAgent
+        var isIE = agent.indexOf('MSIE') > 0
+        if (isIE) {
+            //need ie version>10
+            var version = parseInt(agent.split('MSIE')[1])
+            if (version < 10) {
+                return false
+            }
+        }
+        return true
+    }()
+    var getMessage = function(id) {
+        var adapterLang = function(language) {
+            if (language === 'zh') {
+                language = 'zh-TW'
+            }
+            if (language === 'zh-CN' || language === 'zh-TW') {
+                return language
+            }
+            return 'en'
+        }
+        var currentLang = function() {
+            if (navigator.languages) {
+                //support for HTML 5.1 "navigator.languages"
+                for (var i = 0; i < navigator.languages.length; i++) {
+                    var language = navigator.languages[i]
+                    if (language && language.length) {
+                        return adapterLang(language)
+                    }
+                }
+            } else {
+                //support for other well known properties in browsers
+                var browserLanguagePropertyKeys = ['language', 'browserLanguage', 'systemLanguage', 'userLanguage']
+                for (var i = 0; i < browserLanguagePropertyKeys.length; i++) {
+                    var language = navigator[browserLanguagePropertyKeys[i]]
+                    if (language && language.length) {
+                        return adapterLang(language)
+                    }
                 }
             }
-            return true
+            return 'en'
         }()
-        /**
-         * load single script
-         */
-    var loadSingleScript = function(src, callback) {
-            var body = document.getElementsByTagName('body')[0]
-            var scriptNewNode = document.createElement('script')
-            scriptNewNode.src = src + '?version=@version'
-            if (callback) {
-                scriptNewNode.onload = callback
-            }
-            body.appendChild(scriptNewNode)
-        }
-        /**
-         * load multi script
-         */
-    var loadScripts = function(srcs, callback) {
-            if (!srcs || srcs.length === 0) {
-                if (callback) {
-                    callback()
-                }
-            } else {
-                var index = 0
-                for (var i = 0; i < srcs.length; i++) {
-                    var src = srcs[i]
-                    loadSingleScript(src, function() {
-                        index += 1
-                        if (index === srcs.length) {
-                            if (callback) {
-                                callback()
-                            }
-                        }
-                    })
-                }
+        var i18n = {
+            'en': {
+                'BROWSER_LOW_VERSION_TIP': 'You are using an outdated browser,Please access http://browsehappy.com/ upgrade your browser to improve your experience.',
+                'NETWORK_ERROR_TITLE': 'Please check the network',
+                'NETWORK_ERROR_TIP': 'Browser unable to connect @static_host'
+            },
+            'zh-CN': {
+                'BROWSER_LOW_VERSION_TIP': '您的浏览器版本过低，推荐安装最新版 IE浏览器 或 360安全浏览器',
+                'NETWORK_ERROR_TITLE': '请检查网络设置',
+                'NETWORK_ERROR_TIP': '浏览器无法访问网站 @static_host'
+            },
+            'zh-TW': {
+                'BROWSER_LOW_VERSION_TIP': '您的瀏覽器版本過低，推薦安裝最新版 Chrome 或 Firefox 瀏覽器',
+                'NETWORK_ERROR_TITLE': '請檢查網路設置',
+                'NETWORK_ERROR_TIP': '瀏覽器無法訪問網站 @static_host'
             }
         }
-        /**
-         * load multi array script
-         */
-    var asyncLoadScripts = function(arrays, callback) {
-            if (!arrays || arrays.length === 0) {
-                return callback()
-            } else {
-                var scripts = arrays[0]
-                loadScripts(scripts, function() {
-                    var nextArrays = arrays.slice(1)
-                    asyncLoadScripts(nextArrays, callback)
-                })
-            }
-        }
-        /**
-         * parse remote html scripts by order attribute
-         */
-    var parseDocumentScripts = function() {
-        var scriptElements = document.getElementsByTagName('script')
-        var orders = []
-        var orderArrays = {}
-        var lastArray = []
-        for (var i = 0; i < scriptElements.length; i++) {
-            var item = scriptElements[i]
-            var order = item.getAttribute('order')
-            if (order) {
-                var currentArray = orderArrays[order]
-                if (!currentArray) {
-                    currentArray = []
-                    orders.push(order)
-                }
-                currentArray.push(item.src)
-                orderArrays[order] = currentArray
-            } else {
-                if (item.src) {
-                    lastArray.push(item.src)
-                }
-            }
-        }
-        var data = []
-        for (var i = 0; i < orders.length; i++) {
-            var order = orders[i]
-            var scriptArray = orderArrays[order]
-            data.push(scriptArray)
-        }
-        data.push(lastArray)
-        return data
+        return i18n[currentLang][id]
     }
     if (!isSupport) {
-        alert('your browser version too lower,please upgrade!')
+        alert(getMessage('BROWSER_LOW_VERSION_TIP'))
     } else {
-        var url = @url
-        var htmlElement = document.getElementsByTagName('html')[0]
-        var loadingNode = document.getElementById('minicloud-loading')
+        //check network
+        var url = '//@static_host'
         var xmlHttp = new XMLHttpRequest()
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState === 4) {
-                if (xmlHttp.status === 200) {
-                    var loadingHtml = loadingNode.innerHTML
-                    var content = xmlHttp.responseText
-                    content = content.replace('@minicloud-loading',loadingHtml)
-                    //replace static.minicloudjs.com html/css content 
-                    htmlElement.innerHTML = content
-                    var bodyElement = document.getElementsByTagName('body')[0]                    
-                    //show static.minicloudjs.com javascript content   
-                    var scripts = parseDocumentScripts()
-                    asyncLoadScripts(scripts, function() {
-                        var scriptNode = document.getElementById('minicloud-script')
-                        if (scriptNode) {
-                            var scriptNewNode = document.createElement("script")
-                            scriptNewNode.text = scriptNode.innerHTML
-                            bodyElement.appendChild(scriptNewNode) 
-                        }                                              
-                    })
-                } else {
+                if (xmlHttp.status !== 200) {
                     //hide loadding 
+                    var loadingNode = document.getElementById('minicloud-loading')
                     loadingNode.style.display = 'none'
-                    alert('Cannot access url,please check\n' + url)
+                    sweetAlert(getMessage('NETWORK_ERROR_TITLE'), getMessage('NETWORK_ERROR_TIP'), "error")
                 }
             }
         }
         xmlHttp.open("GET", url, true)
         xmlHttp.send(null)
-    } 
+
+    }
+    </script>
+    <script src="//@static_host/static/@sub_app_name/@version/scripts/vendor.js"></script>
+    <script src="//@static_host/static/@sub_app_name/@version/scripts/app.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var loadingNode = document.getElementById('minicloud-loading')
+        loadingNode.style.display = 'none'
+    })
     </script>
 </body>
 
