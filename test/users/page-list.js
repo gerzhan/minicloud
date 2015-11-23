@@ -148,7 +148,7 @@ describe(protocol + ' users', function() {
                 page: 0,
                 limit: 2,
                 filter: 'disabled',
-                orders: {
+                order: {
                     name: true
                 }
             })
@@ -173,7 +173,7 @@ describe(protocol + ' users', function() {
                 page: 0,
                 limit: 2,
                 filter: 'admin',
-                orders: {
+                order: {
                     name: true
                 }
             })
