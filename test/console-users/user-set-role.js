@@ -144,4 +144,40 @@ describe(protocol + ' user-set-role', function() {
         newUser.role.should.equal(IT_ADMIN)
         done()
     })
+    it(protocol + ' console/users/set_role 200 last super admin', function*(done) {
+        var MiniUser = require('../../lib/model/user')
+            //common_user
+        var res = yield request(app)
+            .post('/api/v1/console/users/set_role')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                uuid: user.uuid,
+                role: 'common_user'
+            })
+            .expect(200)
+            .end()
+            //check user
+        var newUser = yield MiniUser.getByName(user.name)
+        newUser.role.should.equal(SUPER_ADMIN)
+            //sub_admin
+        res = yield request(app)
+            .post('/api/v1/console/users/set_role')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                uuid: user.uuid,
+                role: 'sub_admin'
+            })
+            .expect(200)
+            .end()
+            //check user
+        newUser = yield MiniUser.getByName(user.name)
+        newUser.role.should.equal(SUPER_ADMIN)
+        done()
+    })
 })

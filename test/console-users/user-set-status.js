@@ -92,7 +92,7 @@ describe(protocol + ' user-set-status', function() {
             .expect(200)
             .end()
             //check user
-        var newUser = yield MiniUser.getByName(user1.name) 
+        var newUser = yield MiniUser.getByName(user1.name)
         newUser.status.should.equal(0)
             //enabled
         res = yield request(app)
@@ -108,7 +108,27 @@ describe(protocol + ' user-set-status', function() {
             .expect(200)
             .end()
             //check user
-        newUser = yield MiniUser.getByName(user1.name) 
+        newUser = yield MiniUser.getByName(user1.name)
+        newUser.status.should.equal(1)
+        done()
+    })
+    it(protocol + ' console/users/set_status last super admin', function*(done) {
+        var MiniUser = require('../../lib/model/user')
+            //disable last super admin
+        res = yield request(app)
+            .post('/api/v1/console/users/set_status')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                uuid: user.uuid,
+                enable: false
+            })
+            .expect(200)
+            .end()
+            //check user,last super admin status=enable
+        newUser = yield MiniUser.getByName(user.name)
         newUser.status.should.equal(1)
         done()
     })
