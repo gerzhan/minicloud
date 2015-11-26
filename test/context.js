@@ -17,6 +17,7 @@ var initSocketClient = function(app) {
             })
         }
     }
+    
     /**
      * delete folder
      * @param {String} sourcePath
