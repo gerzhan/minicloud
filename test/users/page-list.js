@@ -1,6 +1,7 @@
 var request = require('co-supertest')
 var context = require('../context')
 var protocol = process.env.ORM_PROTOCOL
+var sleep = require('sleep')
 describe(protocol + ' users', function() {
     this.timeout(global.timeout)
     var app = null
@@ -21,6 +22,7 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user1.id, 'phone', '+864000250057')
         yield MiniUserMeta.create(user1.id, 'total_space', '1073741824')
         yield MiniUserMeta.create(user1.id, 'is_admin', '1')
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim1', 'jim1', SUPER_ADMIN)
         yield MiniUserMeta.create(user.id, 'email', 'jim1@minicloud.io')
@@ -28,6 +30,7 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
         yield MiniUser.setStatus(user, 0)
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim2', 'jim2')
         yield MiniUserMeta.create(user.id, 'email', 'jim2@minicloud.io')
@@ -35,30 +38,35 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
         yield MiniUser.setStatus(user, 0)
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim3', 'jim3')
         yield MiniUserMeta.create(user.id, 'email', 'jim3@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim3')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim4', 'jim4')
         yield MiniUserMeta.create(user.id, 'email', 'jim4@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim4')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim5', 'jim5')
         yield MiniUserMeta.create(user.id, 'email', 'jim5@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim5')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim6', 'jim6')
         yield MiniUserMeta.create(user.id, 'email', 'jim6@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim6')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
 
         var user = yield MiniUser.create('jim7', 'jim7')
@@ -66,18 +74,21 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user.id, 'nick', 'jim7')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim8', 'jim8')
         yield MiniUserMeta.create(user.id, 'email', 'jim8@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim8')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
         var user = yield MiniUser.create('jim9', 'jim9')
         yield MiniUserMeta.create(user.id, 'email', 'jim9@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim9')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
 
         var user = yield MiniUser.create('jim10', 'jim10')
@@ -85,6 +96,7 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user.id, 'nick', 'jim10')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
 
         var user = yield MiniUser.create('jim11', 'jim11')
@@ -92,6 +104,7 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user.id, 'nick', 'jim11')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
+        sleep.sleep(1)
 
         var res = yield request(app)
             .post('/api/v1/oauth2/token')
@@ -109,7 +122,6 @@ describe(protocol + ' users', function() {
         accessToken = res.body.access_token
         return done()
     })
-
 
     it(protocol + ' users/page_list 400', function*(done) {
         var res = yield request(app)
@@ -154,7 +166,7 @@ describe(protocol + ' users', function() {
             })
             .expect(200)
             .end()
-        var body = res.body  
+        var body = res.body
         body.users.length.should.equal(2)
         body.users[0].name.should.equal('jim1')
         body.users[1].name.should.equal('jim2')
@@ -179,10 +191,10 @@ describe(protocol + ' users', function() {
             })
             .expect(200)
             .end()
-        var body = res.body  
+        var body = res.body
         body.users.length.should.equal(2)
-        body.users[0].name.should.equal('admin') 
-        body.users[1].name.should.equal('jim1') 
+        body.users[0].name.should.equal('admin')
+        body.users[1].name.should.equal('jim1')
         done()
     })
     it(protocol + ' users/page_list 200 page', function*(done) {
@@ -199,10 +211,10 @@ describe(protocol + ' users', function() {
             })
             .expect(200)
             .end()
-        var body = res.body  
+        var body = res.body
         body.users.length.should.equal(2)
-        body.users[0].name.should.equal('jim9') 
-        body.users[1].name.should.equal('jim8') 
+        body.users[0].name.should.equal('jim9')
+        body.users[1].name.should.equal('jim8')
         done()
     })
     it(protocol + ' users/page_list 200 search_key', function*(done) {
@@ -213,15 +225,15 @@ describe(protocol + ' users', function() {
                 Authorization: 'Bearer ' + accessToken
             })
             .send({
-                search_key:'zs',
+                search_key: 'zs',
                 page: 0,
                 limit: 2
             })
             .expect(200)
             .end()
-        var body = res.body  
+        var body = res.body
         body.users.length.should.equal(1)
-        body.users[0].name.should.equal('jim1')  
+        body.users[0].name.should.equal('jim1')
         done()
     })
 })
