@@ -3,6 +3,9 @@
     "description": "user module",
     "roles":"3,9",
     "routes": {
-        "/api/v1/console/users/list": "list"
+        "/api/v1/console/users/list": "list",
+        "/api/v1/console/users/set_status": "setStatus",
+        "/api/v1/console/users/remove": "remove",
+        "/api/v1/console/users/set_role": "setRole"
     }
 }
