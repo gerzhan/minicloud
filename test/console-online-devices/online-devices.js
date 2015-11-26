@@ -50,8 +50,7 @@ describe(protocol + ' console-online-devices', function() {
 
         var user5 = yield MiniUser.create('frozen', 'frozen', 1)
         var device5 = yield MiniDevice.create(user5, '360', 'JsQCsjF3yr7KACyT')
-        yield MiniUser.setStatus(user5.uuid,0)
-        yield MiniUser.setStatus('xxxx',0)
+        yield MiniUser.setStatus(user5,0)
         yield MiniUserMeta.create(user5.id, 'email', 'frozen@minicloud.io')
         yield MiniUserMeta.create(user5.id, 'nick', 'coldwang')
         yield MiniUserMeta.create(user5.id, 'phone', '+868655201')

@@ -56,8 +56,7 @@ describe(protocol + ' console-users', function() {
         var user5 = yield MiniUser.create('frozen', 'frozen')
         user5.role = 1
         yield user5.save()
-        yield MiniUser.setStatus(user5.uuid,0)
-        yield MiniUser.setStatus('xxxx',0)
+        yield MiniUser.setStatus(user5,0) 
         yield MiniUserMeta.create(user5.id, 'email', 'frozen@minicloud.io')
         yield MiniUserMeta.create(user5.id, 'nick', 'coldwang')
         yield MiniUserMeta.create(user5.id, 'phone', '+868655201')

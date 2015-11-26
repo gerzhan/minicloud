@@ -27,14 +27,14 @@ describe(protocol + ' users', function() {
         yield MiniUserMeta.create(user.id, 'nick', '张三')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
-        yield MiniUser.setStatus(user.uuid, false)
+        yield MiniUser.setStatus(user, 0)
 
         var user = yield MiniUser.create('jim2', 'jim2')
         yield MiniUserMeta.create(user.id, 'email', 'jim2@minicloud.io')
         yield MiniUserMeta.create(user.id, 'nick', 'jim2')
         yield MiniUserMeta.create(user.id, 'phone', '+868655201')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
-        yield MiniUser.setStatus(user.uuid, false)
+        yield MiniUser.setStatus(user, 0)
 
         var user = yield MiniUser.create('jim3', 'jim3')
         yield MiniUserMeta.create(user.id, 'email', 'jim3@minicloud.io')
@@ -154,7 +154,7 @@ describe(protocol + ' users', function() {
             })
             .expect(200)
             .end()
-        var body = res.body 
+        var body = res.body  
         body.users.length.should.equal(2)
         body.users[0].name.should.equal('jim1')
         body.users[1].name.should.equal('jim2')
