@@ -7,6 +7,7 @@ describe(protocol + ' users-remove', function() {
     var app = null
     var accessToken = null
     var user = null
+    var user1 = null
     var device = null
         //before hook start app server,initialize data
     before(function*(done) {
@@ -23,8 +24,21 @@ describe(protocol + ' users-remove', function() {
         yield MiniUserMeta.create(user.id, 'nick', 'admin')
         yield MiniUserMeta.create(user.id, 'phone', '+864000250057')
         yield MiniUserMeta.create(user.id, 'total_space', '1073741824')
-
-        var res = yield request(app)
+        user1 = yield MiniUser.create('jim1', 'jim1', COMMON_USER)
+            //jim1 login create device
+        res = yield request(app)
+            .post('/api/v1/oauth2/token')
+            .type('json')
+            .send({
+                name: 'jim1',
+                password: 'jim1',
+                device_name: 'ji1111m-pc-windows7',
+                client_id: 'JsQCsjF3yr7KACyT',
+                client_secret: 'bqGeM4Yrjs3tncJZ'
+            })
+            .expect(200)
+            .end()
+        res = yield request(app)
             .post('/api/v1/oauth2/token')
             .type('json')
             .send({
@@ -105,11 +119,47 @@ describe(protocol + ' users-remove', function() {
         yield MiniFile.createFile(device, '/Image/123/1.doc', version, null)
         yield MiniFile.createFile(device, '/Image/123/2.doc', version, null)
             //create group
-        yield MiniGroup.create(user.id, 'g1')
-        yield MiniGroup.create(user.id, 'g2')
+        yield MiniGroup.create(user1.id, 'g1')
+        yield MiniGroup.create(user1.id, 'g2')
             //create tag
-        yield MiniTag.create(user.id, 'g1')
-        yield MiniTag.create(user.id, 'g2')
+        yield MiniTag.create(user1.id, 'g1')
+        yield MiniTag.create(user1.id, 'g2')
+        var res = yield request(app)
+            .post('/api/v1/console/users/remove')
+            .type('json')
+            .set({
+                Authorization: 'Bearer ' + accessToken
+            })
+            .send({
+                uuid: user1.uuid
+            })
+            .expect(200)
+            .end()
+            //check user
+        var user2 = yield MiniUser.getByName(user1.name)
+        should(user2).not.be.ok()
+            //check devices
+        var devices = yield MiniUserDevice.getAllByUserId(user1.id)
+        devices.length.should.equal(0)
+            //check metas
+        var metas = yield MiniUserMeta.getAll(user1.id)
+        metas.length.should.equal(0)
+            //check files
+        var files = yield MiniFile.getAllByUserId(user1.id)
+        files.length.should.equal(0)
+            //check events
+        var events = yield MiniEvent.getAllByUserId(user1.id)
+        events.length.should.equal(0)
+            //check group
+        var groups = yield MiniGroup.getAllByUserId(user1.id)
+        groups.length.should.equal(0)
+            //check tag
+        var tags = yield MiniTag.getAllByUserId(user1.id)
+        tags.length.should.equal(0)
+        done()
+    })
+    it(protocol + ' console/users/remove 200 remove last super admin fail', function*(done) {
+        var MiniUser = require('../../lib/model/user')
         var res = yield request(app)
             .post('/api/v1/console/users/remove')
             .type('json')
@@ -122,26 +172,8 @@ describe(protocol + ' users-remove', function() {
             .expect(200)
             .end()
             //check user
-        var user1 = yield MiniUser.getByName(user.name)
-        should(user1).not.be.ok()
-            //check devices
-        var devices = yield MiniUserDevice.getAllByUserId(user.id)
-        devices.length.should.equal(0)
-            //check metas
-        var metas = yield MiniUserMeta.getAll(user.id)
-        metas.length.should.equal(0)
-            //check files
-        var files = yield MiniFile.getAllByUserId(user.id)
-        files.length.should.equal(0)
-            //check events
-        var events = yield MiniEvent.getAllByUserId(user.id)
-        events.length.should.equal(0)
-            //check group
-        var groups = yield MiniGroup.getAllByUserId(user.id)
-        groups.length.should.equal(0)
-            //check tag
-        var tags = yield MiniTag.getAllByUserId(user.id)
-        tags.length.should.equal(0)
+        var user2 = yield MiniUser.getByName(user.name)
+        user2.name.should.equal('admin')
         done()
     })
 })
